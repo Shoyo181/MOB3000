@@ -68,7 +68,7 @@ fun PersonListScreen() {
                     },
                     dismissButton = {
                         Button(onClick = { showDialog = false }) {
-                            Text("Cancel")
+                            Text("Avbryt")
                         }
                     },
                     title = { Text("Legg til person") },

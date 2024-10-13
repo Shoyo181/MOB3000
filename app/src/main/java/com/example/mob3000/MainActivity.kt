@@ -56,7 +56,7 @@ fun HomeScreen(navController: NavHostController) {
             ) {
                 // Navigasjon kun via en knapp for nå
                 Button(onClick = { navController.navigate("personList") }) {
-                    Text("Go to Person List")
+                    Text("Gå til personliste")
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
