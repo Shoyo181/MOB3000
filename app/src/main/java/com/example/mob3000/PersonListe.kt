@@ -16,7 +16,7 @@ data class Person(
 )
 
 @Composable
-fun PersonListScreen() {
+fun PersonListScreen(modifier: Modifier) {
     // State for å holde personer på listen
     var personList by remember { mutableStateOf(listOf(Person("Kjartan Øyen", "30", "kjartan@hotmail.com"), Person("Mie Rønningen", "25", "mie@hotmail.com"))) }
 
