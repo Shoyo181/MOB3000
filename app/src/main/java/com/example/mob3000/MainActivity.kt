@@ -176,9 +176,9 @@ fun MyApp() {
             composable("Profiler") {
                 PersonListScreen(Modifier.padding(innerPadding))
             }
-            /*composable("Sammenlign") {
-                Sammenlign(Modifier.padding(innerPadding)
-            }*/
+            composable("Sammenlign") {
+                Sammenlign(Modifier.padding(innerPadding))
+            }
         }
     }
 
