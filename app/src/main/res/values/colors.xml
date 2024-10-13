@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="sand">#EAD1BA</color>
+    <color name="sunburn">#CE7457</color>
+    <color name="dusk">#817A81</color>
+    <color name="maghogny">#66433F</color>
+    <color name="organsj">#D57B0E</color>
+    <color name="krem">#F4E2D0</color>
+    <color name="mosefarge">#3A5635</color>
 </resources>
