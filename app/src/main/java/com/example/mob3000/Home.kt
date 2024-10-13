@@ -11,4 +11,5 @@ fun Home(modifier: Modifier){
         text = "Welcome to the test"
     )
     println("Kom hit")
+    //hallo?
 }
