@@ -135,10 +135,11 @@ fun MyApp() {
                                             .background(Color.Transparent)
                                     )
                                     if (index == selectedNavItemIndex) {
-                                    Text(
-                                        text = navItem.title,
-                                        style = MaterialTheme.typography.bodyMedium)
-                                }
+                                        Text(
+                                            text = navItem.title,
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                    }
                                 }
                             }
                         },
