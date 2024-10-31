@@ -1,3 +1,4 @@
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +15,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import com.example.mob3000.FirebaseService
 
 
 data class Person(
@@ -22,16 +24,24 @@ data class Person(
     val email: String,
     val testid: String
 )
+{
+    constructor() : this ("", "", "", "")
+}
 
 @Composable
 fun PersonListScreen(modifier: Modifier) {
-    // State for å holde personer på listen
-    var personList by remember { mutableStateOf(listOf
-        (Person("Kjartan Øyen", "30", "kjartan@hotmail.com", "8Y8YFSHDS"),
-        Person("Mie Rønningen", "25", "mie@hotmail.com", "JISFAS8SS"),
-        Person("Skybert", "0", "sky@baert.no", "JIASJFASD8")
-        )) }
 
+    var personList by remember {mutableStateOf<List<Person>>(emptyList())}
+
+    LaunchedEffect(Unit) {
+        FirebaseService.hentPersoner(
+            onSuccess = {fetchedePersoner ->
+                personList = fetchedePersoner
+            },
+            onFailure = {exception -> print ("feil")
+            }
+        )
+    }
     // State for å vise dialogvindu
     var showDialog by remember { mutableStateOf(false) }
 
@@ -44,6 +54,7 @@ fun PersonListScreen(modifier: Modifier) {
     var newPersonEmail by remember { mutableStateOf("") }
     var newTestID by remember {mutableStateOf("") }
 
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
@@ -51,7 +62,7 @@ fun PersonListScreen(modifier: Modifier) {
                 showDialog = true
             }, modifier = Modifier.padding(16.dp),
                 containerColor = Color(0xFF817C52)
-                ){
+            ){
                 Icon(Icons.Filled.Add, contentDescription = "Legg til person")
             }
         },
@@ -82,19 +93,26 @@ fun PersonListScreen(modifier: Modifier) {
                     confirmButton = {
                         Button(onClick = {
                             if (newPersonNavn.isNotEmpty() && newPersonAlder.isNotEmpty() && newPersonEmail.isNotEmpty() && newTestID.isNotEmpty()) {
+                                val nyPerson = Person(newPersonNavn, newPersonAlder, newPersonEmail, newTestID)
                                 personList = personList + Person(newPersonNavn, newPersonAlder, newPersonEmail, newTestID)
-                                showDialog = false
-                                newPersonNavn = ""
-                                newPersonAlder = ""
-                                newPersonEmail = ""
-                                newTestID = ""
+                                FirebaseService.leggTilPerson(
+                                    nyPerson,
+                                    onSuccess = {
+                                        Log.d("Firestore", "Dokument laget")
+                                        showDialog = false
+                                        newPersonNavn = ""
+                                        newPersonAlder = ""
+                                        newPersonEmail = ""
+                                        newTestID = ""
+                                    },
+                                    onFailure = {exception -> Log.e("Firestore", "Dokument feilet ved lagring")}
+                                )
                             }
                         },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFF817C52)),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF817C52)),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.padding(8.dp)
-                            ) {
+                        ) {
                             Text("Legg til person")
                         }
                     },
