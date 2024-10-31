@@ -1,12 +1,9 @@
-
-    package com.example.mob3000
+package com.example.mob3000
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObjects
-
+import com.example.mob3000.Person
 
 object FirebaseService {
-
     private val firestore = FirebaseFirestore.getInstance()
 
     fun hentPersoner(onSuccess: (List <Person>) -> Unit, onFailure: (Exception) -> Unit) {
@@ -17,8 +14,8 @@ object FirebaseService {
                     return@addSnapshotListener
                 }
                 if(snapshot != null && !snapshot.isEmpty) {
-                    val personListe = snapshot.toObjects<Person>()
-                    onSuccess(personListe)
+                    val personList = snapshot.toObjects(Person::class.java)
+                    onSuccess(personList)
                 } else {
                     onSuccess(emptyList())
                 }
@@ -35,4 +32,3 @@ object FirebaseService {
     }
 
 }
-

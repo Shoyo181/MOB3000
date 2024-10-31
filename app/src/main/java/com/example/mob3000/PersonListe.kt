@@ -1,3 +1,5 @@
+package com.example.mob3000
+
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

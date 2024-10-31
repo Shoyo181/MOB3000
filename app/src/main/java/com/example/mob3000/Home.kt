@@ -1,3 +1,6 @@
+package com.example.mob3000
+
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 
 
 
@@ -81,7 +86,8 @@ fun Home(modifier: Modifier = Modifier) {
             InfoKort(
                 title = "Dette er en test på alignment. ",
                 description = "Sjekk om den er i riktig posisjon",
-                backgroundColor = Color(0xFF33333)
+                backgroundColor = Color(0xFF33333),
+                image = painterResource(R.drawable.bilde_2)
             )
             Spacer(modifier = Modifier.height(8.dp))
             InfoKort(
@@ -117,7 +123,11 @@ fun Home(modifier: Modifier = Modifier) {
         }
     }
 @Composable
-fun InfoKort(title: String, description: String, backgroundColor: Color) {
+fun InfoKort(
+    title: String,
+    description: String,
+    backgroundColor: Color,
+    image: Painter? = null) {
     Card (
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -126,6 +136,17 @@ fun InfoKort(title: String, description: String, backgroundColor: Color) {
 
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
+            if(image != null) {
+                Image (
+                    painter = image,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             Text(text = title, fontSize = 16.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = description, fontSize = 14.sp)
