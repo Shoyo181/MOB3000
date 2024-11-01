@@ -47,7 +47,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MOB3000Theme {
-                MyApp()
+                //MyApp()
+                SwipeLandingsside()
             }
         }
     }
@@ -156,7 +157,7 @@ fun MyApp() {
         Box (
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(id = R.color.white))
+                .background(colorResource(id = R.color.beige))
                 .padding(innerPadding)
         )
         NavHost (

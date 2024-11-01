@@ -1,9 +1,8 @@
 package com.example.mob3000
 
-import android.graphics.Paint
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
@@ -25,7 +24,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+
+
 
 
 @Composable
@@ -41,22 +43,24 @@ fun Home(modifier: Modifier = Modifier) {
 
     ) {
         Text(
-            text = "Personlighetstest for bedrifter",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
+            text = "Big Five Bedrift",
+            style = MaterialTheme
+                .typography
+                .headlineMedium,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(10.dp)
                // .wrapContentSize(Alignment.Center)
         )
         Image(
-            painter = painterResource(id = R.drawable.bilde_2),
+            painter = painterResource(id = R.drawable.bilde_6),
             contentDescription = "Forsidebilde",
             modifier = Modifier
                 .padding(6.dp)
-                .size(200.dp)
+                .size(200.dp),
+            alpha = 0.9f
         )
-        Box(
+        /*Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
@@ -64,8 +68,8 @@ fun Home(modifier: Modifier = Modifier) {
                 .padding(16.dp)
         ) {
             Text("Bilde skal kanskje være her")
-        }
-        Spacer(modifier = Modifier.height(16.dp))
+        }*/
+        Spacer(modifier = Modifier.height(10.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -76,21 +80,21 @@ fun Home(modifier: Modifier = Modifier) {
                 onClick = {},
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF817C52)
+                    containerColor = Color(0xFFFFFFFF)
                 )
             ) {
-                Text("Sammenlign")
+                Text( text = "Opprett konto", style = TextStyle(color = Color.Black))
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
                 onClick = { showLoginnVindu = true },
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF817C52)
+                    containerColor = Color(0xFFFFFFFF)
                 )
             )
             {
-                Text("Logg inn")
+                Text( text = "Logg inn", style = TextStyle(color = Color.Black, fontWeight = FontWeight.SemiBold))
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -168,7 +172,7 @@ fun InfoKort(
     }
 }
 
-@Composable
+/*@Composable
 fun LoginDialog(onDismiss: () -> Unit) {
 
     // State variabler for email og passord input
@@ -217,4 +221,4 @@ fun LoginDialog(onDismiss: () -> Unit) {
             }
         }
     )
-}
+} */

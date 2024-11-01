@@ -12,6 +12,8 @@ val Peach = Color(0xFFF9B8AF)
 val Cream = Color(0xFFF2EEE9)
 val Pink = Color(0xFFF2D7D3)
 
+
+
 // For når vi trenger Bruch - charts
 val DarkblueBrush = SolidColor(DarkBlue)
 val BlueBrush = SolidColor(Blue)
