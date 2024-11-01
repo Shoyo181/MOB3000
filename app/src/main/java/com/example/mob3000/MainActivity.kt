@@ -142,13 +142,12 @@ fun MyApp() {
                                 }
                             }
                         },
-                            label = {
-                                if(index != selectedNavItemIndex) {
-                                    Text(
-                                        text = navItem.title,
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                }
+                        label = {
+                            if(index != selectedNavItemIndex) {
+                                Text(
+                                    text = navItem.title,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
                             }
                         },
                         colors = NavigationBarItemDefaults.colors(
