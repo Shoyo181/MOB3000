@@ -149,7 +149,8 @@ fun MyApp() {
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 }
-                            },
+                            }
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
                         )
