@@ -1,7 +1,9 @@
 package com.example.mob3000
 
+import android.graphics.Paint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
@@ -19,10 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-
+import androidx.compose.ui.text.style.TextAlign
 
 
 @Composable
@@ -33,14 +36,25 @@ fun Home(modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .padding(30.dp)
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
         Text(
             text = "Personlighetstest for bedrifter",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(6.dp)
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(10.dp)
+               // .wrapContentSize(Alignment.Center)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.bilde_2),
+            contentDescription = "Forsidebilde",
+            modifier = Modifier
+                .padding(6.dp)
+                .size(200.dp)
         )
         Box(
             modifier = Modifier

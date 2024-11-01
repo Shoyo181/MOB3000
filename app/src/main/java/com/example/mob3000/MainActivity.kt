@@ -147,7 +147,7 @@ fun MyApp() {
         Box (
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(id = R.color.krem))
+                .background(colorResource(id = R.color.white))
                 .padding(innerPadding)
         )
         NavHost (

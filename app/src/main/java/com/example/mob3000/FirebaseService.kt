@@ -30,5 +30,4 @@ object FirebaseService {
                 onSuccess(autoId)}
             .addOnFailureListener{exception -> onFailure(exception)}
     }
-
 }
