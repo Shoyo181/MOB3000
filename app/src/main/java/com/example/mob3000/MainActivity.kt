@@ -1,7 +1,5 @@
 package com.example.mob3000
 
-import Home
-import PersonListScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,11 +39,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.ui.input.key.Key.Companion.Home
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.ui.theme.MOB3000Theme
-
-
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,7 +156,7 @@ fun MyApp() {
         Box (
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(id = R.color.krem))
+                .background(colorResource(id = R.color.white))
                 .padding(innerPadding)
         )
         NavHost (
