@@ -19,46 +19,42 @@ import androidx.compose.ui.unit.dp
 // side for å vise frem sammenligning
 @Composable
 fun Sammenlign(modifier: Modifier){
-    Text(
-        text = "Sammenlign dine profiler"
+    val totScoreTest = listOf(10, 20, 35, 40, 50)
+    val totScoreTest2 = listOf(60, 10, 50, 70, 40)
+
+    val nevrotisismeTest = listOf(10, 20, 35, 40, 50, 60)
+    val nevrotisismeTest2 = listOf(60, 10, 50, 70, 40, 40)
+
+    val ekstroversjonTest = listOf(10, 20, 35, 40, 50, 60)
+    val ekstroversjonTest2 = listOf(60, 10, 50, 70, 40, 40)
+
+    val åpenhetForErfaringerTest = listOf(10, 20, 35, 40, 50, 60)
+    val åpenhetForErfaringerTest2 = listOf(60, 10, 50, 70, 40, 40)
+
+    val medmenneskelighetTest = listOf(10, 20, 35, 40, 50, 60)
+    val medmenneskelighetTest2 = listOf(60, 10, 50, 70, 40, 40)
+
+    val planmessighetTest = listOf(10, 20, 35, 40, 50, 60)
+    val planmessighetTest2 = listOf(60, 10, 50, 70, 40, 40)
+
+    val scoreDataTest = listOf(totScoreTest, nevrotisismeTest, ekstroversjonTest, åpenhetForErfaringerTest, medmenneskelighetTest, planmessighetTest)
+
+    val scoreDataTest2 = listOf(totScoreTest2, nevrotisismeTest2, ekstroversjonTest2, åpenhetForErfaringerTest2, medmenneskelighetTest2, planmessighetTest2)
+
+    val profiler = listOf(
+        ProfilData("1", "Noldus", "kjartan@hotmail.com", scoreDataTest),
+        ProfilData("2", "Skybert", "kjartan@hotmail.com", scoreDataTest2),
     )
 
-    val data1 = listOf(
-        listOf(60, 37, 17, 24, 75), // Data for første søyle
-        listOf(26, 10, 50, 70, 10), // Data for andre søyle
-
-    )
-    val data2 = listOf(
-        listOf(60, 37, 17, 24, 75, 50), // Data for første søyle
-        listOf(26, 10, 50, 70, 10, 40), // Data for andre søyle
-        // ... (data for flere søyler)
-    )
-    val data3 = listOf(
-        listOf(10, 20, 35, 40, 50, 60), // Data for første søyle
-        listOf(60, 10, 50, 70, 40, 40) // Data for andre søyle
-    )
-
-    val data1Labels = remember { listOf("Nevrotisisme", "Ekstroversjon", "ÅpenhetForErfaringer", "Medmenneskelighet", "Planmessighet") }
-    val data2Labels = remember { listOf("Angst", "Sinne", "Deprisjon", "Selvbevissthet", "Impulsivitet", "Sårbarhet") }
-    val data3Labels = remember { listOf("1", "2", "3", "4", "5", "6") }
-
-    LazyColumn(
-        modifier = Modifier.padding(16.dp), // Padding rundt LazyColumn
-        verticalArrangement = Arrangement.spacedBy(16.dp) // Mellomrom mellom items
-    ) {
-        item {
-            BarChart("Big 5 Test",data1, data1Labels)
-        }
-        item {
-            BarChart("Nevrotisme",data2, data2Labels)
-        }
-        item {
-            BarChart("Test",data3, data3Labels)
-        }
-        item {
-            BarChart("Test",data3, data3Labels)
-        }
-    }
+    //
+   Box(
+       modifier = Modifier
+           .fillMaxWidth()
+           .background(Color.White)
+           .padding(16.dp)
+   ) {
+       Chart(profiler)
+   }
 
 }
 

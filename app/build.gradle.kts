@@ -64,4 +64,7 @@ dependencies {
     val nav_version = "2.8.2"
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.appcompat:appcompat:1.6.1")
+
+    // charts
+    implementation ("io.github.ehsannarmani:compose-charts:0.0.14")
 }

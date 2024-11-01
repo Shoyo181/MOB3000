@@ -29,7 +29,10 @@ fun PersonListScreen(modifier: Modifier) {
     var personList by remember { mutableStateOf(listOf
         (Person("Kjartan Øyen", "30", "kjartan@hotmail.com", "8Y8YFSHDS"),
         Person("Mie Rønningen", "25", "mie@hotmail.com", "JISFAS8SS"),
-        Person("Skybert", "0", "sky@baert.no", "JIASJFASD8")
+        Person("Skybert", "0", "sky@baert.no", "JIASJFASD8"),
+        Person("Noldus", "23", "noldus@hotmail.com", "8Y8YFSHKG"),
+        Person("Mummitrollet", "2", "mum@hotmail.com", "8Y8YFSHsfa" ),
+        Person("Skybert", "0", "sky@baert.no", "JIASJFASD8"),
         )) }
 
     // State for å vise dialogvindu
