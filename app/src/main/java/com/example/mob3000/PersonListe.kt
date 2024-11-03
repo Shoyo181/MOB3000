@@ -18,6 +18,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import com.example.mob3000.FirebaseService
+import com.example.mob3000.data.repository.Big5Repository
+import com.example.mob3000.ui.viewModel.Big5ViewModel
 
 
 data class Person(
@@ -203,5 +205,17 @@ fun PersonCard(person: Person) {
             Text(text = "Email: ${person.email}")
             Text(text="TestID: ${person.testid}")
         }
+    }
+}
+
+@Composable
+fun PersonInfo(person: Person, viewModel: Big5ViewModel){
+    // API test
+
+    val big5Svar by remember { viewModel.repository }
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.fetchData(person.testid)
+
     }
 }

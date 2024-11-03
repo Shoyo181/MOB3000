@@ -72,4 +72,8 @@ dependencies {
 
     // charts
     implementation ("io.github.ehsannarmani:compose-charts:0.0.14")
+
+    // retrofit, REST-API
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }

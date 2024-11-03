@@ -1,7 +1,6 @@
 package com.example.mob3000
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.example.mob3000.Person
 
 object FirebaseService {
     private val firestore = FirebaseFirestore.getInstance()

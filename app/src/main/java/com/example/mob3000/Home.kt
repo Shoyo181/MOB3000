@@ -26,6 +26,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mob3000.ui.viewModel.Big5ViewModel
 
 
 @Composable
@@ -33,6 +35,7 @@ fun Home(modifier: Modifier = Modifier) {
     var showLoginnVindu by remember { mutableStateOf(false) }
 
     val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .padding(30.dp)
@@ -40,6 +43,7 @@ fun Home(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
+
         Text(
             text = "Personlighetstest for bedrifter",
             fontSize = 24.sp,
@@ -136,6 +140,7 @@ fun Home(modifier: Modifier = Modifier) {
         LoginDialog(onDismiss = {showLoginnVindu = false})
         }
     }
+
 @Composable
 fun InfoKort(
     title: String,
@@ -218,3 +223,47 @@ fun LoginDialog(onDismiss: () -> Unit) {
         }
     )
 }
+
+@Composable
+fun TestAPI(viewModel: Big5ViewModel) {
+    var testId by remember { mutableStateOf("") }
+
+    Column {
+        TextField(
+            value = testId,
+            onValueChange = { testId = it },
+            label = { Text("Test ID") }
+        )
+        Button(onClick = { viewModel.fetchData(testId) }) {
+            Text("Fetch Data")
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
