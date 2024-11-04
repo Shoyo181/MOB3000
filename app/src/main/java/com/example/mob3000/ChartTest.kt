@@ -2,9 +2,12 @@ package com.example.mob3000
 
 import androidx.compose.runtime.Composable
 import android.graphics.Color
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.charts.BarChart
@@ -21,7 +24,14 @@ fun ResultChart(scores: List<Result>) {
     }
 
     val barDataSet = BarDataSet(entries, "Scores").apply {
-        colors = listOf(Color.BLUE, Color.GREEN, Color.MAGENTA, Color.RED, Color.CYAN)
+        colors = listOf(
+            Color.parseColor("#D9C7B0"),
+            Color.parseColor("#A6756E"),
+            Color.parseColor("#7D8B55"),
+            Color.parseColor("#4A5A73"),
+            Color.parseColor("#B98A59")
+        )
+        valueTextSize = 14f
     }
 
     val barData = BarData(barDataSet)
@@ -31,8 +41,13 @@ fun ResultChart(scores: List<Result>) {
             BarChart(context).apply {
                 data = barData
                 description.text = "Personlighetstest resultater"
-                xAxis.valueFormatter = IndexAxisValueFormatter(scores.map { it.domain })
-                xAxis.position = XAxis.XAxisPosition.BOTTOM
+                description.textSize = 16f
+                xAxis.apply {
+                    valueFormatter = IndexAxisValueFormatter(scores.map { it.domain })
+                    position = XAxis.XAxisPosition.BOTTOM
+                    textSize = 14f
+                }
+
                 axisLeft.axisMinimum = 0f
                 axisRight.isEnabled = false
                 legend.isEnabled = false

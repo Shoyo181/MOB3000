@@ -50,7 +50,7 @@ fun Sammenlign(modifier: Modifier){
    Box(
        modifier = Modifier
            .fillMaxWidth()
-           .background(Color.White)
+           //.background(Color.White)
            .padding(16.dp)
    ) {
        Chart(profiler)

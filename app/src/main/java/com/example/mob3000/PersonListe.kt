@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.colorResource
 import com.example.mob3000.FirebaseService
 import com.example.mob3000.Nettverksmodul.apiService
 import com.google.firebase.auth.FirebaseAuth
@@ -243,9 +244,20 @@ fun PersonDetailScreen(resultID: String, onBack: () -> Unit, apiService: ApiServ
         scores = repo.fetchScore(resultID)
     }
 
-    Column {
-        Button(onClick = onBack, modifier = Modifier.padding(16.dp)) {
-            Text("Back to List")
+    Column (
+        modifier = Modifier
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(Color(0xFFEAD1BA), Color(0xFF817A81))
+                ))
+            .fillMaxHeight()
+    ) {
+        Button(onClick = onBack,
+            modifier = Modifier
+                .padding(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
+        ) {
+            Text("Tilbake til liste med personer")
         }
 
         if (scores.isNotEmpty()) {
