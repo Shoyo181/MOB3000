@@ -17,6 +17,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.runtime.livedata.observeAsState
 import com.example.mob3000.FirebaseService
 import com.example.mob3000.data.repository.Big5Repository
 import com.example.mob3000.ui.viewModel.Big5ViewModel
@@ -33,7 +34,7 @@ data class Person(
 }
 
 @Composable
-fun PersonListScreen(modifier: Modifier) {
+fun PersonListScreen(viewModel: Big5ViewModel ,modifier: Modifier) {
 
     // State for å holde personer på listen
     /*
@@ -47,6 +48,7 @@ fun PersonListScreen(modifier: Modifier) {
     )) }*/
 
     var personList by remember {mutableStateOf<List<Person>>(emptyList())}
+    val apiSøkRes = viewModel.data.observeAsState()
 
     LaunchedEffect(Unit) {
         FirebaseService.hentPersoner(
@@ -212,7 +214,7 @@ fun PersonCard(person: Person) {
 fun PersonInfo(person: Person, viewModel: Big5ViewModel){
     // API test
 
-    val big5Svar by remember { viewModel.repository }
+    val big5Svar by remember { viewModel.fetchData(person.testid) }
 
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchData(person.testid)

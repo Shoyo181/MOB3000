@@ -40,14 +40,19 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import com.example.mob3000.ui.theme.MOB3000Theme
+import com.example.mob3000.ui.viewModel.Big5ViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val viewModel = ViewModelProvider(this)[Big5ViewModel::class.java]
+
         setContent {
             MOB3000Theme {
-                MyApp()
+                MyApp(viewModel)
             }
         }
     }
@@ -61,7 +66,7 @@ data class BottomNavigationItem(
 
 
 @Composable
-fun MyApp() {
+fun MyApp(viewModel: Big5ViewModel) {
     val navItems = listOf(
         BottomNavigationItem(
             title = "Home",
@@ -168,7 +173,7 @@ fun MyApp() {
                 Home(Modifier.padding(innerPadding))
             }
             composable("Profiler") {
-                PersonListScreen(Modifier.padding(innerPadding))
+                PersonListScreen(viewModel, Modifier.padding(innerPadding))
             }
             composable("Sammenlign") {
                 Sammenlign(Modifier.padding(innerPadding))
