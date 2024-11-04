@@ -1,9 +1,11 @@
 package com.example.mob3000
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -20,18 +22,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
+import com.example.mob3000.AuthService.logginnBruker
+import com.example.mob3000.AuthService.registrerBruker
 import com.example.mob3000.ui.theme.Typography
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
+data class Bruker (
+    val id: String = "",
+    val email: String = ""
+)
 
 @Composable
-fun SwipeLandingsside() {
+fun SwipeLandingsside(
+    onLoginSuccess: () -> Unit
+) {
     var showLoginnVindu by remember { mutableStateOf(false) }
 
     val pages by remember {mutableStateOf(listOf(
-        "Strålingen kan ha sterke kjemiske og biologiske virkninger, og brukes for å stimulere fotokjemiske og fotobiologiske prosesser. Ultrafiolett stråling er kjennetegnet ved selektiv absorpsjon i molekyler og atomer, det vil si at stråling innen bestemte bølgelengdeområder slipper gjennom noen stoffer og absorberes sterkt i andre.",
-        "De instrumentene som nå vanligvis benyttes for å måle strålingsintensiteten, er fotodioder og fotomultiplikatorer. Ultrafiolett stråling kan også påvises med fotografisk film, ved fluorescens og med ioniseringskammer. Bølgelengden bestemmes spektroskopisk med glassprismer, gitterspektrometre og absorpsjonsspektrometre.",
-        "Ultrafiolett stråling oppstår som termostråling fra legemer ved temperaturer over 3000 grader celsius (°C), ved gassutladninger, elektriske lysbuer (sveiseflammer) og som bremsestråling. Sollys inneholder ultrafiolett stråling, men bølgelengder under 290 nanometer absorberes fullstendig av ozonlaget i atmosfæren."
+        "Opprett en bedriftsbruker eller logg inn hvis du allerede har opprettet din bruker. Lag profiler over dine ansatte og kom i gang med å sammenligne personlighetstrekk ved dine ansatte.",
+        "Få dine ansatte til å ta en Big Five personlighetstest fra Ruby Nor. Personlighetstesten er vitenskapelig og basert på 5 ulike punkter: Nevrotisisme, planmessighet, medmenneskelighet, ekstraversjon og åpenhet for erfaringer. ",
+        "Etter at ansatte tar testen bruk ID fra testen inn i appen og få oversikt over de ulike resultatene fra hver profil, og sammenlign ansatte og skap gode team i bedriften din."
     ))}
     val pagerState = rememberPagerState(
         pageCount = {pages.size}
@@ -101,16 +113,21 @@ fun SwipeLandingsside() {
             // footer
             Text(
                 text = "Copyright (c) 2024 KJAMIE. All rights reserved.",
-                color = Color.White,
+                color = Color(0xFF817A81),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
         }
         if (showLoginnVindu) {
-            LoginDialog(onDismiss = {showLoginnVindu = false})
+            LoginDialog(
+                onDismiss = {showLoginnVindu = false},
+                onLoginSuccess = {
+                    onLoginSuccess()
+                }
+            )
         }
     }
-}
+    }
 
 @Composable
 fun Dot(isSelected: Boolean) {
@@ -123,77 +140,101 @@ fun Dot(isSelected: Boolean) {
             )
     )
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginDialog(onDismiss: () -> Unit) {
-
-    // State variabler for email og passord input
+fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     AlertDialog(
         onDismissRequest = { onDismiss() },
-        title = { Text(
-            text = "Logg inn eller opprett bruker",
-            style = MaterialTheme.typography.headlineSmall) },
+        title = {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Logg inn eller registrer",
+                    style = MaterialTheme.typography.headlineSmall
+                )
+            }
+        },
         text = {
-            Column{
+            Column {
                 OutlinedTextField(
                     value = email,
-                    onValueChange = { email = it },
+                    onValueChange = { email = it.trim() },
                     label = { Text("Email") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                     colors = TextFieldDefaults.outlinedTextFieldColors(
+                         containerColor = Color.White
+                     )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
                     value = password,
-                    onValueChange = { password = it },
+                    onValueChange = { password = it.trim() },
                     label = { Text("Passord") },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        containerColor = Color.White
+                    )
                 )
+                errorMessage?.let {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = it, color = Color.Red)
+                }
             }
         },
         confirmButton = {
-            Button(
-                onClick = {
-                    AuthService.logginnBruker(email, password,
-                        onSuccess = {
-                            //Handler for det som skjer etter bruker har trykket logg inn, men tom for nå.
-                            onDismiss() // Lukker dialogvindu.
-                        },
-                        onFailure = { exception ->
-                            if (exception is FirebaseAuthInvalidUserException) {
-                                AuthService.registrerBruker(email, password,
-                                    onSuccess = {
-                                        onDismiss()
-                                    },
-                                    onFailure = { registerExeption ->
-                                    }
-                                )
-                            } else {
-                            }
-                        }
-                    )
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF66433F)),
+            Column (
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Logg inn/Registrer",
-                    style = MaterialTheme.typography.labelLarge)
-            }
-        },
-        dismissButton = {
-            Button(
-                onClick = {
-                    onDismiss()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF66433F)
-                ),
-            ) {
-                Text("Avbryt",
-                    style = MaterialTheme.typography.labelLarge)
-            }
+                Row (
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                Button(
+                    onClick = {
+                        registrerBruker(email, password,
+                            onSuccess = {
+                                onLoginSuccess
+                            },
+                            onFailure = {errorMessage = it}
+                        )
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
+                ) {
+                    Text("Registrer", style = MaterialTheme.typography.labelLarge)
+                }
 
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = {
+                        logginnBruker(email, password,
+                            onSuccess = {
+                                onLoginSuccess()
+                            },
+                            onFailure =  { errorMessage = it })
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
+                ) {
+                    Text("Logg inn", style = MaterialTheme.typography.labelLarge)
+                }
+            }
+                Spacer(modifier = Modifier.height(10.dp))
+                Button(
+                    onClick = { onDismiss() },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
+                ) {
+                    Text("Avbryt")
+                }
+            }
         }
     )
 }

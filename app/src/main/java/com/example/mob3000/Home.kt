@@ -1,6 +1,7 @@
 package com.example.mob3000
 
 
+import android.R.id.bold
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -21,20 +23,23 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-
-
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 @Composable
 fun Home(modifier: Modifier = Modifier) {
     var showLoginnVindu by remember { mutableStateOf(false) }
-
     val scrollState = rememberScrollState()
+    val brukerInnlogget = FirebaseAuth.getInstance().currentUser
+    val email = brukerInnlogget?.email ?: "Ingen epost tilgjengelig"
     Column(
         modifier = Modifier
             .padding(30.dp)
@@ -43,103 +48,37 @@ fun Home(modifier: Modifier = Modifier) {
 
     ) {
         Text(
-            text = "Big Five Bedrift",
-            style = MaterialTheme
-                .typography
-                .headlineMedium,
+            text = "Big Five Bedrift", color = Color(0xFF66433F),
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(10.dp)
-               // .wrapContentSize(Alignment.Center)
         )
-        Image(
-            painter = painterResource(id = R.drawable.bilde_6),
-            contentDescription = "Forsidebilde",
-            modifier = Modifier
-                .padding(6.dp)
-                .size(200.dp),
-            alpha = 0.9f
+        Spacer(modifier = Modifier.padding(10.dp))
+        Text(
+            text = "Velkommen, $email.",
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
         )
-        /*Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .background(Color.White, shape = RoundedCornerShape(16.dp))
-                .padding(16.dp)
-        ) {
-            Text("Bilde skal kanskje være her")
-        }*/
-        Spacer(modifier = Modifier.height(10.dp))
-
         Row(
             modifier = Modifier.fillMaxWidth()
                 .padding(20.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Button(
-                onClick = {},
-                modifier = Modifier.weight(1f),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFFFFFF)
-                )
-            ) {
-                Text( text = "Opprett konto", style = TextStyle(color = Color.Black))
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(
-                onClick = { showLoginnVindu = true },
-                modifier = Modifier.weight(1f),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFFFFFF)
-                )
-            )
-            {
-                Text( text = "Logg inn", style = TextStyle(color = Color.Black, fontWeight = FontWeight.SemiBold))
-            }
             Spacer(modifier = Modifier.height(16.dp))
         }
-
-
         Column {
             InfoKort(
-                title = "Dette er en test på alignment. ",
-                description = "Sjekk om den er i riktig posisjon",
-                backgroundColor = Color(0xFF33333),
-                image = painterResource(R.drawable.bilde_2)
+                title = "Litt info om hvordan dette skal fungere",
+                description = "Her kan du lage profiler med informasjon om dine ansatte og få opp personlighetstest resultater. Etter å ha laget ulike ansatte med den informasjonen som trengs, som du kan gjøre i Profiler - så kan du etter gjøre sammenligninger mellom de ulike ansatte du har laget i Sammenlign.",
+                backgroundColor = colorResource(id = R.color.ivory)
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            InfoKort(
-                title = "Sjekker den her også",
-                description = "Hvordan funker denne tru?",
-                backgroundColor = Color(0xFFEEAC7E)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            InfoKort(
-                title = "Dette er også en test",
-                description = "Noe her",
-                backgroundColor = Color(0xFF8F8360)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            InfoKort(
-                title = "Dette er også en test",
-                description = "Noe her",
-                backgroundColor = Color(0xFFE9CF99)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            InfoKort(
-                title = "Dette er også en test",
-                description = "Noe her",
-                backgroundColor = Color(0xFF8C523B)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            InfoKortMedPersonerCount()
 
         }
     }
-
-    if (showLoginnVindu) {
-        LoginDialog(onDismiss = {showLoginnVindu = false})
-        }
-    }
+}
 @Composable
 fun InfoKort(
     title: String,
@@ -147,7 +86,14 @@ fun InfoKort(
     backgroundColor: Color,
     image: Painter? = null) {
     Card (
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+        .shadow(
+            elevation = 12.dp,
+            shape = RoundedCornerShape(16.dp),
+            ambientColor = Color.Black.copy(alpha = 0.2f),
+            spotColor = Color.Black.copy(alpha = 0.2f)
+    ),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
         elevation = CardDefaults.cardElevation(4.dp)
@@ -165,60 +111,43 @@ fun InfoKort(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
-            Text(text = title, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            Text(text = title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = description, fontSize = 14.sp)
+            Text(text = description, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
         }
     }
 }
+@Composable
+fun InfoKortMedPersonerCount() {
+    var personerCount by remember { mutableStateOf("0") }
 
-/*@Composable
-fun LoginDialog(onDismiss: () -> Unit) {
+    LaunchedEffect(Unit) {
+        hentAntallDokumenter(
+            onResult = { count -> personerCount = count.toString() },
+            onFailure = { error("Gikk ikke å hente antall dokumenter") }
+        )
+    }
 
-    // State variabler for email og passord input
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
-    AlertDialog(
-        onDismissRequest = { onDismiss() },
-        title = { Text(text = "Logg inn") },
-        text = {
-            Column {
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Email") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text("Passord") },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-        },
-        confirmButton = {
-            Button(onClick = {
-
-                //Handler for det som skjer etter bruker har trykket logg inn, men tom for nå.
-                onDismiss() // Lukker dialogvindu.
-            },
-                    colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF817C52)),
-            ) {
-                Text("Logg inn")
-            }
-        },
-        dismissButton = {
-            Button(onClick = { onDismiss()
-            },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF817C52)),
-                ) {
-                Text("Avbryt")
-            }
-        }
+    InfoKort(
+        title = "Profiler laget",
+        description = personerCount,
+        backgroundColor = colorResource(id = R.color.ivory)
     )
-} */
+}
+fun hentAntallDokumenter(onResult: (Int) -> Unit, onFailure: (Exception) -> Unit) {
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
+    if(userId != null) {
+        FirebaseFirestore.getInstance().collection("Personer")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener{documents ->
+                val antall = documents.size()
+                onResult(antall)
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception)
+            }
+    } else {
+        onFailure(Exception("Bruker er ikke logget inn."))
+    }
+}

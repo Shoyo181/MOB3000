@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "36769378986",
+    "project_id": "bigfive-app-9d6b5",
+    "storage_bucket": "bigfive-app-9d6b5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36769378986:android:380816aaf3debd6e2d96d3",
+        "android_client_info": {
+          "package_name": "com.example.mob3000"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMEQMLDuMMyEqZRvIjRv_1obE2qnl9kCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

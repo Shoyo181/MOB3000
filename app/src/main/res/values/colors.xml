@@ -10,9 +10,13 @@
     <color name="sand">#EAD1BA</color>
     <color name="sunburn">#CE7457</color>
     <color name="dusk">#817A81</color>
-    <color name="maghogny">#793C11</color>
+    <color name="dusk2">#958D95</color>
+    <color name="maghogny">#66433F</color>
     <color name="organsj">#D57B0E</color>
     <color name="krem">#F4E2D0</color>
     <color name="mosefarge">#3A5635</color>
     <color name="beige">#EAE2CC</color>
+    <color name="dust">#C7BEBE</color>
+    <color name="pinkfluff">#A18073</color>
+    <color name="ivory">#F5F5F2</color>
 </resources>

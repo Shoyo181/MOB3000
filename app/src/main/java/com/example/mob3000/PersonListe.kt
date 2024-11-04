@@ -17,32 +17,25 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Brush
 import com.example.mob3000.FirebaseService
+import com.google.firebase.auth.FirebaseAuth
 
 
 data class Person(
     val name: String,
     val age: String,
     val email: String,
-    val testid: String
+    val testid: String,
+    val userId: String
 )
 {
-    constructor() : this ("", "", "", "")
+    constructor() : this ("", "", "", "", "")
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonListScreen(modifier: Modifier) {
-
-    // State for å holde personer på listen
-    /*
-    var personList by remember { mutableStateOf(listOf(
-        Person("Kjartan Øyen", "30", "kjartan@hotmail.com", "8Y8YFSHDS"),
-        Person("Mie Rønningen", "25", "mie@hotmail.com", "JISFAS8SS"),
-        Person("Skybert", "0", "sky@baert.no", "JIASJFASD8"),
-        Person("Noldus", "23", "noldus@hotmail.com", "8Y8YFSHKG"),
-        Person("Mummitrollet", "2", "mum@hotmail.com", "8Y8YFSHsfa" ),
-        Person("Skybert", "0", "sky@baert.no", "JIASJFASD8"),
-    )) }*/
 
     var personList by remember {mutableStateOf<List<Person>>(emptyList())}
 
@@ -74,7 +67,7 @@ fun PersonListScreen(modifier: Modifier) {
                 // Dialogvindu for å legge til en ny person
                 showDialog = true
             }, modifier = Modifier.padding(16.dp),
-                containerColor = Color(0xFF817C52)
+                containerColor = Color(0xFFF5F5F2)
             ){
                 Icon(Icons.Filled.Add, contentDescription = "Legg til person")
             }
@@ -84,14 +77,14 @@ fun PersonListScreen(modifier: Modifier) {
             NavigationBar {  }
         },
         content = { innerPadding ->
-            Box (modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFFF4E2D0))
-            )
             // Vise listen med personene som er laget
             LazyColumn(
                 contentPadding = innerPadding,
                 modifier = Modifier.fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color(0xFFEAD1BA), Color(0xFF817A81))
+                    ))
             ) {
                 items(personList) { person ->
                     PersonCard(
@@ -106,8 +99,14 @@ fun PersonListScreen(modifier: Modifier) {
                     confirmButton = {
                         Button(onClick = {
                             if (newPersonNavn.isNotEmpty() && newPersonAlder.isNotEmpty() && newPersonEmail.isNotEmpty() && newTestID.isNotEmpty()) {
-                                val nyPerson = Person(newPersonNavn, newPersonAlder, newPersonEmail, newTestID)
-                                personList = personList + Person(newPersonNavn, newPersonAlder, newPersonEmail, newTestID)
+                                val currentUser = FirebaseAuth.getInstance().currentUser
+                                val nyPerson = Person(
+                                    name = newPersonNavn,
+                                    age = newPersonAlder,
+                                    email = newPersonEmail,
+                                    testid = newTestID,
+                                    userId = currentUser?.uid ?: ""
+                                )
                                 FirebaseService.leggTilPerson(
                                     nyPerson,
                                     onSuccess = {
@@ -122,7 +121,7 @@ fun PersonListScreen(modifier: Modifier) {
                                 )
                             }
                         },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF817C52)),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA18073)),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.padding(8.dp)
                         ) {
@@ -132,7 +131,7 @@ fun PersonListScreen(modifier: Modifier) {
                     dismissButton = {
                         Button(onClick = { showDialog = false },
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFF817C52)),
+                                containerColor = Color(0xFFA18073)),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.padding(8.dp)
                         ) {
@@ -146,7 +145,10 @@ fun PersonListScreen(modifier: Modifier) {
                                 value = newPersonNavn,
                                 onValueChange = { newPersonNavn = it },
                                 label = { Text("Navn") },
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    containerColor = Color.White
+                                )
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -156,7 +158,10 @@ fun PersonListScreen(modifier: Modifier) {
                                 value = newPersonAlder,
                                 onValueChange = { newPersonAlder = it },
                                 label = { Text("Alder") },
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    containerColor = Color.White
+                                )
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -166,7 +171,10 @@ fun PersonListScreen(modifier: Modifier) {
                                 value = newPersonEmail,
                                 onValueChange = { newPersonEmail = it },
                                 label = { Text("Email") },
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    containerColor = Color.White
+                                )
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -176,7 +184,10 @@ fun PersonListScreen(modifier: Modifier) {
                                 value = newTestID,
                                 onValueChange = { newTestID = it },
                                 label = { Text("TestId") },
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    containerColor = Color.White
+                                )
                             )
                         }
                     }
@@ -205,3 +216,5 @@ fun PersonCard(person: Person) {
         }
     }
 }
+
+

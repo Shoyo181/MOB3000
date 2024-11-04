@@ -1,6 +1,7 @@
 package com.example.mob3000
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -39,20 +40,27 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.mob3000.ui.theme.MOB3000Theme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.selects.select
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MOB3000Theme {
-                //MyApp()
-                SwipeLandingsside()
+                MyApp()
             }
         }
     }
 }
+
 
 data class BottomNavigationItem(
     val title: String,
@@ -76,6 +84,11 @@ fun MyApp() {
         ),
         BottomNavigationItem(
             title = "Sammenlign",
+            selectedIcon = Icons.Filled.Favorite,
+            unselectedIcon = Icons.Outlined.Favorite
+        ),
+        BottomNavigationItem(
+            title = "Settings",
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings
         )
@@ -84,71 +97,67 @@ fun MyApp() {
         mutableStateOf(0)
     }
     val navController = rememberNavController()
-/*
-    NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HomeScreen(navController) }
-        composable("personList") { PersonListScreen() }
-    }*/
+    val auth = FirebaseAuth.getInstance()
+    val erBrukerAuthenticata = remember {mutableStateOf(auth.currentUser != null)}
+
+    FirebaseAuth.getInstance().addAuthStateListener { auth ->
+        erBrukerAuthenticata.value = auth.currentUser != null
+    }
+    Log.d("Loggin-Status", "Er bruker autenticata?: " + erBrukerAuthenticata.toString())
+
     Scaffold (
         modifier = Modifier
             .fillMaxSize(),
         bottomBar = {
-            NavigationBar(
-                containerColor = colorResource(id = R.color.white)
-            ){
-                navItems.forEachIndexed { index, navItem ->
-                    NavigationBarItem(
-                        selected = selectedNavItemIndex == index,
-                        onClick = {
-                            selectedNavItemIndex = index
-                            navController.navigate(navItem.title)
-                            println(navItem.title)
-                        },
-                        icon = {
-                            Box(
-                                modifier = Modifier
-                                    .size(if (index == selectedNavItemIndex)80.dp else 60.dp)
-                                    //.offset(y = if(index == selectedNavItemIndex) (-10).dp else 0.dp)
-                                    .background(
-                                        if (index == selectedNavItemIndex) colorResource(id = R.color.krem) else colorResource(
-                                            id = R.color.white
-                                        ),
-                                        shape = RoundedCornerShape(size = 20.dp)
+            if (erBrukerAuthenticata.value) {
+                NavigationBar(
+                    containerColor = colorResource(id = R.color.dust)
+                ) {
+                    navItems.forEachIndexed { index, navItem ->
+                        NavigationBarItem(
+                            selected = selectedNavItemIndex == index,
+                            onClick = {
+                                selectedNavItemIndex = index
+                                navController.navigate(navItem.title)
+                                println(navItem.title)
+                            },
+                            icon = {
+                                Box(
+                                    modifier = Modifier
+                                        .size(if (index == selectedNavItemIndex) 80.dp else 60.dp)
+                                        //.offset(y = if(index == selectedNavItemIndex) (-10).dp else 0.dp)
+                                        .background(
+                                            if (index == selectedNavItemIndex) colorResource(id = R.color.dusk) else colorResource(
+                                                id = R.color.dust
+                                            ),
+                                            shape = RoundedCornerShape(size = 20.dp)
 
-                                    ),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
+                                        ),
+                                    contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(
-                                        imageVector = navItem.selectedIcon,
-                                        contentDescription = navItem.title,
-                                        modifier = Modifier
-                                            .size(24.dp)
-                                            .background(Color.Transparent)
-                                    )
-                                    if (index == selectedNavItemIndex) {
-                                        Text(
-                                            text = navItem.title,
-                                            style = MaterialTheme.typography.bodyMedium)
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = navItem.selectedIcon,
+                                            contentDescription = navItem.title,
+                                            modifier = Modifier
+                                                .size(24.dp)
+                                                .background(Color.Transparent)
+                                        )
+                                            Text(
+                                                text = navItem.title,
+                                                style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
+                                            )
+                                        }
                                     }
-                                }
-                            }
-                        },
-                        label = {
-                            if(index != selectedNavItemIndex) {
-                                Text(
-                                    text = navItem.title,
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                            }
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = Color.Transparent
+                            },
+                            colors = NavigationBarItemDefaults.colors(
+                                indicatorColor = Color.Transparent
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -157,14 +166,26 @@ fun MyApp() {
         Box (
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(id = R.color.beige))
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color(0xFFEAD1BA), Color(0xFF817A81))
+                    ))
                 .padding(innerPadding)
         )
         NavHost (
             navController = navController,
-            startDestination = "Home"
+            startDestination = if(erBrukerAuthenticata.value) "Home" else "SwipeLanding"
 
         ) {
+            composable("SwipeLanding") {
+                SwipeLandingsside(
+                    onLoginSuccess = {
+                        navController.navigate("Home") {
+                            popUpTo("SwipeLanding") {inclusive = true}
+                        }
+                    }
+                )
+            }
             composable("Home") {
                 Home(Modifier.padding(innerPadding))
             }
@@ -174,49 +195,10 @@ fun MyApp() {
             composable("Sammenlign") {
                 Sammenlign(Modifier.padding(innerPadding))
             }
-        }
-    }
-
-}
-
-
-@Composable
-fun Tema(content: @Composable () -> Unit) {
-    val image = painterResource(id = R.drawable.bilde_1) // Make sure the image resource exists
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = image,
-            contentDescription = "Bakgrunnsbilde", // Removed unnecessary parentheses
-            modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.Crop
-        )
-
-    }
-}
-
-/*
-@Composable
-fun HomeScreen(navController: NavHostController) {
-    Scaffold(
-        content = {
-            // Bruker column for å vertikalt sentrere content
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(), // Makes the column fill the entire screen
-                verticalArrangement = Arrangement.Center, // Center vertically
-                horizontalAlignment = Alignment.CenterHorizontally // Center horizontally
-            ) {
-                // Navigasjon kun via en knapp for nå
-                Button(onClick = { navController.navigate("personList") }) {
-                    Text("Gå til personliste")
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Test av sirkeldiagram
-                CircularProgressBar(89f, "Ja")
+            composable("Settings") {
+                Settings(Modifier.padding(innerPadding))
             }
         }
-    ) {}
+    }
 }
-*/
+
