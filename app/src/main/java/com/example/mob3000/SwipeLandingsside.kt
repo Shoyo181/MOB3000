@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -181,7 +182,8 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
                         .fillMaxWidth(),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         containerColor = Color.White
-                    )
+                    ),
+                    visualTransformation = PasswordVisualTransformation()
                 )
                 errorMessage?.let {
                     Spacer(modifier = Modifier.height(8.dp))
