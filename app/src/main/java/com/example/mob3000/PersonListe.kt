@@ -2,6 +2,7 @@ package com.example.mob3000
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,6 +20,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Brush
 import com.example.mob3000.FirebaseService
+import com.example.mob3000.Nettverksmodul.apiService
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -38,6 +40,7 @@ data class Person(
 fun PersonListScreen(modifier: Modifier) {
 
     var personList by remember {mutableStateOf<List<Person>>(emptyList())}
+    var selectedResultID by remember {mutableStateOf<String?> (null)}
 
     LaunchedEffect(Unit) {
         FirebaseService.hentPersoner(
@@ -77,6 +80,15 @@ fun PersonListScreen(modifier: Modifier) {
             NavigationBar {  }
         },
         content = { innerPadding ->
+            if (selectedResultID != null) {
+                PersonDetailScreen(
+                    resultID = selectedResultID!!,
+                    apiService = Nettverksmodul.apiService, // Pass the apiService instance
+                    onBack = {
+                        selectedResultID = null
+                    }
+                )
+            } else {
             // Vise listen med personene som er laget
             LazyColumn(
                 contentPadding = innerPadding,
@@ -88,7 +100,10 @@ fun PersonListScreen(modifier: Modifier) {
             ) {
                 items(personList) { person ->
                     PersonCard(
-                        person)
+                        person = person,
+                        onClick = { selectedResultID = person.testid
+                        Log.d("API-Test", "Kall personcard, testId: ${person.testid}")}
+                    )
                 }
             }
 
@@ -191,18 +206,20 @@ fun PersonListScreen(modifier: Modifier) {
                             )
                         }
                     }
-                )
+                )}
             }
         }
     )
 }
 
 @Composable
-fun PersonCard(person: Person) {
+fun PersonCard(person: Person, onClick: () -> Unit ) {
+    Log.d("API-test", "Personcard on click.")
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
@@ -213,6 +230,29 @@ fun PersonCard(person: Person) {
             Text(text = "Alder: ${person.age}")
             Text(text = "Email: ${person.email}")
             Text(text="TestID: ${person.testid}")
+        }
+    }
+}
+@Composable
+fun PersonDetailScreen(resultID: String, onBack: () -> Unit, apiService: ApiService) {
+    var scores by remember { mutableStateOf<List<Result>>(emptyList()) }
+    val repo = remember { PersonlighetstestRep(apiService) }
+
+    Log.d("API-test", "PersonDetails screen er oppe")
+    LaunchedEffect(resultID) {
+        scores = repo.fetchScore(resultID)
+    }
+
+    Column {
+        Button(onClick = onBack, modifier = Modifier.padding(16.dp)) {
+            Text("Back to List")
+        }
+
+        if (scores.isNotEmpty()) {
+            ResultChart(scores)
+            Log.d("API-test", "Domain: ${scores[0].domain}, Score: ${scores[0].score}")
+        } else {
+            Text("Loading...", modifier = Modifier.padding(16.dp))
         }
     }
 }
