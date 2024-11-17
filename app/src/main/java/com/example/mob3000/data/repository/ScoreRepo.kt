@@ -1,19 +1,18 @@
 package com.example.mob3000.data.repository
 
-import com.example.mob3000.data.api.ApiService
-import com.example.mob3000.data.api.Result
+import com.example.mob3000.data.api.ScoreService
 
+import com.example.mob3000.data.models.ScoreData
+import com.example.mob3000.data.models.ScoreService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+class ScoreRepo (private val scoreService: ScoreService) {
 
-
-class PersonlighetstestRep (private val apiService: ApiService) {
-
-    suspend fun fetchScore(resultID: String): List<Result> {
+    suspend fun fetchAllScore(testID: String): List<ScoreData> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = apiService.getResults(resultID)
+                val response = scoreService.getTestData(testID)
                 response.results.filter{ result ->
                     result.domain in listOf("N", "O", "A", "C", "E")
                 }
@@ -22,4 +21,5 @@ class PersonlighetstestRep (private val apiService: ApiService) {
             }
         }
     }
+
 }

@@ -6,6 +6,7 @@ data class ProfilData(
     val epost: String,
     val score: List<List<Int>>
 )
+/*
 data class ScoreData(
     val totalScore: List<Int>,
     val nevrotisismeScore: List<Int>,
@@ -14,3 +15,4 @@ data class ScoreData(
     val medmenneskelighetScore: List<Int>,
     val planmessighetScore: List<Int>,
 )
+*/
