@@ -1,4 +1,4 @@
-package com.example.mob3000
+package com.example.mob3000.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

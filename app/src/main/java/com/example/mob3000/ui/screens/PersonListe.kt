@@ -1,4 +1,4 @@
-package com.example.mob3000
+package com.example.mob3000.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -19,9 +19,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.res.colorResource
-import com.example.mob3000.FirebaseService
-import com.example.mob3000.Nettverksmodul.apiService
+import com.example.mob3000.data.api.ApiService
+import com.example.mob3000.data.api.Nettverksmodul
+import com.example.mob3000.data.api.Result
+import com.example.mob3000.data.firebase.FirebaseService
+import com.example.mob3000.data.repository.PersonlighetstestRep
+import com.example.mob3000.ui.components.ResultChart
 import com.google.firebase.auth.FirebaseAuth
 
 

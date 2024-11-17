@@ -1,8 +1,13 @@
-package com.example.mob3000
+package com.example.mob3000.data.repository
 
-import android.util.Log.e
+import com.example.mob3000.data.api.ApiResponse
+import com.example.mob3000.data.api.ApiService
+import com.example.mob3000.data.api.Result
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+
+
 
 class PersonlighetstestRep (private val apiService: ApiService) {
 
@@ -10,8 +15,7 @@ class PersonlighetstestRep (private val apiService: ApiService) {
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiService.getResults(resultID)
-
-                response.results.filter { result ->
+                response.results.filter{ result ->
                     result.domain in listOf("N", "O", "A", "C", "E")
                 }
             } catch (e: Exception) {

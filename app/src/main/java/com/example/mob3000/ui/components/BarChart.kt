@@ -1,4 +1,4 @@
-package com.example.mob3000
+package com.example.mob3000.ui.components
 
 
 import androidx.compose.foundation.Canvas
@@ -21,11 +21,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.indices
-import androidx.core.view.size
-import kotlin.text.toFloat
 
 
 @Composable
@@ -35,7 +33,7 @@ fun BarChart(titel: String, data: List<List<Int>>, labels: List<String>) {
         text = titel,
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
-        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+        textAlign = TextAlign.Center,
         modifier = Modifier.padding(16.dp)
             .fillMaxWidth()
     )

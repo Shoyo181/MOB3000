@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,19 +35,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mob3000.ui.screens.Home
+import com.example.mob3000.ui.screens.PersonListScreen
+import com.example.mob3000.ui.screens.Sammenlign
+import com.example.mob3000.ui.screens.Settings
+import com.example.mob3000.ui.screens.SwipeLandingsside
 import com.example.mob3000.ui.theme.MOB3000Theme
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.selects.select
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -181,7 +180,7 @@ fun MyApp() {
                 SwipeLandingsside(
                     onLoginSuccess = {
                         navController.navigate("Home") {
-                            popUpTo("SwipeLanding") {inclusive = true}
+                            popUpTo("SwipeLanding") { inclusive = true }
                         }
                     }
                 )

@@ -1,10 +1,7 @@
-package com.example.mob3000
+package com.example.mob3000.ui.components
 
-import android.util.Log
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,12 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
-import com.example.mob3000.ui.theme.Blue
-import com.example.mob3000.ui.theme.BlueBrush
-import com.example.mob3000.ui.theme.DarkblueBrush
-import com.example.mob3000.ui.theme.RedBrush
+import com.example.mob3000.data.models.ProfilData
+import com.example.mob3000.R
 import ir.ehsannarmani.compose_charts.ColumnChart
 import ir.ehsannarmani.compose_charts.models.BarProperties
 import ir.ehsannarmani.compose_charts.models.Bars
@@ -100,7 +93,7 @@ fun Chart(profilData: List<ProfilData>){ // scoreData: List<ProfilData>, tittel:
 
 }
 
-fun barsBuilder (profilData: List<ProfilData>, tittel: List<List<String>>, index: Int , color: SolidColor): List<Bars> {
+fun barsBuilder (profilData: List<ProfilData>, tittel: List<List<String>>, index: Int, color: SolidColor): List<Bars> {
     // antall søyler for dette diagrammet
     val numBars = tittel[index].size
 

@@ -1,4 +1,4 @@
-package com.example.mob3000
+package com.example.mob3000.data.models
 
 data class ProfilData(
     val id: String,

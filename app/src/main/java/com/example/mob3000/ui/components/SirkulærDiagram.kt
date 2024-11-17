@@ -1,4 +1,4 @@
-package com.example.mob3000
+package com.example.mob3000.ui.components
 
 
 import androidx.compose.foundation.Canvas

@@ -1,11 +1,10 @@
-package com.example.mob3000
+package com.example.mob3000.data.firebase
 
-import android.util.Log
-import com.example.mob3000.FirebaseService.leggTilBruker
+import com.example.mob3000.ui.screens.Bruker
+import com.example.mob3000.data.firebase.FirebaseService.leggTilBruker
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.example.mob3000.Person
+import com.example.mob3000.ui.screens.Person
 
 object FirebaseService {
     private val firestore = FirebaseFirestore.getInstance()
@@ -77,7 +76,7 @@ object AuthService {
                     if(user!= null) {
                         val bruker = Bruker(id = user.uid, email = user.email ?: "")
 
-                        FirebaseService.leggTilBruker(bruker,
+                        leggTilBruker(bruker,
                             onSuccess= { onSuccess()},
                             onFailure = {exception ->
                                 onFailure("Feilet med å legge til bruker i FireStore: ${exception.localizedMessage}")
