@@ -28,6 +28,7 @@ object FirebaseService {
                 }
             }
     }
+
     fun leggTilPerson (person: Person, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val personMedUserId = person.copy(userId = currentUser?.uid ?: "")
@@ -40,20 +41,41 @@ object FirebaseService {
                 onSuccess(autoId)}
             .addOnFailureListener{exception -> onFailure(exception)}
     }
+
     fun leggTilBruker(bruker: Bruker, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit ) {
+
         firestore.collection("Brukere")
             .add(bruker)
             .addOnSuccessListener{documentReference ->
                 val autoId = documentReference.id
                 onSuccess(autoId)
             }
-
-
-
             .addOnFailureListener{exception -> onFailure(exception)}
     }
-}
 
+    fun slettPerson (person: Person, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        firestore.collection("Personer")
+            .document(person.testid)
+            .delete()
+            .addOnSuccessListener{
+                onSuccess()
+            }
+            .addOnFailureListener{ exception ->
+                onFailure(exception)
+            }
+    }
+    fun oppdaterPerson(person: Person, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        firestore.collection("Personer")
+            .document(person.testid)
+            .set(person)
+            .addOnSuccessListener{
+                onSuccess()
+            }
+            .addOnFailureListener{ exception ->
+                onFailure(exception)
+            }
+    }
+}
 
 
 object AuthService {
@@ -108,6 +130,8 @@ object AuthService {
     fun loggUt(    ) {
         auth.signOut()
     }
+
+
 }
 
 /*
