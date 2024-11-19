@@ -45,7 +45,7 @@ fun PersonListeScreen(modifier: Modifier) {
     var utvidetPerson by remember { mutableStateOf<String?>(null) }
     var personEndre by remember { mutableStateOf<Person?> (null)}
 
-    // var selectedResultID by remember {mutableStateOf<String?> (null)}
+    //var selectedResultID by remember {mutableStateOf<String?> (null)}
 
     /*-- State for å vise frem leggg til person dialog-boks --*/
     var visLeggTil by remember { mutableStateOf(false) }
@@ -73,16 +73,6 @@ fun PersonListeScreen(modifier: Modifier) {
             NavigationBar {  }
         },
         content = { innerPadding ->
-            if (selectedResultID != null) {
-                PersonDetailScreen(
-                    testID = selectedResultID!!,
-                    apiService = Nettverksmodul.apiService, // Pass the apiService instance
-                    onBack = {
-                        selectedResultID = null
-                    }
-                )
-            } else {
-            // Vise listen med personene som er laget
             LazyColumn(
                 contentPadding = innerPadding,
                 modifier = Modifier
@@ -194,86 +184,7 @@ fun PersonKort(
         }
     }
 }
-@Composable
-/*-- Funksjon til Chat-GPT chart fremvisning --*/
-fun PersonDetailScreen(resultID: String, onBack: () -> Unit, apiService: ApiService) {
-    var scores by remember { mutableStateOf<List<Result>>(emptyList()) }
-    val repo = remember { PersonlighetstestRep(apiService) }
 
-    var testScores by remember { mutableStateOf<List<ScoreData>>(emptyList()) }
-    //val scoreRepo = remember { ScoreRepo(apiService) }
-
-    Log.d("API-test", "PersonDetails screen er oppe")
-    Log.d("API-test", "TestID: $testID")
-
-
-    // Forsøk nr.3
-    LaunchedEffect(testID) {
-        // kjører api kall når vi har fått en ny TestID
-        Log.d("API-test", "Test av ny data")
-
-        // henter data fra API
-        scores = repo.fetchScore(testID)
-
-        // resultatet skal inneholde all info om testen, ALL!!
-
-        Log.d("API-test", "PersonDetails screen er ferdig")
-        Log.d("API-test", "${scores.toString()}")
-
-
-
-    }
-
-
-
-    /*
-    LaunchedEffect(testID) {
-        Log.d("API-test", "Test av ny data")
-
-        testScores = scoreRepo.fetchAllScore(testID)
-
-        Log.d("API-test", testScores.toString())
-
-        for (score in testScores) {
-            Log.d("API-test", "Domain: ${score.domain}, Title: ${score.score.title}, Score: ${score.score.score}")
-            for(facet in score.facets) {
-                Log.d("API-test", "Title: ${facet.title}, Score: ${facet.score}")
-            }
-        }
-    }
-    *//*
-
-        scores = repo.fetchScore(resultID)
-        Log.d("API-test", "PersonDetails screen er ferdig")
-        for (score in scores) {
-            Log.d("API-test", "Domain: ${score.domain}, Score: ${score.score}")
-        }
-    }*/
-
-    Column (
-        modifier = Modifier
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(colorResource(id = R.color.sand), (colorResource(id = R.color.dusk)))
-                ))
-            .fillMaxHeight()
-    ) {
-        Button(onClick = onBack,
-            modifier = Modifier
-                .padding(16.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
-        ) {
-            Text("Tilbake til liste med personer")
-        }
-
-        if (scores.isNotEmpty()) {
-            ResultChart(scores)
-            Log.d("API-test", "Domain: ${scores[0].domain}, Score: ${scores[0].score}")
-        } else {
-            Text("Loading...", modifier = Modifier.padding(16.dp))
-        }
-    }
-}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LeggTilPerson(

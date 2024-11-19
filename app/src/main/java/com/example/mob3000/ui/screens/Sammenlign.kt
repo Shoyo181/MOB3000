@@ -39,6 +39,32 @@ fun Sammenlign(modifier: Modifier){
         ProfilData("1", "Noldus", "kjartan@hotmail.com", scoreDataTest),
         ProfilData("2", "Skybert", "kjartan@hotmail.com", scoreDataTest2),
     )
+    /*
+    fun PersonDetailScreen(testID: String, onBack: () -> Unit, apiService: ApiService) {
+    var scores by remember { mutableStateOf<List<Result>>(emptyList()) }
+    val repo = remember { PersonlighetstestRep(apiService) }
+    Log.d("API-test", "PersonDetails screen er oppe")
+    Log.d("API-test", "TestID: $testID")
+    // Forsøk nr.3
+    LaunchedEffect(testID) {
+        // kjører api kall når vi har fått en ny TestID
+        Log.d("API-test", "Test av ny data")
+
+        // henter data fra API
+        scores = repo.fetchScore(testID)
+
+        // resultatet skal inneholde all info om testen, ALL!!
+
+        Log.d("API-test", "PersonDetails screen er ferdig")
+        Log.d("API-test", "${scores.toString()}")
+
+
+
+    }
+
+
+
+    */
 
     //
    Box(
