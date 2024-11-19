@@ -21,9 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Brush
 import com.example.mob3000.data.api.ApiService
 import com.example.mob3000.data.api.Nettverksmodul
-import com.example.mob3000.data.api.Result
 import com.example.mob3000.data.api.ScoreService
 import com.example.mob3000.data.firebase.FirebaseService
+import com.example.mob3000.data.models.ApiData.Result
 import com.example.mob3000.data.models.ScoreData
 import com.example.mob3000.data.models.ScoreResponse
 import com.example.mob3000.data.repository.PersonlighetstestRep
@@ -262,6 +262,12 @@ fun PersonDetailScreen(testID: String, onBack: () -> Unit, apiService: ApiServic
         scores = repo.fetchScore(testID)
 
         // resultatet skal inneholde all info om testen, ALL!!
+
+        Log.d("API-test", "PersonDetails screen er ferdig")
+        Log.d("API-test", "${scores.toString()}")
+
+
+
     }
 
 

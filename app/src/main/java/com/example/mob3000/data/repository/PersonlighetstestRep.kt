@@ -1,7 +1,8 @@
 package com.example.mob3000.data.repository
 
+import android.util.Log
 import com.example.mob3000.data.api.ApiService
-import com.example.mob3000.data.api.Result
+import com.example.mob3000.data.models.ApiData.Result
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,10 +15,10 @@ class PersonlighetstestRep (private val apiService: ApiService) {
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiService.getResults(resultID)
-                response.results.filter{ result ->
-                    result.domain in listOf("N", "O", "A", "C", "E")
-                }
+                Log.d("API-test-repo", "Full respons hentet: $response")
+                response.results // returnerer all data fra API
             } catch (e: Exception) {
+                Log.e("API-test-repo", "Feil ved henting av data: ${e.message}", e)
                 emptyList()
             }
         }

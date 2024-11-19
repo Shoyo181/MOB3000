@@ -18,3 +18,4 @@ val Pink = Color(0xFFF2D7D3)
 val DarkblueBrush = SolidColor(DarkBlue)
 val BlueBrush = SolidColor(Blue)
 val RedBrush = SolidColor(Red)
+
