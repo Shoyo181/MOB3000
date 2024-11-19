@@ -42,10 +42,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mob3000.ui.screens.Home
-import com.example.mob3000.ui.screens.PersonListScreen
+import com.example.mob3000.ui.screens.PersonListeScreen
 import com.example.mob3000.ui.screens.Sammenlign
 import com.example.mob3000.ui.screens.Settings
-import com.example.mob3000.ui.screens.SwipeLandingsside
 import com.example.mob3000.ui.theme.MOB3000Theme
 import com.google.firebase.auth.FirebaseAuth
 
@@ -189,7 +188,7 @@ fun MyApp() {
                 Home(Modifier.padding(innerPadding))
             }
             composable("Profiler") {
-                PersonListScreen(Modifier.padding(innerPadding))
+                PersonListeScreen(Modifier.padding(innerPadding))
             }
             composable("Sammenlign") {
                 Sammenlign(Modifier.padding(innerPadding))
