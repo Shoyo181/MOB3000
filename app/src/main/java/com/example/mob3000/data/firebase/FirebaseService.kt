@@ -21,7 +21,11 @@ object FirebaseService {
                     return@addSnapshotListener
                 }
                 if(snapshot != null && !snapshot.isEmpty) {
-                    val personList = snapshot.toObjects(Person::class.java)
+                    val personList = snapshot.documents.map { document ->
+                        val person = document.toObject(Person::class.java)
+                        person?.copy(documentId = document.id)
+                    }.filterNotNull()
+
                     onSuccess(personList)
                 } else {
                     onSuccess(emptyList())
@@ -55,7 +59,7 @@ object FirebaseService {
 
     fun slettPerson (person: Person, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         firestore.collection("Personer")
-            .document(person.testid)
+            .document(person.documentId)
             .delete()
             .addOnSuccessListener{
                 onSuccess()
@@ -66,7 +70,7 @@ object FirebaseService {
     }
     fun oppdaterPerson(person: Person, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         firestore.collection("Personer")
-            .document(person.testid)
+            .document(person.documentId)
             .set(person)
             .addOnSuccessListener{
                 onSuccess()

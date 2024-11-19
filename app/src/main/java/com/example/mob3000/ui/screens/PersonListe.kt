@@ -19,13 +19,17 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.colorResource
 import com.example.mob3000.data.api.ApiService
-import com.example.mob3000.data.api.Nettverksmodul
 import com.example.mob3000.data.api.Result
 import com.example.mob3000.data.firebase.FirebaseService
 import com.example.mob3000.data.repository.PersonlighetstestRep
 import com.example.mob3000.ui.components.ResultChart
 import com.google.firebase.auth.FirebaseAuth
+import com.example.mob3000.R
+import com.example.mob3000.ui.components.ButtonKomponent
+import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
+import com.google.firebase.firestore.DocumentId
 
 
 data class Person(
@@ -33,10 +37,11 @@ data class Person(
     val age: String,
     val email: String,
     val testid: String,
-    val userId: String
+    val userId: String,
+    val documentId: String = "",
 )
 {
-    constructor() : this ("", "", "", "", "")
+    constructor() : this ("", "", "", "", "", "")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,7 +87,7 @@ fun PersonListeScreen(modifier: Modifier) {
                     .fillMaxSize()
                     .background(
                     Brush.verticalGradient(
-                        colors = listOf(Color(0xFFEAD1BA), Color(0xFF817A81))
+                        colors = listOf(colorResource(id = R.color.sand), (colorResource(id = R.color.dusk)))
                     )
                 )
             ) {
@@ -174,23 +179,15 @@ fun PersonKort(
                 Text(text = "TestID: ${person.testid}")
 
                 Spacer(modifier = Modifier.height(8.dp))
-
-                Button(
-                    onClick = onRediger,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF81C784)),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Endre")
-                }
+                ButtonKomponent(
+                    text = "Endre",
+                    onClick = onRediger
+                )
                 Spacer(modifier = Modifier.height(8.dp))
-
-                Button(
-                    onClick = onSlett,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE57373)),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Slett")
-                }
+                ButtonKomponent(
+                    text = "Slett",
+                    onClick = onSlett
+                )
             }
         }
     }
@@ -210,7 +207,7 @@ fun PersonDetailScreen(resultID: String, onBack: () -> Unit, apiService: ApiServ
         modifier = Modifier
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFEAD1BA), Color(0xFF817A81))
+                    colors = listOf(colorResource(id = R.color.sand), (colorResource(id = R.color.dusk)))
                 ))
             .fillMaxHeight()
     ) {
@@ -247,7 +244,8 @@ fun LeggTilPerson(
         AlertDialog(
             onDismissRequest = onDismiss,
             confirmButton = {
-                Button(
+                ButtonKomponent(
+                    text = "Legg til person",
                     onClick = {
                         if (newPersonNavn.isNotEmpty() && newPersonAlder.isNotEmpty() &&
                             newPersonEmail.isNotEmpty() && newTestID.isNotEmpty()
@@ -263,63 +261,38 @@ fun LeggTilPerson(
                             onLeggTilPerson(nyPerson)
                             onDismiss()
                         }
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA18073)),
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.padding(8.dp)
-                ) {
-                    Text("Legg til person")
-                }
+                    }
+                )
             },
             dismissButton = {
-                Button(
-                    onClick = onDismiss,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA18073)),
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.padding(8.dp)
-                ) {
-                    Text("Avbryt")
-                }
+                ButtonKomponent(
+                    text = "Avbryt",
+                    onClick = onDismiss
+                )
             },
             title = { Text("Legg til person") },
             text = {
                 Column {
-                    OutlinedTextField(
+                    OutlinedTextFieldKomponent(
                         value = newPersonNavn,
                         onValueChange = { newPersonNavn = it },
-                        label = { Text("Navn") },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.White)
+                        label = "Navn",
                     )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    OutlinedTextField(
+                    OutlinedTextFieldKomponent(
                         value = newPersonAlder,
                         onValueChange = { newPersonAlder = it },
-                        label = { Text("Alder") },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.White)
+                        label = "Alder",
                     )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    OutlinedTextField(
+                    OutlinedTextFieldKomponent(
                         value = newPersonEmail,
                         onValueChange = { newPersonEmail = it },
-                        label = { Text("Email") },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.White)
+                        label = "Email"
                     )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    OutlinedTextField(
+                    OutlinedTextFieldKomponent(
                         value = newTestID,
                         onValueChange = { newTestID = it },
-                        label = { Text("TestId") },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.White)
+                        label = "TestId"
+
                     )
                 }
             }
@@ -342,7 +315,8 @@ fun EndrePerson (
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            Button(
+            ButtonKomponent(
+                text = "Lagre",
                 onClick = {
                     val oppdatertPerson = person.copy(
                         name = oppdatertNavn,
@@ -352,61 +326,37 @@ fun EndrePerson (
                     )
                     onLagre(oppdatertPerson)
                     onDismiss()
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA18073)),
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text ("Lagre")
-            }
+                }
+            )
         },
         dismissButton = {
-            Button(
-             onClick = onDismiss,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA18073)),
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text("Avbryt")
-            }
+            ButtonKomponent(
+                text = "Avbryt",
+                onClick = onDismiss
+            )
         },
         title = {Text("Endre person")},
         text = {
             Column {
-                OutlinedTextField(
+                OutlinedTextFieldKomponent(
                     value = oppdatertNavn,
                     onValueChange = {oppdatertNavn = it},
-                    label = {Text("Navn")},
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.White)
+                    label = "Navn"
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
+                OutlinedTextFieldKomponent(
                     value = oppdatertAlder,
                     onValueChange = { oppdatertAlder = it },
-                    label = { Text("Alder") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.White)
+                    label = "Alder"
                 )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
+                OutlinedTextFieldKomponent(
                     value = oppdatertEpost,
                     onValueChange = { oppdatertEpost = it },
-                    label = { Text("Email") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.White)
+                    label = "Email"
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
+                OutlinedTextFieldKomponent(
                     value = oppdatertTestId,
                     onValueChange = { oppdatertTestId = it },
-                    label = { Text("Email") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.White)
+                    label = "Email"
                 )
             }
         }

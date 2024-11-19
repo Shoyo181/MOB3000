@@ -12,12 +12,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.mob3000.R
 import com.example.mob3000.data.firebase.AuthService.logginnBruker
 import com.example.mob3000.data.firebase.AuthService.registrerBruker
+import com.example.mob3000.ui.components.ButtonKomponent
+import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
 import com.example.mob3000.ui.theme.Typography
 
 data class Bruker (
@@ -153,26 +157,21 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
         },
         text = {
             Column {
-                OutlinedTextField(
+                OutlinedTextFieldKomponent(
                     value = email,
                     onValueChange = { email = it.trim() },
-                    label = { Text("Email") },
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                         containerColor = Color.White
-                     )
+                    label = "Email",
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                // Passord, lagt til slik at passord ikke syntes, derfor brukes ikke gjenbrukbar komponent
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it.trim() },
                     label = { Text("Passord") },
                     modifier = Modifier
                         .fillMaxWidth(),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        containerColor = Color.White
-                    ),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = colorResource(id = com.example.mob3000.R.color.ivory),
+                        unfocusedContainerColor = colorResource(id = R.color.ivory)),
                     visualTransformation = PasswordVisualTransformation()
                 )
                 errorMessage?.let {
@@ -190,7 +189,8 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                Button(
+                ButtonKomponent(
+                    text = "Registrer",
                     onClick = {
                         registrerBruker(email, password,
                             onSuccess = {
@@ -199,14 +199,11 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
                             onFailure = {errorMessage = it}
                         )
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
-                ) {
-                    Text("Registrer", style = MaterialTheme.typography.labelLarge)
-                }
-
+                )
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Button(
+                ButtonKomponent(
+                    text = "Logg inn",
                     onClick = {
                         logginnBruker(email, password,
                             onSuccess = {
@@ -214,18 +211,13 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
                             },
                             onFailure =  { errorMessage = it })
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
-                ) {
-                    Text("Logg inn", style = MaterialTheme.typography.labelLarge)
-                }
+                )
             }
-                Spacer(modifier = Modifier.height(10.dp))
-                Button(
-                    onClick = { onDismiss() },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
-                ) {
-                    Text("Avbryt")
-                }
+                Spacer(modifier = Modifier.height(5.dp))
+                ButtonKomponent(
+                    text = "Avbryt",
+                    onClick = { onDismiss() }
+                )
             }
         }
     )

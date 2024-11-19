@@ -14,6 +14,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.R
 import com.example.mob3000.data.firebase.AuthService
+import com.example.mob3000.ui.components.ButtonKomponent
 
 @Composable
 fun Settings (
@@ -29,16 +30,10 @@ fun Settings (
                 text = "Her kommer det mer innstillinger for brukeren etterhvert. Blandt annet det å kunne redigere informasjon, logge ut, slette bruker o.l."
             )
         }
-        Button(
+        ButtonKomponent(
+            text = "Logg ut",
             onClick = { AuthService.loggUt() },
-            modifier = Modifier
-                .padding(20.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xff66433F)
-            ),
-        ) {
-            Text("Logg ut")
-        }
+        )
     }
 }
 
