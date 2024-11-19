@@ -22,14 +22,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
 import com.example.mob3000.data.api.ApiService
 import com.example.mob3000.data.api.Nettverksmodul
-import com.example.mob3000.data.api.ScoreService
 import com.example.mob3000.data.firebase.FirebaseService
-import com.example.mob3000.data.models.ApiData.Result
-import com.example.mob3000.data.models.ScoreData
-import com.example.mob3000.data.models.ScoreResponse
-import com.example.mob3000.data.repository.PersonlighetstestRep
-import com.example.mob3000.data.repository.ScoreRepo
-import com.example.mob3000.ui.components.ResultChart
 import com.google.firebase.auth.FirebaseAuth
 import com.example.mob3000.R
 import com.example.mob3000.ui.components.ButtonKomponent
