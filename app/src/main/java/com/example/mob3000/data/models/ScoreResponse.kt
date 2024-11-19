@@ -1,6 +1,6 @@
 package com.example.mob3000.data.models
 
-data class ScoreService(
+data class ScoreResponse(
     val results: List<ScoreData>
 )
 data class ScoreData(

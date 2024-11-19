@@ -22,8 +22,12 @@ import androidx.compose.ui.graphics.Brush
 import com.example.mob3000.data.api.ApiService
 import com.example.mob3000.data.api.Nettverksmodul
 import com.example.mob3000.data.api.Result
+import com.example.mob3000.data.api.ScoreService
 import com.example.mob3000.data.firebase.FirebaseService
+import com.example.mob3000.data.models.ScoreData
+import com.example.mob3000.data.models.ScoreResponse
 import com.example.mob3000.data.repository.PersonlighetstestRep
+import com.example.mob3000.data.repository.ScoreRepo
 import com.example.mob3000.ui.components.ResultChart
 import com.google.firebase.auth.FirebaseAuth
 
@@ -86,7 +90,7 @@ fun PersonListScreen(modifier: Modifier) {
         content = { innerPadding ->
             if (selectedResultID != null) {
                 PersonDetailScreen(
-                    resultID = selectedResultID!!,
+                    testID = selectedResultID!!,
                     apiService = Nettverksmodul.apiService, // Pass the apiService instance
                     onBack = {
                         selectedResultID = null
@@ -238,14 +242,53 @@ fun PersonCard(person: Person, onClick: () -> Unit ) {
     }
 }
 @Composable
-fun PersonDetailScreen(resultID: String, onBack: () -> Unit, apiService: ApiService) {
+fun PersonDetailScreen(testID: String, onBack: () -> Unit, apiService: ApiService) {
     var scores by remember { mutableStateOf<List<Result>>(emptyList()) }
     val repo = remember { PersonlighetstestRep(apiService) }
 
+    var testScores by remember { mutableStateOf<List<ScoreData>>(emptyList()) }
+    //val scoreRepo = remember { ScoreRepo(apiService) }
+
     Log.d("API-test", "PersonDetails screen er oppe")
-    LaunchedEffect(resultID) {
-        scores = repo.fetchScore(resultID)
+    Log.d("API-test", "TestID: $testID")
+
+
+    // Forsøk nr.3
+    LaunchedEffect(testID) {
+        // kjører api kall når vi har fått en ny TestID
+        Log.d("API-test", "Test av ny data")
+
+        // henter data fra API
+        scores = repo.fetchScore(testID)
+
+        // resultatet skal inneholde all info om testen, ALL!!
     }
+
+
+
+    /*
+    LaunchedEffect(testID) {
+        Log.d("API-test", "Test av ny data")
+
+        testScores = scoreRepo.fetchAllScore(testID)
+
+        Log.d("API-test", testScores.toString())
+
+        for (score in testScores) {
+            Log.d("API-test", "Domain: ${score.domain}, Title: ${score.score.title}, Score: ${score.score.score}")
+            for(facet in score.facets) {
+                Log.d("API-test", "Title: ${facet.title}, Score: ${facet.score}")
+            }
+        }
+    }
+    *//*
+
+        scores = repo.fetchScore(resultID)
+        Log.d("API-test", "PersonDetails screen er ferdig")
+        for (score in scores) {
+            Log.d("API-test", "Domain: ${score.domain}, Score: ${score.score}")
+        }
+    }*/
 
     Column (
         modifier = Modifier
