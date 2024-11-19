@@ -30,19 +30,7 @@ import com.example.mob3000.R
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
 import com.google.firebase.firestore.DocumentId
-
-
-data class Person(
-    val name: String,
-    val age: String,
-    val email: String,
-    val testid: String,
-    val userId: String,
-    val documentId: String = "",
-)
-{
-    constructor() : this ("", "", "", "", "", "")
-}
+import com.example.mob3000.data.models.Person
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

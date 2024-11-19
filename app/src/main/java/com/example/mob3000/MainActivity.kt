@@ -45,7 +45,6 @@ import com.example.mob3000.ui.screens.Home
 import com.example.mob3000.ui.screens.PersonListeScreen
 import com.example.mob3000.ui.screens.Sammenlign
 import com.example.mob3000.ui.screens.Settings
-import com.example.mob3000.ui.screens.SwipeLandingsside
 import com.example.mob3000.ui.theme.MOB3000Theme
 import com.google.firebase.auth.FirebaseAuth
 

@@ -1,10 +1,10 @@
 package com.example.mob3000.data.firebase
 
-import com.example.mob3000.ui.screens.Bruker
+import com.example.mob3000.data.models.Bruker
 import com.example.mob3000.data.firebase.FirebaseService.leggTilBruker
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
-import com.example.mob3000.ui.screens.Person
+import com.example.mob3000.data.models.Person
 
 object FirebaseService {
     private val firestore = FirebaseFirestore.getInstance()
@@ -79,6 +79,23 @@ object FirebaseService {
                 onFailure(exception)
             }
     }
+    fun hentAntallDokumenter(onResult: (Int) -> Unit, onFailure: (Exception) -> Unit) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if(userId != null) {
+            FirebaseFirestore.getInstance().collection("Personer")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener{documents ->
+                    val antall = documents.size()
+                    onResult(antall)
+                }
+                .addOnFailureListener { exception ->
+                    onFailure(exception)
+                }
+        } else {
+            onFailure(Exception("Bruker er ikke logget inn."))
+        }
+    }
 }
 
 
@@ -137,28 +154,3 @@ object AuthService {
 
 
 }
-
-/*
-    fun registrerBruker (email: String, password: String, onSuccess: (FirebaseUser?) -> Unit, onFailure: (Exception) -> Unit){
-        auth.createUserWithEmailAndPassword(email.trim(), password.trim())
-            .addOnCompleteListener{ task ->
-                if (task.isSuccessful) {
-                    onSuccess(auth.currentUser)
-                } else {
-                    onFailure(task.exception ?: Exception("Registrering feilet"))
-                    Log.d("registrerBruker", "Reigstrering feilet: ${task.exception?.localizedMessage}")
-                }
-            }
-    }
-
-    fun logginnBruker(email: String, password: String, onSuccess: (FirebaseUser?) -> Unit, onFailure: (Exception) -> Unit){
-        auth.signInWithEmailAndPassword(email.trim(), password.trim())
-            .addOnCompleteListener { task ->
-                if(task.isSuccessful) {
-                    onSuccess(auth.currentUser)
-                } else {
-                    Log.e("logginnBruker", "Logg inn feilet: ${task.exception?.localizedMessage}")
-                    onFailure(task.exception ?: Exception("Logg inn feilet."))
-                }
-            }
-    }*/

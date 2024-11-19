@@ -1,5 +1,4 @@
-package com.example.mob3000.ui.screens
-
+package com.example.mob3000
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +22,8 @@ import com.example.mob3000.data.firebase.AuthService.registrerBruker
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
 import com.example.mob3000.ui.theme.Typography
+import com.example.mob3000.data.models.Bruker
 
-data class Bruker (
-    val id: String = "",
-    val email: String = ""
-)
 
 @Composable
 fun SwipeLandingsside(

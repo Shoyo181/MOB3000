@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.mob3000.R
+import com.example.mob3000.data.firebase.FirebaseService.hentAntallDokumenter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -129,21 +130,4 @@ fun InfoKortMedPersonerCount() {
         description = personerCount,
         backgroundColor = colorResource(id = R.color.ivory)
     )
-}
-fun hentAntallDokumenter(onResult: (Int) -> Unit, onFailure: (Exception) -> Unit) {
-    val userId = FirebaseAuth.getInstance().currentUser?.uid
-    if(userId != null) {
-        FirebaseFirestore.getInstance().collection("Personer")
-            .whereEqualTo("userId", userId)
-            .get()
-            .addOnSuccessListener{documents ->
-                val antall = documents.size()
-                onResult(antall)
-            }
-            .addOnFailureListener { exception ->
-                onFailure(exception)
-            }
-    } else {
-        onFailure(Exception("Bruker er ikke logget inn."))
-    }
 }
