@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.R
 import com.example.mob3000.data.api.ApiService
@@ -44,6 +45,7 @@ import com.example.mob3000.data.models.ScoreData
 import com.example.mob3000.data.models.ScoreList
 import com.example.mob3000.data.repository.PersonlighetstestRep
 import com.example.mob3000.ui.components.Chart
+import org.intellij.lang.annotations.Language
 
 
 // side for å vise frem sammenligning
@@ -114,6 +116,8 @@ fun Sammenlign(modifier: Modifier){
     var personTilSammenligning by remember {mutableStateOf<List<Person>>(emptyList())}
     var personMedScore by remember {mutableStateOf<List<ScoreList>>(emptyList())}
 
+    val lang = stringResource(id = R.string.language_api)
+
     // henter listen fra databasen
     LaunchedEffect(Unit) {
         FirebaseService.hentPersoner(
@@ -173,7 +177,7 @@ fun Sammenlign(modifier: Modifier){
 
             LaunchedEffect(personTilSammenligning) {
                 personMedScore = personTilSammenligning.map { person ->
-                    val scores = hentDataFraApi(person.testid, apiService)
+                    val scores = hentDataFraApi(person.testid, lang, apiService)
                     sorterUtScore(scores, person)
                 }
                 Log.d("Sammenligning", "TEEEEEEST")
@@ -188,10 +192,10 @@ fun Sammenlign(modifier: Modifier){
 
 }
 
-suspend fun hentDataFraApi(testID: String, apiService: ApiService): List<Result> {
+suspend fun hentDataFraApi(testID: String, language: String, apiService: ApiService): List<Result> {
     return try{
         val repo = PersonlighetstestRep(apiService)
-        val scores = repo.fetchScore(testID)
+        val scores = repo.fetchScore(testID, language)
         Log.d("API-test-hent_Score", "Full respons hentet: $scores")
         scores
     }catch (e: Exception){

@@ -11,10 +11,10 @@ import kotlinx.coroutines.withContext
 
 class PersonlighetstestRep (private val apiService: ApiService) {
 
-    suspend fun fetchScore(resultID: String): List<Result> {
+    suspend fun fetchScore(resultID: String, language: String): List<Result> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = apiService.getResults(resultID)
+                val response = apiService.getResults(resultID, language)
                 Log.d("API-test-repo", "Full respons hentet: $response")
                 response.results // returnerer all data fra API
             } catch (e: Exception) {

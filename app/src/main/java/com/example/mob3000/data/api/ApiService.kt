@@ -1,11 +1,15 @@
 package com.example.mob3000.data.api
 
+import androidx.compose.ui.res.stringResource
+import com.example.mob3000.R
 import com.example.mob3000.data.models.ApiData.ApiData
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 
 interface ApiService {
-    @GET("api/result/{resultId}/no")
-    suspend fun getResults(@Path("resultId") resultId: String): ApiData
+    @GET("api/result/{resultId}/{language}")
+    suspend fun getResults(@Path("resultId") resultId: String,
+                           @Path("language") language: String
+    ): ApiData
 }
