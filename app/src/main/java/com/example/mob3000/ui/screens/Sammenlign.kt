@@ -190,9 +190,11 @@ fun Sammenlign(modifier: Modifier){
 
 
             Log.d("Sammenligning", "Personer med score: ${personMedScore.map { person -> person.name } }")
-            // sørg for at dette ikke looper
+            // Hvis det ikke er noen i lista, så viser vi frem en melding istedenfor diagrammet
             if(personMedScore.isNotEmpty()){
                 Chart(profilData = personMedScore)
+            }else{
+                Text("Ingen data")
             }
 
         }

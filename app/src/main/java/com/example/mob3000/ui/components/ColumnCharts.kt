@@ -50,11 +50,9 @@ fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: 
         // bruker Column for å organisere innhold
 
 
-        if(profilData.isEmpty()){
-            Text("No selected profiles")
-        }else{
-            Text(profilData[0].results[digramIndex].score.title)
-        }
+
+        Text(profilData[0].results[digramIndex].score.title)
+
 
         when (digramIndex){
             0 -> oneChart(barsBuilder(profilData, tittel, 0, tempFarge))
