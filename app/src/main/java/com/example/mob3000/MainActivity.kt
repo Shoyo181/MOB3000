@@ -188,10 +188,10 @@ fun MyApp() {
             composable("Home") {
                 Home(Modifier.padding(innerPadding))
             }
-            composable("Profiler") {
+            composable("Profiles") {
                 PersonListeScreen(Modifier.padding(innerPadding))
             }
-            composable("Sammenlign") {
+            composable("Compare") {
                 Sammenlign(Modifier.padding(innerPadding))
             }
             composable("Settings") {

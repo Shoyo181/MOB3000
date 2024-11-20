@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -31,11 +32,11 @@ fun SwipeLandingsside(
 ) {
     var showLoginnVindu by remember { mutableStateOf(false) }
 
-    val pages by remember {mutableStateOf(listOf(
-        "Opprett en bedriftsbruker eller logg inn hvis du allerede har opprettet din bruker. Lag profiler over dine ansatte og kom i gang med å sammenligne personlighetstrekk ved dine ansatte.",
-        "Få dine ansatte til å ta en Big Five personlighetstest fra Ruby Nor. Personlighetstesten er vitenskapelig og basert på 5 ulike punkter: Nevrotisisme, planmessighet, medmenneskelighet, ekstraversjon og åpenhet for erfaringer. ",
-        "Etter at ansatte tar testen bruk ID fra testen inn i appen og få oversikt over de ulike resultatene fra hver profil, og sammenlign ansatte og skap gode team i bedriften din."
-    ))}
+    val pages = (listOf(
+        stringResource(id = R.string.pages_swipe_1),
+        stringResource(id = R.string.pages_swipe_2),
+        stringResource(id = R.string.pages_swipe_3)
+    ))
     val pagerState = rememberPagerState(
         pageCount = {pages.size}
     )
@@ -57,8 +58,6 @@ fun SwipeLandingsside(
         ) {
             Spacer(modifier = Modifier.height(32.dp))
 
-
-
             // pager for swiping av tekst
             HorizontalPager(
                 state = pagerState,
@@ -75,7 +74,6 @@ fun SwipeLandingsside(
                         .padding(horizontal = 16.dp)
                 )
             }
-
             Spacer(modifier = Modifier.height(16.dp))
 
             //page indikator
@@ -84,7 +82,6 @@ fun SwipeLandingsside(
                     Dot(isSelected = pagerState.currentPage == index)
                 }
             }
-
             Spacer(modifier = Modifier.weight(1f))
 
             // logg inn/registrer knapp m. funksjonalitet
@@ -95,7 +92,7 @@ fun SwipeLandingsside(
                     .padding(horizontal = 16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
             ) {
-                Text("Logg inn / Registrer", color = Color(0xFFEAD1BA),
+                Text(stringResource(id = R.string.button_loginregister), color = Color(0xFFEAD1BA),
                     style = Typography.titleLarge)
             }
 
@@ -146,7 +143,7 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Logg inn eller registrer",
+                    text = stringResource(id = R.string.alert_login_title),
                     style = MaterialTheme.typography.headlineSmall
                 )
             }
@@ -156,17 +153,17 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
                 OutlinedTextFieldKomponent(
                     value = email,
                     onValueChange = { email = it.trim() },
-                    label = "Email",
+                    label = stringResource(id = R.string.email),
                 )
                 // Passord, lagt til slik at passord ikke syntes, derfor brukes ikke gjenbrukbar komponent
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it.trim() },
-                    label = { Text("Passord") },
+                    label = { Text(stringResource(id = R.string.alert_login_passord)) },
                     modifier = Modifier
                         .fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = colorResource(id = com.example.mob3000.R.color.ivory),
+                        focusedContainerColor = colorResource(id = R.color.ivory),
                         unfocusedContainerColor = colorResource(id = R.color.ivory)),
                     visualTransformation = PasswordVisualTransformation()
                 )
@@ -186,7 +183,7 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                 ButtonKomponent(
-                    text = "Registrer",
+                    text = stringResource(id = R.string.alert_login_register),
                     onClick = {
                         registrerBruker(email, password,
                             onSuccess = {
@@ -199,7 +196,7 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 ButtonKomponent(
-                    text = "Logg inn",
+                    text = stringResource(id = R.string.alert_login_login),
                     onClick = {
                         logginnBruker(email, password,
                             onSuccess = {
@@ -211,7 +208,7 @@ fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
             }
                 Spacer(modifier = Modifier.height(5.dp))
                 ButtonKomponent(
-                    text = "Avbryt",
+                    text = stringResource(id = R.string.cancel),
                     onClick = { onDismiss() }
                 )
             }
