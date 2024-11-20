@@ -9,4 +9,5 @@
     <string name="info_card_title">A little info about how this app should work..</string>
     <string name="info_card_desc">In this app you can create profiles with information about your employees and see their personality test results. After creating different employees with the information needed, which you can do in Profiles - you can make comparisons between the different employees you have created in Compare.</string>
     <string name="profiles_count">Number of profiles</string>
+    <string name="pages_swipe_1">Create a business user or log in if you have already created your user. Create profiles of your employees and start comparing the personality traits of your employees.</string>
 </resources>
