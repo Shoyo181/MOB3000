@@ -42,8 +42,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.example.mob3000.ui.screens.Home
 import com.example.mob3000.ui.screens.PersonListeScreen
+import com.example.mob3000.ui.screens.PersonTest
 import com.example.mob3000.ui.screens.Sammenlign
 import com.example.mob3000.ui.screens.Settings
 import com.example.mob3000.ui.theme.MOB3000Theme
@@ -189,13 +192,22 @@ fun MyApp() {
                 Home(Modifier.padding(innerPadding))
             }
             composable("Profiles") {
-                PersonListeScreen(Modifier.padding(innerPadding))
+                PersonListeScreen(Modifier.padding(innerPadding),
+                    navController = navController
+                )
             }
             composable("Compare") {
                 Sammenlign(Modifier.padding(innerPadding))
             }
             composable("Settings") {
                 Settings(Modifier.padding(innerPadding))
+            }
+            composable(
+                route = "persontest/{testId}",
+                arguments = listOf(navArgument("testId") {type = NavType.StringType})
+            ) {backStackEntry ->
+                val testId = backStackEntry.arguments?.getString("testId")
+                PersonTest(testId = testId)
             }
         }
     }
