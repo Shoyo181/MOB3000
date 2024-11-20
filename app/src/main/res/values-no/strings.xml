@@ -9,4 +9,5 @@
     <string name="info_card_title">Litt info om hvordan dette skal fungere</string>
     <string name="info_card_desc">Her kan du lage profiler med informasjon om dine ansatte og få opp personlighetstest resultater. Etter å ha laget ulike ansatte med den informasjonen som trengs, som du kan gjøre i Profiler - så kan du etter gjøre sammenligninger mellom de ulike ansatte du har laget i Sammenlign.</string>
     <string name="profiles_count">Antall profiler laget</string>
+    <string name="pages_swipe_1">Opprett en bedriftsbruker eller logg inn hvis du allerede har opprettet din bruker. Lag profiler over dine ansatte og kom i gang med å sammenligne personlighetstrekk ved dine ansatte.</string>
 </resources>
