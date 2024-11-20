@@ -18,8 +18,10 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import com.example.mob3000.data.api.ApiService
 import com.example.mob3000.data.api.Nettverksmodul
 import com.example.mob3000.data.firebase.FirebaseService
@@ -159,20 +161,28 @@ fun PersonKort(
             )
             if(erUtvidet) {
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "Alder: ${person.age}")
-                Text(text = "Email: ${person.email}")
-                Text(text = "TestID: ${person.testid}")
+                Text(text = stringResource(id = R.string.age) + " : ${person.age}")
+                Text(text = stringResource(id = R.string.email) + " : ${person.email}")
+                Text(text = stringResource(id = R.string.testid) + " : ${person.testid}")
 
                 Spacer(modifier = Modifier.height(8.dp))
-                ButtonKomponent(
-                    text = "Endre",
-                    onClick = onRediger
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ButtonKomponent(
-                    text = "Slett",
-                    onClick = onSlett
-                )
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ButtonKomponent(
+                        text = stringResource(id = R.string.edit),
+                        onClick = onRediger
+                    )
+                    Spacer(modifier = Modifier.padding(10.dp))
+                    ButtonKomponent(
+                        text = stringResource(id = R.string.delete),
+                        onClick = onSlett
+                    )
+                }
             }
         }
     }
@@ -196,7 +206,7 @@ fun LeggTilPerson(
             onDismissRequest = onDismiss,
             confirmButton = {
                 ButtonKomponent(
-                    text = "Legg til person",
+                    text = stringResource(id = R.string.alert_createprofile_create),
                     onClick = {
                         if (newPersonNavn.isNotEmpty() && newPersonAlder.isNotEmpty() &&
                             newPersonEmail.isNotEmpty() && newTestID.isNotEmpty()
@@ -217,32 +227,32 @@ fun LeggTilPerson(
             },
             dismissButton = {
                 ButtonKomponent(
-                    text = "Avbryt",
+                    text = stringResource(id = R.string.cancel),
                     onClick = onDismiss
                 )
             },
-            title = { Text("Legg til person") },
+            title = { Text(stringResource(id = R.string.alert_createprofile_title)) },
             text = {
                 Column {
                     OutlinedTextFieldKomponent(
                         value = newPersonNavn,
                         onValueChange = { newPersonNavn = it },
-                        label = "Navn",
+                        label = stringResource(id = R.string.name)
                     )
                     OutlinedTextFieldKomponent(
                         value = newPersonAlder,
                         onValueChange = { newPersonAlder = it },
-                        label = "Alder",
+                        label = stringResource(id = R.string.age)
                     )
                     OutlinedTextFieldKomponent(
                         value = newPersonEmail,
                         onValueChange = { newPersonEmail = it },
-                        label = "Email"
+                        label = stringResource(id = R.string.email)
                     )
                     OutlinedTextFieldKomponent(
                         value = newTestID,
                         onValueChange = { newTestID = it },
-                        label = "TestId"
+                        label = stringResource(id = R.string.testid)
 
                     )
                 }
@@ -267,7 +277,7 @@ fun EndrePerson (
         onDismissRequest = onDismiss,
         confirmButton = {
             ButtonKomponent(
-                text = "Lagre",
+                text = stringResource(id = R.string.alert_edit_save),
                 onClick = {
                     val oppdatertPerson = person.copy(
                         name = oppdatertNavn,
@@ -282,32 +292,32 @@ fun EndrePerson (
         },
         dismissButton = {
             ButtonKomponent(
-                text = "Avbryt",
+                text = stringResource(id = R.string.cancel),
                 onClick = onDismiss
             )
         },
-        title = {Text("Endre person")},
+        title = {Text(stringResource(id = R.string.alert_edit_title))},
         text = {
             Column {
                 OutlinedTextFieldKomponent(
                     value = oppdatertNavn,
                     onValueChange = {oppdatertNavn = it},
-                    label = "Navn"
+                    label = stringResource(id = R.string.name)
                 )
                 OutlinedTextFieldKomponent(
                     value = oppdatertAlder,
                     onValueChange = { oppdatertAlder = it },
-                    label = "Alder"
+                    label = stringResource(id = R.string.age)
                 )
                 OutlinedTextFieldKomponent(
                     value = oppdatertEpost,
                     onValueChange = { oppdatertEpost = it },
-                    label = "Email"
+                    label = stringResource(id = R.string.email)
                 )
                 OutlinedTextFieldKomponent(
                     value = oppdatertTestId,
                     onValueChange = { oppdatertTestId = it },
-                    label = "Email"
+                    label = stringResource(id = R.string.testid)
                 )
             }
         }
