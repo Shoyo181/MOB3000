@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name ="app_name">Big Five for bedrift</string>
+    <string name = "nav_home">Hjem</string>
+    <string name="nav_profiles">Profiler</string>
+    <string name="nav_compare">Sammenlign</string>
+    <string name="nav_settings">Innstillinger</string>
+    <string name="welcome">Velkommen</string>
+    <string name="info_card_title">Litt info om hvordan dette skal fungere</string>
+    <string name="info_card_desc">Her kan du lage profiler med informasjon om dine ansatte og få opp personlighetstest resultater. Etter å ha laget ulike ansatte med den informasjonen som trengs, som du kan gjøre i Profiler - så kan du etter gjøre sammenligninger mellom de ulike ansatte du har laget i Sammenlign.</string>
+    <string name="profiles_count">Antall profiler laget</string>
+</resources>
