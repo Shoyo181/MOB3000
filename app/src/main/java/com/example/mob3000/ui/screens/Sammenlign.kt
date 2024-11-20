@@ -163,6 +163,7 @@ fun Sammenlign(modifier: Modifier){
                 items(personListe) { person ->
                     TestKort(
                         person = person,
+                        valgtePersoner = personTilSammenligning,
                         onClick = {
                             // legger person inn til sammenligning hvis den ikke allerede er med
                             if(personTilSammenligning.contains(person)){
@@ -190,7 +191,10 @@ fun Sammenlign(modifier: Modifier){
 
             Log.d("Sammenligning", "Personer med score: ${personMedScore.map { person -> person.name } }")
             // sørg for at dette ikke looper
-            Chart(personMedScore)
+            if(personMedScore.isNotEmpty()){
+                Chart(profilData = personMedScore)
+            }
+
         }
     }
 
@@ -201,6 +205,7 @@ suspend fun hentDataFraApi(testID: String, language: String, apiService: ApiServ
         val repo = PersonlighetstestRep(apiService)
         val scores = repo.fetchScore(testID, language)
         Log.d("API-test-hent_Score", "Full respons hentet: $scores")
+        Log.d("API-test-hent_Score", "TestID: $testID")
         scores
     }catch (e: Exception){
         Log.e("API-test-hent_Score", "Feil ved henting av data: ${e.message}", e)
@@ -239,6 +244,7 @@ fun sorterUtScore(scores: List<Result>, person: Person): ScoreList {
 @Composable
 fun TestKort(
     person: Person,
+    valgtePersoner: List<Person>,
     onClick: () -> Unit
 ){
     Card(
@@ -247,7 +253,16 @@ fun TestKort(
             .fillMaxWidth()
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors =
+            if(valgtePersoner.contains(person)){
+                CardDefaults.cardColors(
+                    containerColor = Color.LightGray
+                )
+            }else{
+                CardDefaults.cardColors(
+                    containerColor = Color.White
+                )
+            }
     ) {
         Column(
             modifier = Modifier.padding(16.dp)

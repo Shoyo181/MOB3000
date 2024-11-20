@@ -50,13 +50,12 @@ fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: 
         // bruker Column for å organisere innhold
 
 
-        Text(
-            if(digramIndex == 0)
-                "Big 5 Score"
-            else
-                totalScoreLables[digramIndex-1]
-        )
-
+        if(profilData.isEmpty()){
+            Text("No selected profiles")
+        }else{
+            Text(profilData[0].results[digramIndex].score.title)
+        }
+        
         when (digramIndex){
             0 -> oneChart(barsBuilder(profilData, tittel, 0, tempFarge))
             1 -> oneChart(barsBuilder(profilData, tittel, 1, tempFarge))
@@ -107,7 +106,7 @@ fun barsBuilder (profilData: List<ScoreList>, tittel: List<List<String>>, index:
         //Log.d("barsBuilder-info-space", "     ")
         //Log.d("barsBuilder-info", "- Bar index: " + barIndex)
         Bars(
-            label = tittel[index][barIndex],
+            label = profilData[0].results[index].facets[barIndex].title,
             values = profilData.map { profil ->
                 //Log.d("barsBuilder-info", "-- barInx: " + barIndex + ", index: " + index + ", profil: " + profil.score[index][barIndex])
                 Bars.Data(
