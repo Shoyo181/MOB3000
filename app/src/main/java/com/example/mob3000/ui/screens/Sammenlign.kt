@@ -169,11 +169,17 @@ fun Sammenlign(modifier: Modifier){
 
         }else{
             Log.d("Sammenligning", "Personer med i sammenligning: ${personTilSammenligning.map { person -> person.name } }")
-
             // henter og sorterer data fra api
-            for(person in personTilSammenligning){
-                personMedScore = personMedScore + sorterUtScore(hentDataFraApi(person.testid, apiService), person)
+
+            LaunchedEffect(personTilSammenligning) {
+                personMedScore = personTilSammenligning.map { person ->
+                    val scores = hentDataFraApi(person.testid, apiService)
+                    sorterUtScore(scores, person)
+                }
+                Log.d("Sammenligning", "TEEEEEEST")
             }
+
+
             Log.d("Sammenligning", "Personer med score: ${personMedScore.map { person -> person.name } }")
             // sørg for at dette ikke looper
             //Chart(profiler)
@@ -182,28 +188,16 @@ fun Sammenlign(modifier: Modifier){
 
 }
 
-@Composable
-fun hentDataFraApi(testID: String, apiService: ApiService): List<Result> {
-    var scores by remember { mutableStateOf<List<Result>>(emptyList()) }
-    val repo = remember { PersonlighetstestRep(apiService) }
-
-    Log.d("API-test", "PersonDetails screen er oppe")
-    Log.d("API-test", "TestID: $testID")
-    // Forsøk nr.3
-    LaunchedEffect(testID) {
-        // kjører api kall når vi har fått en ny TestID
-        Log.d("API-test", "Test av ny data")
-
-        // henter data fra API
-        scores = repo.fetchScore(testID)
-
-        // resultatet skal inneholde all info om testen, ALL!!
-
-        Log.d("API-test", "PersonDetails screen er ferdig")
-        Log.d("API-test", "${scores.toString()}")
-
+suspend fun hentDataFraApi(testID: String, apiService: ApiService): List<Result> {
+    return try{
+        val repo = PersonlighetstestRep(apiService)
+        val scores = repo.fetchScore(testID)
+        Log.d("API-test-hent_Score", "Full respons hentet: $scores")
+        scores
+    }catch (e: Exception){
+        Log.e("API-test-hent_Score", "Feil ved henting av data: ${e.message}", e)
+        emptyList()
     }
-    return scores
 }
 
 fun sorterUtScore(scores: List<Result>, person: Person): ScoreList {
