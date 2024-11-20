@@ -13,7 +13,8 @@ import com.example.mob3000.ui.components.InfoKort
 
 @Composable
 fun PersonTest(
-    testId: String?
+    testId: String?,
+    name: String?
 ) {
     Column(
         modifier = Modifier
@@ -22,9 +23,17 @@ fun PersonTest(
 
     ) {
         InfoKort(
-            title = "$testId",
+            title = "${testId}, ${name}",
             description = stringResource(id = R.string.info_card_desc),
             backgroundColor = colorResource(id = R.color.ivory)
         )
     }
+}
+
+@Composable
+fun TestResultatKort(
+    title: String,
+    description: String
+){
+    // henter info om en profil test
 }
