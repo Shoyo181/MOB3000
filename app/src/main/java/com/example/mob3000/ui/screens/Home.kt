@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.mob3000.R
 import com.example.mob3000.data.firebase.FirebaseService.hentAntallDokumenter
+import com.example.mob3000.ui.components.InfoKort
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -77,44 +78,7 @@ fun Home(modifier: Modifier = Modifier) {
         }
     }
 }
-@Composable
-fun InfoKort(
-    title: String,
-    description: String,
-    backgroundColor: Color,
-    image: Painter? = null) {
-    Card (
-        modifier = Modifier
-            .fillMaxWidth()
-        .shadow(
-            elevation = 12.dp,
-            shape = RoundedCornerShape(16.dp),
-            ambientColor = Color.Black.copy(alpha = 0.2f),
-            spotColor = Color.Black.copy(alpha = 0.2f)
-    ),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        elevation = CardDefaults.cardElevation(4.dp)
 
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            if(image != null) {
-                Image (
-                    painter = image,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(150.dp),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-            Text(text = title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = description, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
-        }
-    }
-}
 @Composable
 fun InfoKortMedPersonerCount() {
     var personerCount by remember { mutableStateOf("0") }

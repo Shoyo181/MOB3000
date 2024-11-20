@@ -16,7 +16,7 @@ fun ButtonKomponent(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    containerColor: Color = colorResource(id = R.color.pinkfluff),
+    containerColor: Color = colorResource(id = R.color.dusk),
     contentColor: Color = Color.White,
     shape: RoundedCornerShape = RoundedCornerShape(12.dp),
     padding: PaddingValues = PaddingValues(8.dp)

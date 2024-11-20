@@ -11,4 +11,27 @@
     <string name="info_card_desc">Her kan du lage profiler med informasjon om dine ansatte og få opp personlighetstest resultater. Etter å ha laget ulike ansatte med den informasjonen som trengs, som du kan gjøre i Profiler - så kan du etter gjøre sammenligninger mellom de ulike ansatte du har laget i Sammenlign.</string>
     <string name="profiles_count">Antall profiler laget</string>
     <string name="pages_swipe_1">Opprett en bedriftsbruker eller logg inn hvis du allerede har opprettet din bruker. Lag profiler over dine ansatte og kom i gang med å sammenligne personlighetstrekk ved dine ansatte.</string>
+    <string name="pages_swipe_2">Få dine ansatte til å ta en Big Five personlighetstest fra RubyNor. Personlighetstesten er vitenskapelig og basert på 5 ulike punkter: Nevrotisisme, planmessighet, medmenneskelighet, ekstroversjon og åpenhet for erfaringer. </string>
+    <string name="pages_swipe_3">Etter at ansatte tar testen bruk ID fra testen inn i appen og få oversikt over de ulike resultatene fra hver profil, og sammenlign ansatte og skap gode team i bedriften din.</string>
+    <string name="button_loginregister">Logg inn/Registrer</string>
+    <string name="alert_login_title">"Logg inn eller registrer</string>
+    <string name="email">Email</string>
+    <string name="alert_login_passord">Passord</string>
+    <string name="alert_login_register">Registrer</string>
+    <string name="alert_login_login">Logg inn</string>
+    <string name="cancel">Avbryt</string>
+    <string name="alert_createprofile_title">Legg til ny profil</string>
+    <string name="alert_createprofile_create">Opprett profil</string>
+    <string name="name">Navn</string>
+    <string name="age">Alder</string>
+    <string name="testid">Test ID</string>
+    <string name="alert_edit_save">Lagre</string>
+    <string name="alert_edit_title">Endre profil</string>
+    <string name="delete">Slett profil</string>
+    <string name="edit">Endre</string>
+    <string name="compare_segmentbutton_choose">Velg profiler</string>
+    <string name="compare_segmentbutton_compare">Sammenlign</string>
+
+
+
 </resources>

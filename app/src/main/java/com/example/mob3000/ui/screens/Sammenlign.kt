@@ -109,7 +109,10 @@ fun Sammenlign(modifier: Modifier){
 
 
     var valgIndex by remember { mutableStateOf(0) }
-    val valgTilSammenligning = listOf("Velg Profiler", "Sammenlign Profiler")
+    val valgTilSammenligning = listOf(
+            stringResource(id = R.string.compare_segmentbutton_choose),
+            stringResource(id = R.string.compare_segmentbutton_compare)
+            )
 
     // liste over personer fra database
     var personListe by remember {mutableStateOf<List<Person>>(emptyList())}
@@ -141,6 +144,7 @@ fun Sammenlign(modifier: Modifier){
                     shape = SegmentedButtonDefaults.itemShape(index = index, count = valgTilSammenligning.size),
                     onClick = { valgIndex = index },
                     selected = index == valgIndex,
+                    colors = SegmentedButtonDefaults.colors(colorResource(R.color.dusk))
                 ){
                     Text(text = value)
                 }
