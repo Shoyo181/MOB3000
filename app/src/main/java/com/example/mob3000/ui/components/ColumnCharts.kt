@@ -55,7 +55,7 @@ fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: 
         }else{
             Text(profilData[0].results[digramIndex].score.title)
         }
-        
+
         when (digramIndex){
             0 -> oneChart(barsBuilder(profilData, tittel, 0, tempFarge))
             1 -> oneChart(barsBuilder(profilData, tittel, 1, tempFarge))
