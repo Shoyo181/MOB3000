@@ -22,6 +22,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.mob3000.data.api.ApiService
 import com.example.mob3000.data.api.Nettverksmodul
 import com.example.mob3000.data.firebase.FirebaseService
@@ -34,7 +36,7 @@ import com.example.mob3000.data.models.Person
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PersonListeScreen(modifier: Modifier) {
+fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
 
     var personListe by remember {mutableStateOf<List<Person>>(emptyList())}
     var utvidetPerson by remember { mutableStateOf<String?>(null) }
@@ -97,7 +99,10 @@ fun PersonListeScreen(modifier: Modifier) {
                                     Log.e("Firestore", "Feil ved sletting: ${exception.message}")
                                 }
                             )
-                        }
+                        },
+                    onSeResultat = {
+                        navController.navigate("PersonTest/${person.testid}")
+                     }
                     )
                 }
             }
@@ -142,7 +147,8 @@ fun PersonKort(
     erUtvidet: Boolean,
     onKortKlikket: () -> Unit,
     onRediger: () -> Unit,
-    onSlett: () -> Unit
+    onSlett: () -> Unit,
+    onSeResultat: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -168,8 +174,7 @@ fun PersonKort(
                 Spacer(modifier = Modifier.height(8.dp))
                 Row (
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(1.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -177,10 +182,14 @@ fun PersonKort(
                         text = stringResource(id = R.string.edit),
                         onClick = onRediger
                     )
-                    Spacer(modifier = Modifier.padding(10.dp))
+                    Spacer(modifier = Modifier.padding(5.dp))
                     ButtonKomponent(
                         text = stringResource(id = R.string.delete),
                         onClick = onSlett
+                    )
+                    ButtonKomponent(
+                        text = stringResource(id = R.string.results),
+                        onClick = onSeResultat
                     )
                 }
             }
