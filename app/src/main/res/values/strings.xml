@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">MOB3000</string>
+    <string name="app_name">Big Five for companies</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_profiles">Profiles</string>
+    <string name="nav_compare">Compare</string>
+    <string name="nav_settings">Settings</string>
+    <string name="welcome">Welcome</string>
+    <string name="info_card_title">A little info about how this app should work..</string>
+    <string name="info_card_desc">In this app you can create profiles with information about your employees and see their personality test results. After creating different employees with the information needed, which you can do in Profiles - you can make comparisons between the different employees you have created in Compare.</string>
+    <string name="profiles_count">Number of profiles</string>
 </resources>

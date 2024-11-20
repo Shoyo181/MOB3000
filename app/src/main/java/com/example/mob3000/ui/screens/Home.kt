@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.mob3000.R
 import com.example.mob3000.data.firebase.FirebaseService.hentAntallDokumenter
@@ -45,7 +46,7 @@ fun Home(modifier: Modifier = Modifier) {
 
     ) {
         Text(
-            text = "Big Five Bedrift", color = Color(0xFF66433F),
+            text = stringResource(id = R.string.app_name), color = Color(0xFF66433F),
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -53,7 +54,7 @@ fun Home(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.padding(10.dp))
         Text(
-            text = "Velkommen, $email.",
+            text = stringResource(id = R.string.welcome) + ", $email.",
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
         )
         Row(
@@ -65,8 +66,8 @@ fun Home(modifier: Modifier = Modifier) {
         }
         Column {
             InfoKort(
-                title = "Litt info om hvordan dette skal fungere",
-                description = "Her kan du lage profiler med informasjon om dine ansatte og få opp personlighetstest resultater. Etter å ha laget ulike ansatte med den informasjonen som trengs, som du kan gjøre i Profiler - så kan du etter gjøre sammenligninger mellom de ulike ansatte du har laget i Sammenlign.",
+                title = stringResource(id = R.string.info_card_title),
+                description = stringResource(id = R.string.info_card_desc),
                 backgroundColor = colorResource(id = R.color.ivory)
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -126,7 +127,7 @@ fun InfoKortMedPersonerCount() {
     }
 
     InfoKort(
-        title = "Profiler laget",
+        title = stringResource(id = R.string.profiles_count),
         description = personerCount,
         backgroundColor = colorResource(id = R.color.ivory)
     )

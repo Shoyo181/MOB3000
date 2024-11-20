@@ -39,6 +39,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mob3000.ui.screens.Home
@@ -71,22 +72,22 @@ data class BottomNavigationItem(
 fun MyApp() {
     val navItems = listOf(
         BottomNavigationItem(
-            title = "Home",
+            title = stringResource(id = R.string.nav_home),
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home
         ),
         BottomNavigationItem(
-            title = "Profiler",
+            title = stringResource(id = R.string.nav_profiles),
             selectedIcon = Icons.Filled.Person,
             unselectedIcon = Icons.Outlined.Person
         ),
         BottomNavigationItem(
-            title = "Sammenlign",
+            title = stringResource(id = R.string.nav_compare),
             selectedIcon = Icons.Filled.Favorite,
             unselectedIcon = Icons.Outlined.Favorite
         ),
         BottomNavigationItem(
-            title = "Settings",
+            title = stringResource(id = R.string.nav_settings),
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings
         )
