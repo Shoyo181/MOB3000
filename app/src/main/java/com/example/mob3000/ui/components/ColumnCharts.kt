@@ -26,13 +26,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.data.models.ProfilData
 import com.example.mob3000.R
+import com.example.mob3000.data.models.ScoreList
 import ir.ehsannarmani.compose_charts.ColumnChart
 import ir.ehsannarmani.compose_charts.models.BarProperties
 import ir.ehsannarmani.compose_charts.models.Bars
 
 
 @Composable
-fun Chart(profilData: List<ProfilData>){ // scoreData: List<ProfilData>, tittel: List<String>
+fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: List<String>
 
     val totalScoreLables = remember { listOf("Nevrotisisme", "Ekstroversjon", "Åpenhet for erfaringer", "Medmenneskelighet", "Planmessighet") }
     val nevrotisismeLables = remember { listOf("Angst", "Sinne", "Depresjon", "Selvbevissthet", "Impulsivitet", "Sårbarhet") }
@@ -93,7 +94,7 @@ fun Chart(profilData: List<ProfilData>){ // scoreData: List<ProfilData>, tittel:
 
 }
 
-fun barsBuilder (profilData: List<ProfilData>, tittel: List<List<String>>, index: Int, color: SolidColor): List<Bars> {
+fun barsBuilder (profilData: List<ScoreList>, tittel: List<List<String>>, index: Int, color: SolidColor): List<Bars> {
     // antall søyler for dette diagrammet
     val numBars = tittel[index].size
 
@@ -110,8 +111,8 @@ fun barsBuilder (profilData: List<ProfilData>, tittel: List<List<String>>, index
             values = profilData.map { profil ->
                 //Log.d("barsBuilder-info", "-- barInx: " + barIndex + ", index: " + index + ", profil: " + profil.score[index][barIndex])
                 Bars.Data(
-                    label = profil.navn,
-                    value = profil.score[index][barIndex].toDouble(),
+                    label = profil.name,
+                    value = profil.results[index].facets[barIndex].score.toDouble(),
                     color = color
                 )
             }

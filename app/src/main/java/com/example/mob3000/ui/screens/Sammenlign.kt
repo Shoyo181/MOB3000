@@ -186,7 +186,7 @@ fun Sammenlign(modifier: Modifier){
 
             Log.d("Sammenligning", "Personer med score: ${personMedScore.map { person -> person.name } }")
             // sørg for at dette ikke looper
-            //Chart(profiler)
+            Chart(personMedScore)
         }
     }
 
@@ -209,6 +209,14 @@ fun sorterUtScore(scores: List<Result>, person: Person): ScoreList {
     // det er også masse infromasjon i denne klassen som vi ikke tenger
 
     val tempScoreData = mutableListOf<ScoreData>()
+
+    // legger inn en ekstra facet som er hovedscore, bruker dummydata for domain og "Score"
+    val totalScore = mutableListOf<Score>()
+    for(s in scores){
+        totalScore.add(Score(s.score, s.title))
+    }
+
+    tempScoreData.add(ScoreData("T", Score(0, "Big 5"), totalScore))
 
     for(i in scores.indices){
         val facet = mutableListOf<Score>()
