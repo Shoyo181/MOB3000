@@ -25,7 +25,9 @@ fun InfoKort(
     title: String,
     description: String,
     backgroundColor: Color,
-    image: Painter? = null) {
+    image: Painter? = null,
+    modifier: Modifier = Modifier
+    ) {
     Card (
         modifier = Modifier
             .fillMaxWidth()
@@ -47,7 +49,7 @@ fun InfoKort(
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(150.dp),
+                        .height(180.dp),
                     contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.height(8.dp))

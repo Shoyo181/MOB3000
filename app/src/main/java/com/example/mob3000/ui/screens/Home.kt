@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.mob3000.R
@@ -53,23 +54,24 @@ fun Home(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(10.dp)
         )
-        Spacer(modifier = Modifier.padding(10.dp))
+        Spacer(modifier = Modifier.padding(8.dp))
         Text(
             text = stringResource(id = R.string.welcome) + ", $email.",
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
         )
         Row(
             modifier = Modifier.fillMaxWidth()
-                .padding(20.dp),
+                .padding(15.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
         }
         Column {
             InfoKort(
                 title = stringResource(id = R.string.info_card_title),
                 description = stringResource(id = R.string.info_card_desc),
-                backgroundColor = colorResource(id = R.color.ivory)
+                backgroundColor = colorResource(id = R.color.ivory),
+                image = painterResource(id = R.drawable.chart4_transparent)
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -89,10 +91,17 @@ fun InfoKortMedPersonerCount() {
             onFailure = { error("Gikk ikke å hente antall dokumenter") }
         )
     }
+    Box(
+        modifier = Modifier.padding(80.dp, 10.dp),
+        contentAlignment = Alignment.Center
+    ) {
 
-    InfoKort(
-        title = stringResource(id = R.string.profiles_count),
-        description = personerCount,
-        backgroundColor = colorResource(id = R.color.ivory)
-    )
+        InfoKort(
+            title = stringResource(id = R.string.profiles_count),
+            description = personerCount,
+            backgroundColor = colorResource(id = R.color.ivory),
+            modifier = Modifier
+                .width(50.dp)
+        )
+    }
 }
