@@ -242,7 +242,6 @@ fun sorterUtScore(scores: List<Result>, person: Person): ScoreList {
     return ScoreList(person.name, tempScoreData)
 }
 
-
 @Composable
 fun TestKort(
     person: Person,

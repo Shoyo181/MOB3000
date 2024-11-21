@@ -19,4 +19,13 @@
     <color name="dust">#C7BEBE</color>
     <color name="pinkfluff">#A18073</color>
     <color name="ivory">#F5F5F2</color>
+
+    /*-- Farger for chart, med hensyn til fargeblindhet --*/
+    <color name="blue">#0072B2</color>
+    <color name="orange">#E69F00</color>
+    <color name="green">#009E73</color>
+    <color name="pink">#CC79A7</color>
+    <color name="purple">#56B4E9</color>
+    <color name="yellow">#F0E442</color>
+
 </resources>
