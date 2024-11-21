@@ -1,5 +1,6 @@
 package com.example.mob3000.ui.screens
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -101,7 +102,8 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                             )
                         },
                     onSeResultat = {
-                        navController.navigate("PersonTest/${person.testid}")
+                        val encodedName = Uri.encode(person.name)
+                        navController.navigate("PersonTest/${person.testid}/${encodedName}")
                      }
                     )
                 }

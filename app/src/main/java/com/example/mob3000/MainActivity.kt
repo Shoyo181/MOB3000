@@ -1,5 +1,6 @@
 package com.example.mob3000
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -203,11 +204,15 @@ fun MyApp() {
                 Settings(Modifier.padding(innerPadding))
             }
             composable(
-                route = "persontest/{testId}",
-                arguments = listOf(navArgument("testId") {type = NavType.StringType})
+                route = "persontest/{testId}/{name}",
+                arguments = listOf(
+                    navArgument("testId") {type = NavType.StringType},
+                    navArgument("name") {type = NavType.StringType}
+                )
             ) {backStackEntry ->
                 val testId = backStackEntry.arguments?.getString("testId")
-                PersonTest(testId = testId)
+                val name = backStackEntry.arguments?.getString("name")?.let { Uri.decode(it) } ?: ""
+                PersonTest(testId = testId, name = name)
             }
         }
     }
