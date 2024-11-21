@@ -1,5 +1,7 @@
 package com.example.mob3000.data.models
 
+import androidx.compose.ui.graphics.Brush
+
 data class ScoreList(
     val name: String,
     val results: List<ScoreData>
