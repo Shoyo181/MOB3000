@@ -262,11 +262,11 @@ fun TestKort(
         colors =
             if(valgtePersoner.contains(person)){
                 CardDefaults.cardColors(
-                    containerColor = Color.LightGray
+                    containerColor = colorResource(id = R.color.dusk2)
                 )
             }else{
                 CardDefaults.cardColors(
-                    containerColor = Color.White
+                    containerColor = colorResource(id = R.color.ivory)
                 )
             }
     ) {

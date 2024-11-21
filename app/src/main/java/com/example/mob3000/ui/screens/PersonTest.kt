@@ -82,6 +82,7 @@ fun TestResultatKort(
                     backgroundColor = backgroundColor
                 )
                 Log.d("PersonTest", "Laget blokk - ${resultat.title}")
+                Spacer(modifier = Modifier.padding(10.dp))
             }
         }
     }else{ // legg til loading
@@ -114,7 +115,7 @@ fun InfoBlokk(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             // tittel
-            Text(text = info.title, fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
+            Text(text = info.title, fontSize = 26.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
             Spacer(modifier = Modifier.height(8.dp))
             // Beskrivelse
             TekstDeler(info.description)
@@ -147,7 +148,7 @@ fun TekstDeler(tekst: String){
     Column{
         deltTeskt.forEach { del ->
             if (del.isNotBlank()) {
-                Text(text = del, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                Text(text = del, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
