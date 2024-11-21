@@ -44,6 +44,7 @@ import com.example.mob3000.data.models.Score
 import com.example.mob3000.data.models.ScoreData
 import com.example.mob3000.data.models.ScoreList
 import com.example.mob3000.data.repository.PersonlighetstestRep
+import com.example.mob3000.data.repository.ScoreUtils
 import com.example.mob3000.ui.components.Chart
 import org.intellij.lang.annotations.Language
 
@@ -181,9 +182,10 @@ fun Sammenlign(modifier: Modifier){
             // henter og sorterer data fra api
 
             LaunchedEffect(personTilSammenligning) {
+                // Legg til loading
                 personMedScore = personTilSammenligning.map { person ->
-                    val scores = hentDataFraApi(person.testid, lang, apiService)
-                    sorterUtScore(scores, person)
+                    val scores = PersonlighetstestRep(apiService).fetchScore(person.testid, lang)
+                    ScoreUtils.lagChartsData(scores, person)
                 }
                 Log.d("Sammenligning", "TEEEEEEST")
             }
@@ -193,7 +195,7 @@ fun Sammenlign(modifier: Modifier){
             // Hvis det ikke er noen i lista, så viser vi frem en melding istedenfor diagrammet
             if(personMedScore.isNotEmpty()){
                 Chart(profilData = personMedScore)
-            }else{
+            }else{ // legg til loading
                 Text("Ingen data")
             }
 
@@ -201,7 +203,7 @@ fun Sammenlign(modifier: Modifier){
     }
 
 }
-
+/*
 suspend fun hentDataFraApi(testID: String, language: String, apiService: ApiService): List<Result> {
     return try{
         val repo = PersonlighetstestRep(apiService)
@@ -241,7 +243,7 @@ fun sorterUtScore(scores: List<Result>, person: Person): ScoreList {
 
     return ScoreList(person.name, tempScoreData)
 }
-
+*/
 
 @Composable
 fun TestKort(
