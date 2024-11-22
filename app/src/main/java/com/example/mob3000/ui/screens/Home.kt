@@ -49,7 +49,7 @@ fun Home(modifier: Modifier = Modifier) {
     ) {
         Text(
             text = stringResource(id = R.string.app_name), color = colorResource(id = R.color.maghogny),
-            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
+            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(5.dp)
@@ -71,7 +71,7 @@ fun Home(modifier: Modifier = Modifier) {
                 title = stringResource(id = R.string.info_card_title),
                 description = stringResource(id = R.string.info_card_desc),
                 backgroundColor = colorResource(id = R.color.ivory),
-                image = painterResource(id = R.drawable.chart4_transparent)
+                image = painterResource(id = R.drawable.chartt_transparent1)
             )
             Spacer(modifier = Modifier.height(8.dp))
 
