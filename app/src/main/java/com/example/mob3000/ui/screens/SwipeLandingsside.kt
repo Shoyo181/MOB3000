@@ -45,7 +45,7 @@ fun SwipeLandingsside(
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFEAD1BA), Color(0xFF817A81))
+                    colors = listOf(colorResource(id = R.color.sand), (colorResource(id = R.color.dusk)))
                 )
             )
     ) {
@@ -69,7 +69,7 @@ fun SwipeLandingsside(
                     text = pages[page],
                     textAlign = TextAlign.Center,
                     style = Typography.titleLarge.copy(fontWeight = FontWeight.SemiBold ),
-                    color = Color(0xFF66433F),
+                    color = colorResource(id = R.color.maghogny),
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                 )
@@ -90,9 +90,9 @@ fun SwipeLandingsside(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF66433F))
+                colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.maghogny))
             ) {
-                Text(stringResource(id = R.string.button_loginregister), color = Color(0xFFEAD1BA),
+                Text(stringResource(id = R.string.button_loginregister), color = colorResource(id = R.color.sand),
                     style = Typography.titleLarge)
             }
 
@@ -101,7 +101,7 @@ fun SwipeLandingsside(
             // footer
             Text(
                 text = "Copyright (c) 2024 KJAMIE. All rights reserved.",
-                color = Color(0xFF817A81),
+                color = colorResource(id = R.color.dusk),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
