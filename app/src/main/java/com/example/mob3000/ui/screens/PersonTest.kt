@@ -9,16 +9,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MultiChoiceSegmentedButtonRow
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -43,6 +56,7 @@ fun PersonTest(
     testId: String?,
     name: String?
 ) {
+    val lang = stringResource(id = R.string.language_api)
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -51,7 +65,7 @@ fun PersonTest(
     ) {
         TestResultatKort(
             testId = testId ?: "",
-            lang = "en",
+            lang = lang,
             backgroundColor = colorResource(id = R.color.ivory)
         )
     }
@@ -70,6 +84,44 @@ fun TestResultatKort(
         val scores = PersonlighetstestRep(Nettverksmodul.apiService).fetchScore(testId, lang)
         resultatListe = scores
     }
+    val checkedList = remember { mutableStateListOf<Int>() }
+    val options = listOf("Grafs", "Description", "Short Description", "Detail test")
+    val icons =
+        listOf(
+            Icons.Filled.Refresh,
+            Icons.Filled.AccountBox,
+            Icons.Filled.AccountCircle,
+            Icons.Filled.Info
+        )
+
+    MultiChoiceSegmentedButtonRow {
+        options.forEachIndexed { index, label ->
+            SegmentedButton(
+                shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
+                icon = {
+                    SegmentedButtonDefaults.Icon(active = index in checkedList) {
+                        Icon(
+                            imageVector = icons[index],
+                            contentDescription = null,
+                            modifier = Modifier.size(SegmentedButtonDefaults.IconSize)
+                        )
+                    }
+                },
+                onCheckedChange = {
+                    if (index in checkedList) {
+                        checkedList.remove(index)
+                    } else {
+                        checkedList.add(index)
+                    }
+                },
+                checked = index in checkedList
+            ) {
+                Text(label)
+            }
+        }
+    }
+
+
     // lager kortene
     if(resultatListe.isNotEmpty()){
         Column(
