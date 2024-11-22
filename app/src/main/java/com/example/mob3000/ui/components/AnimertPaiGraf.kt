@@ -1,5 +1,6 @@
 package com.example.mob3000.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -19,10 +20,14 @@ import com.example.mob3000.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun AnimertCircularProgressIndicator(
-    sumResultat: Float,
-    size: Int
+fun AnimertPaiGraf(
+    value: Int,
+    maxValue: Int,
+    pieSize: Int
 ) {
+    // regner ut hvor my "prosent" som skal vises
+    val sumResultat = (value.toFloat() / maxValue.toFloat())
+
     var progress by remember {mutableStateOf(0f)}
 
     LaunchedEffect(sumResultat) {
@@ -42,18 +47,18 @@ fun AnimertCircularProgressIndicator(
     }
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.size(size.dp)
+        modifier = Modifier.size(pieSize.dp)
     ) {
         CircularProgressIndicator(
             progress = { progress }, // Animasjonen styrer progresjonen
-            modifier = Modifier.size(size.dp),
+            modifier = Modifier.size(pieSize.dp),
             color = colorResource(id = R.color.dusk),
             trackColor = colorResource(id = R.color.sand),
             strokeWidth = 8.dp
         )
         // Tekst med tall resultat i midten
         Text(
-            text = "${(progress.toFloat() * 100).toInt()}",
+            text = "${(progress.toFloat() * maxValue).toInt()}",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface
         )

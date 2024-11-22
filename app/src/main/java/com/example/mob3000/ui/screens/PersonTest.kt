@@ -1,6 +1,7 @@
 package com.example.mob3000.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -39,6 +41,7 @@ import com.example.mob3000.data.api.Nettverksmodul
 import com.example.mob3000.data.models.ApiData.Facet
 import com.example.mob3000.data.models.ApiData.Result
 import com.example.mob3000.data.repository.PersonlighetstestRep
+import com.example.mob3000.ui.components.AnimertPaiGraf
 
 @Composable
 fun PersonTest(
@@ -124,13 +127,17 @@ fun InfoBlokk(
         Column(modifier = Modifier.padding(16.dp)) {
             // tittel
             Row{
-                Text(text = info.title, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
-                Spacer(modifier = Modifier.padding(8.dp))
-                GraderGraf(
-                    info = info,
-                    maxValue = 120,
-                    backgroundColor = backgroundColor
-                )
+                Box(
+                    modifier = Modifier.fillMaxWidth(0.7f)
+                ){
+                    Text(text = info.title, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
+                }
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    AnimertPaiGraf(info.score, 120, 100)
+                }
+
             }
 
             if(utvidt) {

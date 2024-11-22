@@ -32,7 +32,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.R
 import com.example.mob3000.data.firebase.AuthService
-import com.example.mob3000.ui.components.AnimertCircularProgressIndicator
+import com.example.mob3000.ui.components.AnimertPaiGraf
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.InfoKort
 import kotlinx.coroutines.delay
@@ -70,8 +70,7 @@ var progress = 0.75f
                     onClick = { AuthService.loggUt() },
                 )
             }
-
-            AnimertCircularProgressIndicator(sumResultat = 0.75f, 100)
+            AnimertPaiGraf(15,20,100)
         }
     }
 }
