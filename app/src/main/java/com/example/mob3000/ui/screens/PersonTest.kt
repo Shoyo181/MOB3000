@@ -87,6 +87,7 @@ fun TestResultatKort(
                     backgroundColor = backgroundColor
                 )
                 Log.d("PersonTest", "Laget blokk - ${resultat.title}")
+                Spacer(modifier = Modifier.padding(10.dp))
             }
         }
     }else{ // legg til loading
@@ -152,8 +153,6 @@ fun InfoBlokk(
                     Icons.Filled.KeyboardArrowUp
                 }
             }
-
-
         }
     }
 }
@@ -195,7 +194,7 @@ fun TekstDeler(tekst: String){
     Column{
         deltTeskt.forEach { del ->
             if (del.isNotBlank()) {
-                Text(text = del, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                Text(text = del, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }

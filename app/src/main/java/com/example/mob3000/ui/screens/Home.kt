@@ -48,35 +48,36 @@ fun Home(modifier: Modifier = Modifier) {
 
     ) {
         Text(
-            text = stringResource(id = R.string.app_name), color = Color(0xFF66433F),
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+            text = stringResource(id = R.string.app_name), color = colorResource(id = R.color.maghogny),
+            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .padding(10.dp)
+                .padding(5.dp)
         )
-        Spacer(modifier = Modifier.padding(8.dp))
+        Spacer(modifier = Modifier.padding(4.dp))
         Text(
             text = stringResource(id = R.string.welcome) + ", $email.",
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold),
         )
         Row(
             modifier = Modifier.fillMaxWidth()
-                .padding(15.dp),
+                .padding(10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
         }
         Column {
             InfoKort(
                 title = stringResource(id = R.string.info_card_title),
                 description = stringResource(id = R.string.info_card_desc),
                 backgroundColor = colorResource(id = R.color.ivory),
-                image = painterResource(id = R.drawable.chart4_transparent)
+                image = painterResource(id = R.drawable.chartt_transparent1)
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             InfoKortMedPersonerCount()
 
+            Spacer(modifier = Modifier.padding(30.dp))
         }
     }
 }
