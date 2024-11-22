@@ -75,11 +75,6 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
-    // ComposeCharts - for barCharts
+    // ComposeCharts  - for barCharts
     implementation ("io.github.ehsannarmani:compose-charts:0.0.14")
-    // AAY - for pieChart/circleChart
-    implementation("io.github.thechance101:chart:0.0.5")
-    // Charty : Elementary Chart library for Compose - for pieChart/circleChart
-    implementation("com.himanshoe:charty:2.0.0")
-
 }
