@@ -2,16 +2,22 @@ package com.example.mob3000.ui.components
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,14 +28,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.input.pointer.motionEventSpy
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.data.models.ProfilData
 import com.example.mob3000.R
 import com.example.mob3000.data.models.ScoreList
+import com.example.mob3000.ui.theme.Typography
 import ir.ehsannarmani.compose_charts.ColumnChart
 import ir.ehsannarmani.compose_charts.models.BarProperties
 import ir.ehsannarmani.compose_charts.models.Bars
+import ir.ehsannarmani.compose_charts.models.LabelProperties
+import kotlin.random.Random
 
 
 @Composable
@@ -45,14 +59,39 @@ fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: 
     val tittel = remember { listOf(totalScoreLables, nevrotisismeLables, EkstroversjonLables, åpenhetForErgaringerLabels, medmenneskelighetLabels, planmessighetLabels) }
 
     var digramIndex by remember { mutableStateOf(0) }
-    val tempFarge = SolidColor(colorResource(id = R.color.maghogny))
-    Column{
+    val tempFarge = SolidColor(colorResource(id = R.color.dusk2))
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    )
+    {
         // bruker Column for å organisere innhold
 
-
-
         Text(profilData[0].results[digramIndex].score.title)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                //.offset( y = (-16).dp)
+                .wrapContentWidth(Alignment.CenterHorizontally)
+        ){
+            for ( i in tittel.indices){
+                Button(
+                    onClick = {digramIndex = i},
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .size(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if(digramIndex == i)
+                            Color(0x86FFFFFF) else Color(0x7E000000)
+                    )
+                ) {
 
+                }
+            }
+
+        }
 
         when (digramIndex){
             0 -> oneChart(barsBuilder(profilData, tittel, 0, tempFarge))
@@ -64,11 +103,11 @@ fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: 
         }
         Spacer(modifier = Modifier.padding(50.dp))
 
-        Row(
+       /* Row(
             modifier = Modifier
-                .fillMaxWidth(0.5f)
+                .fillMaxWidth()
                 .offset( y = (-16).dp)
-                .align(Alignment.CenterHorizontally)
+                .align(alignment = Alignment.CenterHorizontally)
         ){
             for ( i in tittel.indices){
                 Button(
@@ -80,15 +119,14 @@ fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: 
                        containerColor = if(digramIndex == i)
                        Color(0x86FFFFFF) else Color(0x7E000000)
                    )
-                ){
+                ) {
 
                 }
             }
 
-        }
+        }*/
+        Spacer(modifier = Modifier.padding(40.dp))
     }
-
-
 }
 
 fun barsBuilder (profilData: List<ScoreList>, tittel: List<List<String>>, index: Int, color: SolidColor): List<Bars> {
@@ -110,7 +148,7 @@ fun barsBuilder (profilData: List<ScoreList>, tittel: List<List<String>>, index:
                 Bars.Data(
                     label = profil.name,
                     value = profil.results[index].facets[barIndex].score.toDouble(),
-                    color = color
+                    color = color,
                 )
             }
         )
@@ -121,11 +159,13 @@ fun barsBuilder (profilData: List<ScoreList>, tittel: List<List<String>>, index:
 @Composable
 fun oneChart(barsData: List<Bars>){
     // bruker biblioteket for å lage diagrammet
+    val konfig = LocalConfiguration.current
+    val skjermHøyde = konfig.screenHeightDp.dp
     ColumnChart(
         Modifier
-            .fillMaxWidth()
-            .height(580.dp) //TODO: dynamisk for forskjellige mobiler,
-            .padding(16.dp, top = 32.dp),
+            .fillMaxSize()
+            .height(skjermHøyde * 0.6f) //TODO: dynamisk for forskjellige mobiler,
+            .padding(16.dp),
         data = barsData,
         barProperties = BarProperties(
             spacing = 3.dp,

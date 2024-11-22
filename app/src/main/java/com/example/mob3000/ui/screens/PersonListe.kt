@@ -184,7 +184,6 @@ fun PersonKort(
                         text = stringResource(id = R.string.edit),
                         onClick = onRediger
                     )
-                    Spacer(modifier = Modifier.padding(5.dp))
                     ButtonKomponent(
                         text = stringResource(id = R.string.delete),
                         onClick = onSlett
