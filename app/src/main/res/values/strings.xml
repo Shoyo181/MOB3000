@@ -31,6 +31,10 @@
     <string name="compare_segmentbutton_choose">Choose profiles</string>
     <string name="compare_segmentbutton_compare">Compare</string>
     <string name="results">Results</string>
+    <string name="confirm_delete">Delete</string>
+    <string name="question_delete">Er du sikker på at du ønsker å slette?</string>
+    <string name="yes_delete">Confirm delete</string>
+    <string name="no_delete">Cancel delete</string>
 
 
 

@@ -32,6 +32,10 @@
     <string name="compare_segmentbutton_choose">Velg profiler</string>
     <string name="compare_segmentbutton_compare">Sammenlign</string>
     <string name="results">Resultater</string>
+    <string name="confirm_delete">Sletting</string>
+    <string name="question_delete">Er du sikker på at du ønsker å slette?</string>
+    <string name="yes_delete">Bekreft sletting</string>
+    <string name="no_delete">Avbryt sletting</string>
 
 
 

@@ -76,10 +76,13 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
-                    Brush.verticalGradient(
-                        colors = listOf(colorResource(id = R.color.sand), (colorResource(id = R.color.dusk)))
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                colorResource(id = R.color.sand),
+                                (colorResource(id = R.color.dusk))
+                            )
+                        )
                     )
-                )
             ) {
                 items(personListe) { person ->
                     PersonKort(
@@ -152,6 +155,7 @@ fun PersonKort(
     onSlett: () -> Unit,
     onSeResultat: () -> Unit
 ) {
+    var visSlettDialog by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -186,7 +190,7 @@ fun PersonKort(
                     )
                     ButtonKomponent(
                         text = stringResource(id = R.string.delete),
-                        onClick = onSlett
+                        onClick = { visSlettDialog = true }
                     )
                     ButtonKomponent(
                         text = stringResource(id = R.string.results),
@@ -195,6 +199,28 @@ fun PersonKort(
                 }
             }
         }
+    }
+    if (visSlettDialog) {
+        AlertDialog(
+            onDismissRequest = { visSlettDialog = false },
+            confirmButton = {
+                ButtonKomponent(
+                    text = stringResource(id = R.string.no_delete),
+                    onClick = {
+                        onSlett()
+                        visSlettDialog = false
+                    }
+                )
+            },
+            dismissButton = {
+                ButtonKomponent(
+                    text = stringResource(id = R.string.yes_delete),
+                    onClick = { visSlettDialog = false }
+                )
+            },
+            title = { Text(stringResource(id = R.string.confirm_delete)) },
+            text = { Text(stringResource(id = R.string.question_delete)) }
+        )
     }
 }
 
