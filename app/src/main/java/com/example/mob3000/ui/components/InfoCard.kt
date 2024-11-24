@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -33,6 +34,7 @@ fun InfoKort(
     description: String,
     backgroundColor: Color,
     image: Painter? = null,
+    button: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier
     ) {
     Card (
@@ -74,15 +76,21 @@ fun InfoKort(
                     text = title,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xff66433F)
+                    color = Color(0xff66433F),
+                    textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = description,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color(0xff817A81)
+                    color = Color(0xff817A81),
+                    textAlign = TextAlign.Center
                 )
+                if(button != null) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    button()
+                }
             }
         }
     }
