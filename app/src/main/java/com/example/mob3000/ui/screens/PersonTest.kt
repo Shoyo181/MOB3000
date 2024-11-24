@@ -136,64 +136,106 @@ fun InfoBlokk(
                     Spacer(modifier = Modifier.padding(8.dp))
                     Text(text = info.shortDescription, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
                 }
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ){
-                    AnimertPaiGraf(info.score, 120, 100)
-                    Spacer(modifier = Modifier.padding(8.dp))
-                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info.scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
-                }
-                if (utvidt) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    // Beskrivelse
-                    TekstDeler(info.description)
+                if(!utvidt) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        AnimertPaiGraf(info.score, 120, 100)
+                        Spacer(modifier = Modifier.padding(8.dp))
+                        Text(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = info.scoreText,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color(0xff817A81)
+                        )
+                    }
                 }
 
-                TextButton(
-                    onClick = { utvidt = !utvidt },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .align(Alignment.CenterHorizontally),
-                    colors = ButtonDefaults.textButtonColors(
-                        contentColor = colorResource(R.color.dusk)
+            }
+
+            if (utvidt) {
+            Spacer(modifier = Modifier.height(8.dp))
+            // Beskrivelse
+            DelInfoMedTekst(info.facets)
+            //TekstDeler(info.description)
+            }
+
+            TextButton(
+                onClick = { utvidt = !utvidt },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = colorResource(R.color.dusk)
+                )
+            ) {
+                Icon (
+                imageVector = if (!utvidt) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
+                    contentDescription = if (!utvidt) "Utvid" else "Skjul"
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = if(!utvidt) stringResource(id = R.string.show_more) else stringResource(id = R.string.show_less),
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
                     )
-                ) {
-                    Icon (
-                    imageVector = if (!utvidt) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
-                        contentDescription = if (!utvidt) "Utvid" else "Skjul"
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = if(!utvidt) stringResource(id = R.string.show_more) else stringResource(id = R.string.show_less),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-                }
+                )
             }
         }
+    }
 }
 @Composable
 fun DelInfo(
     info: List<Facet>
 ){
-    for (i in 0..info.size step 3){
+    //Log.d("PersonTest", "DelInfo er opprettet -------------------------")
+    //Log.d("PersonTest", "info.size : ${info.size}")
+    for (i in 1..info.size step 3){
         Row{
             for(j in 0..2){
+                val index = i+j-1
+                //Log.d("PersonTest", "Laget del - ${info[index].title}")
+                //Log.d("PersonTest", "i: $i, j: $j - index: $index")
                 Column{
-                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info[i+j].title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info[index].title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
                     Spacer(modifier = Modifier.width(8.dp))
-                    AnimertPaiGraf(info[i+j].score, 120, 100)
+                    AnimertPaiGraf(info[index].score, 20, 100)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info[i+j].scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info[index].scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
             }
         }
     }
 }
+@Composable
+fun DelInfoMedTekst(
+    info: List<Facet>
+){
+    for(i in info){
+        Row {
+            Column(
+                modifier = Modifier.fillMaxWidth(0.3f)
+            ){
+                Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = i.title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                Spacer(modifier = Modifier.width(8.dp))
+                AnimertPaiGraf(i.score, 20, 100)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = i.scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ){
+                TekstDeler(i.text)
+            }
+        }
+    }
+}
+
 
 @Composable
 fun GraderGraf(
