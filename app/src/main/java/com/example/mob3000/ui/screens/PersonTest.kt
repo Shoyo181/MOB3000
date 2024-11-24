@@ -17,8 +17,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -33,6 +35,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,6 +63,7 @@ fun PersonTest(
             lang = lang,
             backgroundColor = colorResource(id = R.color.ivory)
         )
+        Spacer(modifier = Modifier.padding(bottom = 50.dp))
     }
 }
 
@@ -139,30 +143,37 @@ fun InfoBlokk(
                     Spacer(modifier = Modifier.padding(8.dp))
                     Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info.scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
                 }
-            }
+                if (utvidt) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    // Beskrivelse
+                    TekstDeler(info.description)
+                }
 
-            if(utvidt) {
-                Spacer(modifier = Modifier.height(8.dp))
-                // Beskrivelse
-                TekstDeler(info.description)
-            }
-
-            TextButton(
-                onClick = { utvidt = !utvidt },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                // TODO: fiks så man kan se iconet
-                if (!utvidt) {
-                    Icons.Filled.KeyboardArrowDown
-                } else {
-                    Icons.Filled.KeyboardArrowUp
+                TextButton(
+                    onClick = { utvidt = !utvidt },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                        .align(Alignment.CenterHorizontally),
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = colorResource(R.color.dusk)
+                    )
+                ) {
+                    Icon (
+                    imageVector = if (!utvidt) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
+                        contentDescription = if (!utvidt) "Utvid" else "Skjul"
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = if(!utvidt) stringResource(id = R.string.show_more) else stringResource(id = R.string.show_less),
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
                 }
             }
         }
-    }
 }
 @Composable
 fun DelInfo(

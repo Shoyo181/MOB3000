@@ -35,6 +35,8 @@
     <string name="question_delete">Er du sikker på at du ønsker å slette?</string>
     <string name="yes_delete">Confirm delete</string>
     <string name="no_delete">Cancel delete</string>
+    <string name="show_more">Show more</string>
+    <string name="show_less">Show less</string>
 
 
 

@@ -52,7 +52,7 @@ fun AnimertPaiGraf(
         CircularProgressIndicator(
             progress = { progress }, // Animasjonen styrer progresjonen
             modifier = Modifier.size(pieSize.dp),
-            color = colorResource(id = R.color.dusk),
+            color = colorResource(id = R.color.maghogny),
             trackColor = colorResource(id = R.color.sand),
             strokeWidth = 8.dp
         )
