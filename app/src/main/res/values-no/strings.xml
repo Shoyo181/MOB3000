@@ -2,7 +2,7 @@
 <resources>
     <string name ="app_name">Big Five for bedrift</string>
     <string name="language_api">no</string>
-    <string name = "nav_home">Hjem</string>
+    <string name ="nav_home">Hjem</string>
     <string name="nav_profiles">Profiler</string>
     <string name="nav_compare">Sammenlign</string>
     <string name="nav_settings">Innstillinger</string>
