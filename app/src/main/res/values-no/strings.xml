@@ -36,6 +36,8 @@
     <string name="question_delete">Er du sikker på at du ønsker å slette?</string>
     <string name="yes_delete">Bekreft sletting</string>
     <string name="no_delete">Avbryt sletting</string>
+    <string name="show_more">Vis mer</string>
+    <string name="show_less">Vis mindre</string>
 
 
 
