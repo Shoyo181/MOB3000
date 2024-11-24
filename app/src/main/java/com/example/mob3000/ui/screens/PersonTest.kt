@@ -107,7 +107,6 @@ fun InfoBlokk(
     info: Result,
     backgroundColor: Color
 ){
-
     var utvidt by remember { mutableStateOf(false) }
 
     Card (
@@ -122,22 +121,24 @@ fun InfoBlokk(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
         elevation = CardDefaults.cardElevation(4.dp)
-
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             // tittel
             Row{
-                Box(
+                Column(
                     modifier = Modifier.fillMaxWidth(0.7f)
                 ){
                     Text(text = info.title, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    Text(text = info.shortDescription, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
                 }
-                Box(
+                Column(
                     modifier = Modifier.fillMaxWidth()
                 ){
                     AnimertPaiGraf(info.score, 120, 100)
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info.scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
                 }
-
             }
 
             if(utvidt) {
@@ -165,9 +166,22 @@ fun InfoBlokk(
 }
 @Composable
 fun DelInfo(
-    info: Facet
+    info: List<Facet>
 ){
-
+    for (i in 0..info.size step 3){
+        Row{
+            for(j in 0..2){
+                Column{
+                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info[i+j].title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    AnimertPaiGraf(info[i+j].score, 120, 100)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info[i+j].scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+        }
+    }
 }
 
 @Composable
