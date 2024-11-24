@@ -23,10 +23,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mob3000.R
 
 @Composable
 fun InfoKort(
@@ -43,8 +45,8 @@ fun InfoKort(
             .shadow(
                 elevation = 12.dp,
                 shape = RoundedCornerShape(16.dp),
-                ambientColor = Color.Black.copy(alpha = 0.2f),
-                spotColor = Color.Black.copy(alpha = 0.2f)
+                ambientColor = colorResource(id = R.color.dusk3).copy(alpha = 0.7f),
+                spotColor = colorResource(id = R.color.dusk3).copy(alpha = 0.7f)
             ),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
@@ -76,7 +78,7 @@ fun InfoKort(
                     text = title,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xff66433F),
+                    color = colorResource(id = R.color.maghogny),
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -84,7 +86,7 @@ fun InfoKort(
                     text = description,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color(0xff817A81),
+                    color = colorResource(id = R.color.dusk3),
                     textAlign = TextAlign.Center
                 )
                 if(button != null) {
