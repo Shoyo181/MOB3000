@@ -34,7 +34,6 @@
     <string name="confirm_delete">Delete</string>
     <string name="question_delete">Are you sure you want to delete this person?</string>
     <string name="yes_delete">Confirm delete</string>
-    <string name="no_delete">Cancel delete</string>
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
     <string name="information">Information</string>

@@ -2,6 +2,7 @@ package com.example.mob3000.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,7 +33,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -63,7 +66,7 @@ fun PersonTest(
             lang = lang,
             backgroundColor = colorResource(id = R.color.ivory)
         )
-        Spacer(modifier = Modifier.padding(bottom = 50.dp))
+        Spacer(modifier = Modifier.padding(bottom = 60.dp))
     }
 }
 
@@ -126,19 +129,20 @@ fun InfoBlokk(
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 0.dp)) {
             // tittel
             Row{
                 Column(
-                    modifier = Modifier.fillMaxWidth(0.7f)
+                    modifier = Modifier.fillMaxWidth( if (utvidt) 1f else 0.7f )
                 ){
                     Text(text = info.title, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
                     Spacer(modifier = Modifier.padding(8.dp))
-                    Text(text = info.shortDescription, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                    Text(text = info.shortDescription, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colorResource(id = R.color.dusk))
                 }
                 if(!utvidt) {
                     Column(
                         modifier = Modifier.fillMaxWidth()
+                            .align(Alignment.CenterVertically)
                     ) {
                         AnimertPaiGraf(info.score, 120, 100)
                         Spacer(modifier = Modifier.padding(8.dp))
@@ -175,7 +179,7 @@ fun InfoBlokk(
                 imageVector = if (!utvidt) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
                     contentDescription = if (!utvidt) "Utvid" else "Skjul"
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = if(!utvidt) stringResource(id = R.string.show_more) else stringResource(id = R.string.show_less),
                     style = TextStyle(
@@ -214,28 +218,61 @@ fun DelInfo(
 @Composable
 fun DelInfoMedTekst(
     info: List<Facet>
-){
-    for(i in info){
-        Row {
-            Column(
-                modifier = Modifier.fillMaxWidth(0.3f)
-            ){
-                Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = i.title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+) {
+    for (i in info) {
+
+        Column(
+            modifier = Modifier
+                .shadow(
+                    elevation = 8.dp,
+                    shape = RoundedCornerShape(16.dp),
+                    ambientColor = colorResource(id = R.color.maghogny).copy(alpha = 0.9f),
+                    spotColor = colorResource(id = R.color.maghogny).copy(alpha = 0.9f)
+                )
+                .background(
+                    color = colorResource(id = R.color.ivory2),
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .padding(12.dp)
+        ) {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = i.title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(id = R.color.maghogny),
+                )
+            Spacer(modifier = Modifier.padding(6.dp))
+            Row{
+                Column(
+                    modifier = Modifier.fillMaxWidth(0.3f)
+                ) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Box(
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        AnimertPaiGraf(i.score, 20, 100)
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        text = i.scoreText,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = colorResource(id = R.color.dusk)
+                    )
+                }
                 Spacer(modifier = Modifier.width(8.dp))
-                AnimertPaiGraf(i.score, 20, 100)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = i.scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ){
-                TekstDeler(i.text)
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TekstDeler(i.text)
+                }
             }
         }
+        Spacer(modifier = Modifier.padding(10.dp))
     }
 }
-
 
 @Composable
 fun GraderGraf(

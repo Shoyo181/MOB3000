@@ -57,7 +57,8 @@ fun Home(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.padding(4.dp))
         Text(
             text = stringResource(id = R.string.welcome) + ", $email.",
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold),
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+            color = colorResource(id = R.color.dusk4)
         )
         Row(
             modifier = Modifier.fillMaxWidth()

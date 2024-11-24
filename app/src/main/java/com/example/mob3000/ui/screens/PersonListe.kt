@@ -20,9 +20,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.mob3000.data.api.ApiService
@@ -56,19 +58,20 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
     }
 
     Scaffold(
+        modifier = Modifier.padding(16.dp),
         floatingActionButton = {
             FloatingActionButton(
                 // Dialogvindu for å legge til en ny person
                 onClick = { visLeggTil = true },
                 modifier = Modifier.padding(16.dp),
-                containerColor = Color(0xFFF5F5F2)
+                containerColor = colorResource(id = R.color.ivory)
             ){
                 Icon(Icons.Filled.Add, contentDescription = "Legg til person")
             }
         },
         floatingActionButtonPosition = FabPosition.End,
         bottomBar = {
-            NavigationBar {  }
+             Spacer(modifier = Modifier.padding(30.dp))
         },
         content = { innerPadding ->
             LazyColumn(
@@ -160,16 +163,22 @@ fun PersonKort(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
+            .shadow(
+            elevation = 12.dp,
+            shape = RoundedCornerShape(16.dp),
+                ambientColor = colorResource(id = R.color.dusk3).copy(alpha = 0.7f),
+                spotColor = colorResource(id = R.color.dusk3).copy(alpha = 0.7f))
             .clickable(onClick = onKortKlikket),
         elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.ivory))
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
                 text = person.name,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = colorResource(id = R.color.maghogny),
             )
             if(erUtvidet) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -186,15 +195,18 @@ fun PersonKort(
                 ) {
                     ButtonKomponent(
                         text = stringResource(id = R.string.edit),
-                        onClick = onRediger
+                        onClick = onRediger,
+                        padding = PaddingValues(4.dp)
                     )
                     ButtonKomponent(
                         text = stringResource(id = R.string.delete),
-                        onClick = { visSlettDialog = true }
+                        onClick = { visSlettDialog = true },
+                        padding = PaddingValues(4.dp)
                     )
                     ButtonKomponent(
                         text = stringResource(id = R.string.results),
-                        onClick = onSeResultat
+                        onClick = onSeResultat,
+                        padding = PaddingValues(4.dp)
                     )
                 }
             }
@@ -202,20 +214,23 @@ fun PersonKort(
     }
     if (visSlettDialog) {
         AlertDialog(
+            modifier = Modifier.fillMaxWidth(),
             onDismissRequest = { visSlettDialog = false },
             confirmButton = {
                 ButtonKomponent(
-                    text = stringResource(id = R.string.no_delete),
+                    text = stringResource(id = R.string.yes_delete),
                     onClick = {
                         onSlett()
                         visSlettDialog = false
-                    }
+                    },
+                    padding = PaddingValues(4.dp)
                 )
             },
             dismissButton = {
                 ButtonKomponent(
-                    text = stringResource(id = R.string.yes_delete),
-                    onClick = { visSlettDialog = false }
+                    text = stringResource(id = R.string.cancel),
+                    onClick = { visSlettDialog = false },
+                    padding = PaddingValues(4.dp)
                 )
             },
             title = { Text(stringResource(id = R.string.confirm_delete)) },
