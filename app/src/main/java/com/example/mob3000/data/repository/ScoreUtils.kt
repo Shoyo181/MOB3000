@@ -1,6 +1,9 @@
 package com.example.mob3000.data.repository
 
 import android.util.Log
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.colorResource
+import com.example.mob3000.R
 import com.example.mob3000.data.models.ApiData.Result
 import com.example.mob3000.data.models.Person
 import com.example.mob3000.data.models.Score

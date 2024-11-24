@@ -182,7 +182,7 @@ fun Sammenlign(modifier: Modifier){
             // henter og sorterer data fra api
 
             LaunchedEffect(personTilSammenligning) {
-                // Legg til loading
+                // TODO: Legg til loading
                 personMedScore = personTilSammenligning.map { person ->
                     val scores = PersonlighetstestRep(apiService).fetchScore(person.testid, lang)
                     ScoreUtils.lagChartsData(scores, person)

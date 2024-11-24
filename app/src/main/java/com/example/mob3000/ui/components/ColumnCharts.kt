@@ -1,15 +1,14 @@
 package com.example.mob3000.ui.components
 
+import android.util.Log
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -17,7 +16,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,22 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.input.pointer.motionEventSpy
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.example.mob3000.data.models.ProfilData
 import com.example.mob3000.R
 import com.example.mob3000.data.models.ScoreList
-import com.example.mob3000.ui.theme.Typography
 import ir.ehsannarmani.compose_charts.ColumnChart
 import ir.ehsannarmani.compose_charts.models.BarProperties
 import ir.ehsannarmani.compose_charts.models.Bars
-import ir.ehsannarmani.compose_charts.models.LabelProperties
-import kotlin.random.Random
 
 
 @Composable
@@ -57,6 +47,15 @@ fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: 
     val planmessighetLabels = remember { listOf("Kompetanse", "Orden", "Pliktoppfyllenhet", "Prestasjonsstreben", "Selvdisiplin", "Betenksomhet") }
 
     val tittel = remember { listOf(totalScoreLables, nevrotisismeLables, EkstroversjonLables, åpenhetForErgaringerLabels, medmenneskelighetLabels, planmessighetLabels) }
+
+    val farger = listOf(
+        SolidColor(colorResource(id = R.color.blue)),
+        SolidColor(colorResource(id = R.color.orange)),
+        SolidColor(colorResource(id = R.color.green)),
+        SolidColor(colorResource(id = R.color.pink)),
+        SolidColor(colorResource(id = R.color.purple)),
+        SolidColor(colorResource(id = R.color.yellow))
+    )
 
     var digramIndex by remember { mutableStateOf(0) }
     val tempFarge = SolidColor(colorResource(id = R.color.dusk2))
@@ -94,12 +93,12 @@ fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: 
         }
 
         when (digramIndex){
-            0 -> oneChart(barsBuilder(profilData, tittel, 0, tempFarge))
-            1 -> oneChart(barsBuilder(profilData, tittel, 1, tempFarge))
-            2 -> oneChart(barsBuilder(profilData, tittel, 2, tempFarge))
-            3 -> oneChart(barsBuilder(profilData, tittel, 3, tempFarge))
-            4 -> oneChart(barsBuilder(profilData, tittel, 4, tempFarge))
-            5 -> oneChart(barsBuilder(profilData, tittel, 5, tempFarge))
+            0 -> oneChart(barsBuilder(profilData, 0, farger), profilData.size)
+            1 -> oneChart(barsBuilder(profilData, 1, farger), profilData.size)
+            2 -> oneChart(barsBuilder(profilData, 2, farger), profilData.size)
+            3 -> oneChart(barsBuilder(profilData, 3, farger), profilData.size)
+            4 -> oneChart(barsBuilder(profilData, 4, farger), profilData.size)
+            5 -> oneChart(barsBuilder(profilData, 5, farger), profilData.size)
         }
         Spacer(modifier = Modifier.padding(50.dp))
 
@@ -129,9 +128,9 @@ fun Chart(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: 
     }
 }
 
-fun barsBuilder (profilData: List<ScoreList>, tittel: List<List<String>>, index: Int, color: SolidColor): List<Bars> {
+fun barsBuilder (profilData: List<ScoreList>, index: Int, color: List<SolidColor>): List<Bars> {
     // antall søyler for dette diagrammet
-    val numBars = tittel[index].size
+    val numBars = profilData[0].results[index].facets.size
 
     //Log.d("barsBuilder-info-space", "-----------------------------")
     //Log.d("barsBuilder-info", "tittel index: " + tittel[index].size)
@@ -143,12 +142,12 @@ fun barsBuilder (profilData: List<ScoreList>, tittel: List<List<String>>, index:
         //Log.d("barsBuilder-info", "- Bar index: " + barIndex)
         Bars(
             label = profilData[0].results[index].facets[barIndex].title,
-            values = profilData.map { profil ->
+            values = profilData.mapIndexed { i, profil ->
                 //Log.d("barsBuilder-info", "-- barInx: " + barIndex + ", index: " + index + ", profil: " + profil.score[index][barIndex])
                 Bars.Data(
                     label = profil.name,
                     value = profil.results[index].facets[barIndex].score.toDouble(),
-                    color = color,
+                    color = color[i],
                 )
             }
         )
@@ -157,19 +156,24 @@ fun barsBuilder (profilData: List<ScoreList>, tittel: List<List<String>>, index:
 }
 
 @Composable
-fun oneChart(barsData: List<Bars>){
+fun oneChart(barsData: List<Bars>, ant: Int){
     // bruker biblioteket for å lage diagrammet
     val konfig = LocalConfiguration.current
     val skjermHøyde = konfig.screenHeightDp.dp
+    val søyleTykkelse = 40/ant
+    Log.d("barsBuilder-info-space", "-----------------------------")
+    Log.d("barsBuilder-info", "søyleTykkelse: " + søyleTykkelse)
+    Log.d("barsBuilder-info", "barData.size: " + barsData.size)
+
     ColumnChart(
         Modifier
             .fillMaxSize()
             .height(skjermHøyde * 0.6f) //TODO: dynamisk for forskjellige mobiler,
-            .padding(16.dp),
+            .padding(8.dp),
         data = barsData,
         barProperties = BarProperties(
             spacing = 3.dp,
-            thickness = 20.dp
+            thickness = søyleTykkelse.dp
         ),
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,

@@ -1,6 +1,7 @@
 package com.example.mob3000.data.models
 
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.SolidColor
 
 data class ScoreList(
     val name: String,
