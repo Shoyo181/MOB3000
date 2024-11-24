@@ -110,83 +110,132 @@ fun sorterApiData(scores: List<Result>){
 fun InfoBlokk(
     info: Result,
     backgroundColor: Color
-) {
-
+){
     var utvidt by remember { mutableStateOf(false) }
 
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(
-                    elevation = 12.dp,
-                    shape = RoundedCornerShape(16.dp),
-                    ambientColor = Color.Black.copy(alpha = 0.2f),
-                    spotColor = Color.Black.copy(alpha = 0.2f)
-                ),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = backgroundColor),
-            elevation = CardDefaults.cardElevation(4.dp)
-
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                // tittel
-                Row {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(0.7f)
-                    ) {
-                        Text(
-                            text = info.title,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = colorResource(id = R.color.dusk)
-                        )
-                    }
-                    Box(
+    Card (
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(
+                elevation = 12.dp,
+                shape = RoundedCornerShape(16.dp),
+                ambientColor = Color.Black.copy(alpha = 0.2f),
+                spotColor = Color.Black.copy(alpha = 0.2f)
+            ),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = backgroundColor),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            // tittel
+            Row{
+                Column(
+                    modifier = Modifier.fillMaxWidth(0.7f)
+                ){
+                    Text(text = info.title, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    Text(text = info.shortDescription, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                }
+                if(!utvidt) {
+                    Column(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         AnimertPaiGraf(info.score, 120, 100)
-                    }
-
-                }
-
-                if (utvidt) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    // Beskrivelse
-                    TekstDeler(info.description)
-                }
-
-                TextButton(
-                    onClick = { utvidt = !utvidt },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .align(Alignment.CenterHorizontally),
-                    colors = ButtonDefaults.textButtonColors(
-                        contentColor = colorResource(R.color.dusk)
-                    )
-                ) {
-                    Icon (
-                    imageVector = if (!utvidt) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
-                        contentDescription = if (!utvidt) "Utvid" else "Skjul"
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = if(!utvidt) stringResource(id = R.string.show_more) else stringResource(id = R.string.show_less),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                        Spacer(modifier = Modifier.padding(8.dp))
+                        Text(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = info.scoreText,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color(0xff817A81)
                         )
-                    )
+                    }
                 }
+
+            }
+
+            if (utvidt) {
+            Spacer(modifier = Modifier.height(8.dp))
+            // Beskrivelse
+            DelInfoMedTekst(info.facets)
+            //TekstDeler(info.description)
+            }
+
+            TextButton(
+                onClick = { utvidt = !utvidt },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = colorResource(R.color.dusk)
+                )
+            ) {
+                Icon (
+                imageVector = if (!utvidt) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
+                    contentDescription = if (!utvidt) "Utvid" else "Skjul"
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = if(!utvidt) stringResource(id = R.string.show_more) else stringResource(id = R.string.show_less),
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
             }
         }
+    }
 }
 @Composable
 fun DelInfo(
-    info: Facet
+    info: List<Facet>
 ){
-
+    //Log.d("PersonTest", "DelInfo er opprettet -------------------------")
+    //Log.d("PersonTest", "info.size : ${info.size}")
+    for (i in 1..info.size step 3){
+        Row{
+            for(j in 0..2){
+                val index = i+j-1
+                //Log.d("PersonTest", "Laget del - ${info[index].title}")
+                //Log.d("PersonTest", "i: $i, j: $j - index: $index")
+                Column{
+                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info[index].title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    AnimertPaiGraf(info[index].score, 20, 100)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = info[index].scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+        }
+    }
 }
+@Composable
+fun DelInfoMedTekst(
+    info: List<Facet>
+){
+    for(i in info){
+        Row {
+            Column(
+                modifier = Modifier.fillMaxWidth(0.3f)
+            ){
+                Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = i.title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+                Spacer(modifier = Modifier.width(8.dp))
+                AnimertPaiGraf(i.score, 20, 100)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(modifier = Modifier.align(Alignment.CenterHorizontally) ,text = i.scoreText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Color(0xff817A81))
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ){
+                TekstDeler(i.text)
+            }
+        }
+    }
+}
+
 
 @Composable
 fun GraderGraf(
