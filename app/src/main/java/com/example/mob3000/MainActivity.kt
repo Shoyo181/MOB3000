@@ -106,6 +106,27 @@ fun MyApp() {
         mutableStateOf(0)
     }
     val navController = rememberNavController()
+
+    val profilesRoute = stringResource(id = R.string.nav_profiles)
+    // Observer ruten og oppdater indeksen
+    LaunchedEffect(navController) {
+        navController.currentBackStackEntryFlow.collect { backStackEntry ->
+            val route = backStackEntry.destination.route
+            val navItemIndex = navItems.indexOfFirst { it.title == route }
+
+            // Oppdater bare indeksen hvis ruten er en del av navItems
+            if (navItemIndex >= 0) {
+                selectedNavItemIndex = navItemIndex
+            } else if (route == "persontest/{testId}/{name}") {
+                // Oppdater indeksen manuelt for "Profiles" når brukeren er i en rute relatert til "Profiles"
+                selectedNavItemIndex = navItems.indexOfFirst { it.title == profilesRoute }
+            } else {
+                // Sett til en nøytral verdi for ruter utenfor NavigationBar
+                selectedNavItemIndex = -1
+            }
+        }
+    }
+
     val auth = FirebaseAuth.getInstance()
     val erBrukerAuthenticata = remember {mutableStateOf(auth.currentUser != null)}
 
@@ -126,9 +147,20 @@ fun MyApp() {
                         NavigationBarItem(
                             selected = selectedNavItemIndex == index,
                             onClick = {
-                                selectedNavItemIndex = index
-                                navController.navigate(navItem.title)
-                                println(navItem.title)
+                                if (selectedNavItemIndex != index) {
+                                    selectedNavItemIndex = index
+                                    navController.navigate(navItem.title){
+                                        if (navItem.title in navItems.map { it.title }) {
+                                            popUpTo(navController.graph.startDestinationId) {
+                                                saveState = true
+                                                inclusive = false // Ikke fjern startdestinasjonen
+                                            }
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                    println(navItem.title)
+                                }
                             },
                             icon = {
                                 Box(
