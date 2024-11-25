@@ -196,17 +196,17 @@ fun PersonKort(
                     ButtonKomponent(
                         text = stringResource(id = R.string.edit),
                         onClick = onRediger,
-                        padding = PaddingValues(4.dp)
+                        padding = PaddingValues(3.dp)
                     )
                     ButtonKomponent(
                         text = stringResource(id = R.string.delete),
                         onClick = { visSlettDialog = true },
-                        padding = PaddingValues(4.dp)
+                        padding = PaddingValues(3.dp)
                     )
                     ButtonKomponent(
                         text = stringResource(id = R.string.results),
                         onClick = onSeResultat,
-                        padding = PaddingValues(4.dp)
+                        padding = PaddingValues(3.dp)
                     )
                 }
             }

@@ -140,11 +140,20 @@ fun InfoBlokk(
                     Text(text = info.shortDescription, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colorResource(id = R.color.dusk))
                 }
                 if(!utvidt) {
+
                     Column(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .align(Alignment.CenterVertically)
-                    ) {
-                        AnimertPaiGraf(info.score, 120, 100)
+
+                    ){
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            AnimertPaiGraf(info.score, 120, 100)
+                        }
                         Spacer(modifier = Modifier.padding(8.dp))
                         Text(
                             modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -154,15 +163,17 @@ fun InfoBlokk(
                             color = Color(0xff817A81)
                         )
                     }
+
+
                 }
 
             }
 
             if (utvidt) {
-            Spacer(modifier = Modifier.height(8.dp))
-            // Beskrivelse
-            DelInfoMedTekst(info.facets)
-            //TekstDeler(info.description)
+                Spacer(modifier = Modifier.height(8.dp))
+                // Beskrivelse
+                DelInfoMedTekst(info.facets)
+                //TekstDeler(info.description)
             }
 
             TextButton(
