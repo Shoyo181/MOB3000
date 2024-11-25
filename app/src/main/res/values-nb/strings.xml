@@ -38,7 +38,7 @@
     <string name="show_more">Vis mer</string>
     <string name="show_less">Vis mindre</string>
     <string name="information">Informasjon</string>
-    <string name="more_information"> Personlighetstest </string>
+    <string name="more_information">"Personlighetstest "</string>
     <string name="information_version">Versjon 1.0</string>
     <string name="information_desc">Appen er basert på tidligere oppgave fra emnet APP2000.</string>
     <string name="information_madeby">Appen er laget av Marte-Marie Rønningen og Kjartan Øyen</string>

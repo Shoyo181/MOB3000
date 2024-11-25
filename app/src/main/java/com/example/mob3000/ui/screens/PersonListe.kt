@@ -107,10 +107,10 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                                 }
                             )
                         },
-                    onSeResultat = {
-                        val encodedName = Uri.encode(person.name)
-                        navController.navigate("PersonTest/${person.testid}/${encodedName}")
-                     }
+                        onSeResultat = {
+                            val encodedName = Uri.encode(person.name)
+                            navController.navigate("PersonTest/${person.testid}/${encodedName}")
+                        }
                     )
                 }
             }

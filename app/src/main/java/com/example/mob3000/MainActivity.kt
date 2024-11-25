@@ -96,6 +96,12 @@ fun MyApp() {
             unselectedIcon = Icons.Outlined.Settings
         )
     )
+
+    val route_home = stringResource(id = R.string.nav_home)
+    val route_profiles = stringResource(id = R.string.nav_profiles)
+    val route_compare = stringResource(id = R.string.nav_compare)
+    val route_settings = stringResource(id = R.string.nav_settings)
+
     var selectedNavItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
@@ -177,30 +183,30 @@ fun MyApp() {
         )
         NavHost (
             navController = navController,
-            startDestination = if(erBrukerAuthenticata.value) "Home" else "SwipeLanding"
+            startDestination = if(erBrukerAuthenticata.value) route_home else "SwipeLanding"
 
         ) {
             composable("SwipeLanding") {
                 SwipeLandingsside(
                     onLoginSuccess = {
-                        navController.navigate("Home") {
+                        navController.navigate(route_home) {
                             popUpTo("SwipeLanding") { inclusive = true }
                         }
                     }
                 )
             }
-            composable("Home") {
+            composable(route_home) {
                 Home(Modifier.padding(innerPadding))
             }
-            composable("Profiles") {
+            composable(route_profiles) {
                 PersonListeScreen(Modifier.padding(innerPadding),
                     navController = navController
                 )
             }
-            composable("Compare") {
+            composable(route_compare) {
                 Sammenlign(Modifier.padding(innerPadding))
             }
-            composable("Settings") {
+            composable(route_settings) {
                 Settings(Modifier.padding(innerPadding))
             }
             composable(

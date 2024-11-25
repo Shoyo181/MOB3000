@@ -31,7 +31,7 @@ fun Settings (
     ){
     val kontekst = LocalContext.current
     val lang = stringResource(id = R.string.language_api)
-    val url = "https://bigfive-test.com/$lang"
+    val url = "https://bigfive-test.com/${lang}"
 
         Column(
             modifier = Modifier

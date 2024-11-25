@@ -98,7 +98,6 @@ object FirebaseService {
     }
 }
 
-
 object AuthService {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
