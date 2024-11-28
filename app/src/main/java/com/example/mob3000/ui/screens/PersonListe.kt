@@ -44,6 +44,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
     var personListe by remember {mutableStateOf<List<Person>>(emptyList())}
     var utvidetPerson by remember { mutableStateOf<String?>(null) }
     var personEndre by remember { mutableStateOf<Person?> (null)}
+    var personDocRef by remember { mutableStateOf<String?> (null)}
 
     //var selectedResultID by remember {mutableStateOf<String?> (null)}
 
@@ -55,6 +56,16 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
             onSuccess = {fetchedePersoner -> personListe = fetchedePersoner },
             onFailure = {exception -> Log.e("Firestore", "Feil: $exception") }
         )
+    }
+    LaunchedEffect(personDocRef){
+        Log.d("Firestore", "PersonRef: $personDocRef")
+        if(personDocRef != null) {
+            FirebaseService.leggTilDocRefPerson(
+                id = personDocRef!!,
+                onSuccess = {Log.d("Firestore", "PersonRef lagt til i DB")},
+                onFailure = {exception -> Log.e("Firestore", "Feil: $exception")}
+            )
+        }
     }
 
     Scaffold(
@@ -141,7 +152,10 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                     onLeggTilPerson = {newPerson ->
                         FirebaseService.leggTilPerson(
                             newPerson,
-                            onSuccess =  {Log.d("Firestore", "Person lagt til") },
+                            onSuccess =  {
+                                Log.d("Firestore", "Person lagt til med autoID: $it")
+                                personDocRef = it
+                                         },
                             onFailure = {exception -> Log.e("Firestore", "Feil: $exception")}
                         )
                     }

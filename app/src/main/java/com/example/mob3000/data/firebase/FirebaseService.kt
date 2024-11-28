@@ -1,5 +1,6 @@
 package com.example.mob3000.data.firebase
 
+import android.util.Log
 import com.example.mob3000.data.models.Bruker
 import com.example.mob3000.data.firebase.FirebaseService.leggTilBruker
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,12 +37,13 @@ object FirebaseService {
     fun leggTilPerson (person: Person, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val personMedUserId = person.copy(userId = currentUser?.uid ?: "")
+        var autoId = ""
 
         firestore.collection("Personer")
             .add(personMedUserId)
             .addOnSuccessListener{
                     documentReferanse ->
-                val autoId = documentReferanse.id
+                autoId = documentReferanse.id
                 onSuccess(autoId)}
             .addOnFailureListener{exception -> onFailure(exception)}
     }
@@ -95,6 +97,14 @@ object FirebaseService {
         } else {
             onFailure(Exception("Bruker er ikke logget inn."))
         }
+    }
+
+    fun leggTilDocRefPerson(id: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        firestore.collection("Personer")
+            .document(id)
+            .update("documentId", id)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { exception -> onFailure(exception) }
     }
 }
 
