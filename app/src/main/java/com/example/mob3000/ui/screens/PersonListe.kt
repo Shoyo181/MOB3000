@@ -56,6 +56,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
             onSuccess = {fetchedePersoner -> personListe = fetchedePersoner },
             onFailure = {exception -> Log.e("Firestore", "Feil: $exception") }
         )
+
     }
     LaunchedEffect(personDocRef){
         Log.d("Firestore", "PersonRef: $personDocRef")
@@ -67,6 +68,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
             )
         }
     }
+
 
     Scaffold(
         modifier = Modifier.padding(16.dp),
@@ -101,16 +103,16 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                 items(personListe) { person ->
                     PersonKort(
                         person = person,
-                        erUtvidet = utvidetPerson == person.testid,
+                        erUtvidet = utvidetPerson == person.documentId,
                         onKortKlikket = {
-                            utvidetPerson = if(utvidetPerson == person.testid) null else person.testid
+                            utvidetPerson = if(utvidetPerson == person.documentId) null else person.documentId
                         },
                         onRediger = {personEndre = person},
                         onSlett = {
                             FirebaseService.slettPerson(
                                 person = person,
                                 onSuccess = {
-                                    personListe = personListe.filter {it.testid != person.testid}
+                                    personListe = personListe.filter {it.documentId != person.documentId}
                                     utvidetPerson = null
                                 },
                                 onFailure = {exception ->
@@ -135,7 +137,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                             oppdatertPerson,
                             onSuccess = {
                                 personListe = personListe.map {
-                                    if(it.testid == oppdatertPerson.testid) oppdatertPerson else it
+                                    if(it.documentId == oppdatertPerson.documentId) oppdatertPerson else it
                                 }
                                 personEndre = null
                             },

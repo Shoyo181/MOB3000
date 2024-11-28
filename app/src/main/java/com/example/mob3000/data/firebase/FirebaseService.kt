@@ -25,8 +25,8 @@ object FirebaseService {
                     val personList = snapshot.documents.map { document ->
                         val person = document.toObject(Person::class.java)
                         person?.copy(documentId = document.id)
-                    }.filterNotNull()
 
+                    }.filterNotNull()
                     onSuccess(personList)
                 } else {
                     onSuccess(emptyList())
