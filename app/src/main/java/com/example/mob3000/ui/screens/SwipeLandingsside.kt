@@ -17,20 +17,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.mob3000.R
 import com.example.mob3000.data.firebase.AuthService.logginnBruker
 import com.example.mob3000.data.firebase.AuthService.registrerBruker
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
 import com.example.mob3000.ui.theme.Typography
-import com.example.mob3000.data.models.Bruker
+
 
 
 @Composable
 fun SwipeLandingsside(
     onLoginSuccess: () -> Unit
 ) {
-    var showLoginnVindu by remember { mutableStateOf(false) }
+    var showLoggInnVindu by remember { mutableStateOf(false) }
 
     val pages = (listOf(
         stringResource(id = R.string.pages_swipe_1),
@@ -86,7 +85,7 @@ fun SwipeLandingsside(
 
             // logg inn/registrer knapp m. funksjonalitet
             Button(
-                onClick = { showLoginnVindu = true },
+                onClick = { showLoggInnVindu = true },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
@@ -106,9 +105,9 @@ fun SwipeLandingsside(
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        if (showLoginnVindu) {
-            LoginDialog(
-                onDismiss = {showLoginnVindu = false},
+        if (showLoggInnVindu) {
+            LoggInnDialog(
+                onDismiss = {showLoggInnVindu = false},
                 onLoginSuccess = {
                     onLoginSuccess()
                 }
@@ -128,9 +127,9 @@ fun Dot(isSelected: Boolean) {
             )
     )
 }
-@OptIn(ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
+fun LoggInnDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
