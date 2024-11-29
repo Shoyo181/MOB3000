@@ -14,6 +14,9 @@ import ir.ehsannarmani.compose_charts.ColumnChart
 import ir.ehsannarmani.compose_charts.models.BarProperties
 import ir.ehsannarmani.compose_charts.models.Bars
 
+/**
+ *
+ */
 @Composable
 fun OneChart(barsData: List<Bars>, ant: Int){
     // bruker biblioteket for å lage diagrammet

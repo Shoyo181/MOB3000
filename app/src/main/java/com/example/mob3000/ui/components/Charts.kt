@@ -15,6 +15,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,7 +29,11 @@ import com.example.mob3000.R
 import com.example.mob3000.data.models.ScoreList
 import com.example.mob3000.data.repository.ScoreUtils.barsBuilder
 
-
+/**
+ * Komponent som viser frem de flersøyldede diagrammene for de valgte profilene
+ * viser frem en om gangen slik at vi får animasjon hver gang vi går igjennom diagrammene
+ * Bruker komponenten OneChart og funksjone barsBuilder
+ */
 @Composable
 fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: List<String>
     // hjelpe variabel for å fordele farger til de forkjellige profilene valgt
@@ -72,20 +77,19 @@ fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel:
                         containerColor = if(digramIndex == i)
                             Color(0x86FFFFFF) else Color(0x7E000000)
                     )
-                ) {
-
-                }
+                ) {/*Trengs ingen kode her, men må ha krøllparantes*/ }
             }
 
         }
-        // lager og viser frem det valgte diagrammet
+        // lager og viser frem det valgte diagrammet,
+        // bruker key siden vi ikke vil at Android Studio skal gjenbruke komponenten
+        // våres, det vil medføre at det står feil info på siden av diagrammet
         when (digramIndex){
-            0 -> OneChart(barsBuilder(profilData, 0, farger), profilData.size)
-            1 -> OneChart(barsBuilder(profilData, 1, farger), profilData.size)
-            2 -> OneChart(barsBuilder(profilData, 2, farger), profilData.size)
-            3 -> OneChart(barsBuilder(profilData, 3, farger), profilData.size)
-            4 -> OneChart(barsBuilder(profilData, 4, farger), profilData.size)
-            5 -> OneChart(barsBuilder(profilData, 5, farger), profilData.size)
+            in 0..5 -> {
+                key(digramIndex){
+                    OneChart(barsBuilder(profilData, digramIndex, farger), profilData.size)
+                }
+            }
         }
     }
 }

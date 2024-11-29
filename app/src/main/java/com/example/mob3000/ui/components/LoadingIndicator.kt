@@ -16,6 +16,7 @@ import com.example.mob3000.R
 /**
  * Komponent som viser frem en sirkel som spinner rundt, indikerer at noe er lastet inn
  * Laget en komponent slik at den er lik hvor enn den skulle ha blitt brukt
+ * Brukes per nå, i Sammenlign og PersonTest
  */
 @Composable
 fun LoadingIndicator (){
@@ -33,5 +34,4 @@ fun LoadingIndicator (){
             trackColor = colorResource(id = R.color.sand),
         )
     }
-
 }
