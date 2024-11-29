@@ -13,28 +13,21 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.mob3000.data.api.ApiService
-import com.example.mob3000.data.api.Nettverksmodul
 import com.example.mob3000.data.firebase.FirebaseService
 import com.google.firebase.auth.FirebaseAuth
 import com.example.mob3000.R
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
-import com.google.firebase.firestore.DocumentId
+
 import com.example.mob3000.data.models.Person
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -328,7 +321,6 @@ fun LeggTilPerson(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EndrePerson (
     person: Person,
