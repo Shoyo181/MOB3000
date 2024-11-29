@@ -44,6 +44,5 @@
     <string name="information_madeby">This app is made by Marte-Marie Rønningen and Kjartan Øyen.</string>
     <string name="rubynor_info">If you would like more information about how the personality test works, check out RubyNors website in the button in this box.</string>
     <string name="compare_limit">You can only compare 6 profiles</string>
-
-
+    <string name="no_data">No data</string>
 </resources>

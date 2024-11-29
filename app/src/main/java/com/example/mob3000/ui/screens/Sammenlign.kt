@@ -152,7 +152,7 @@ fun Sammenlign(modifier: Modifier){
             if(personMedScore.isNotEmpty()){
                 Charts(profilData = personMedScore)
             }else{ // legg til loading
-                Text("Ingen data")
+                Text(text = stringResource(id = R.string.no_data))
             }
 
         }
