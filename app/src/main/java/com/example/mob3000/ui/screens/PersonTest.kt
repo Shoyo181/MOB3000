@@ -105,10 +105,6 @@ fun TestResultatKort(
     }
 }
 
-fun sorterApiData(scores: List<Result>){
-
-}
-
 @Composable
 fun InfoBlokk(
     info: Result,

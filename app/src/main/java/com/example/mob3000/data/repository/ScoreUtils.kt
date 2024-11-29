@@ -9,6 +9,7 @@ import com.example.mob3000.data.models.Person
 import com.example.mob3000.data.models.Score
 import com.example.mob3000.data.models.ScoreData
 import com.example.mob3000.data.models.ScoreList
+import ir.ehsannarmani.compose_charts.models.Bars
 
 object ScoreUtils{
     fun lagChartsData(scores: List<Result>, person: Person): ScoreList {
@@ -36,5 +37,32 @@ object ScoreUtils{
         Log.d("API-test", "Sortert liste: $tempScoreData")
 
         return ScoreList(person.name, tempScoreData)
+    }
+
+    fun barsBuilder (profilData: List<ScoreList>, index: Int, color: List<SolidColor>): List<Bars> {
+        // antall søyler for dette diagrammet
+        val numBars = profilData[0].results[index].facets.size
+
+        //Log.d("barsBuilder-info-space", "-----------------------------")
+        //Log.d("barsBuilder-info", "tittel index: " + tittel[index].size)
+        //Log.d("barsBuilder-info", "numBars     : " + numBars)
+
+        // lager ferdig data for hva som skal vises i diagrammet
+        val barsData = (0 until numBars).map { barIndex ->
+            //Log.d("barsBuilder-info-space", "     ")
+            //Log.d("barsBuilder-info", "- Bar index: " + barIndex)
+            Bars(
+                label = profilData[0].results[index].facets[barIndex].title,
+                values = profilData.mapIndexed { i, profil ->
+                    //Log.d("barsBuilder-info", "-- barInx: " + barIndex + ", index: " + index + ", profil: " + profil.score[index][barIndex])
+                    Bars.Data(
+                        label = profil.name,
+                        value = profil.results[index].facets[barIndex].score.toDouble(),
+                        color = color[i],
+                    )
+                }
+            )
+        }
+        return barsData
     }
 }
