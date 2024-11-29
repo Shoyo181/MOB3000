@@ -3,6 +3,7 @@ package com.example.mob3000.ui.screens
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -35,31 +36,32 @@ import com.example.mob3000.ui.components.Charts
 import com.example.mob3000.ui.components.ProfilVelgeKort
 
 
-// side for å vise frem sammenligning
+/**
+ * Screen hvor bruker kan velge hvilke profiler som skal sammenlignes
+ * Det er en toggle knapp på toppen som bytter mellom velging av profiler og visning av sammenligning
+ * for de valgte profilene.
+ * Vi lager in liste over alle profiler hvor bruker kan velge hvem som skal videre til sammenligning
+ * Vi får hjelp av komponenten Charts.kt for å vise frem flersøylediagrammet med sammenligning
+ */
 @Composable
 fun Sammenlign(modifier: Modifier){
-    // lage en liste over alle personer i databasen
-    // bruker kan velge hvilke personer som skal sammenlignes
-    // de som er valgt henter vi data fra ved hjelp av api kall
-    // forer denne dataen inn til charts, for en visuell visning
-    // det er en "switch" som går mellom sammenligneing og velging av profiler
-
-
+    //variabler for segmentButton
     var valgIndex by remember { mutableStateOf(0) }
     val valgTilSammenligning = listOf(
             stringResource(id = R.string.compare_segmentbutton_choose),
             stringResource(id = R.string.compare_segmentbutton_compare)
             )
 
-    // liste over personer fra database
+    // Variabler for alle profiler samt hvilke profiler som er valg. Ekstra hjelpe variabel for
+    // som bruker har valgt formange profiler
     var personListe by remember {mutableStateOf<List<Person>>(emptyList())}
     var personTilSammenligning by remember {mutableStateOf<List<Person>>(emptyList())}
     var personMedScore by remember {mutableStateOf<List<ScoreList>>(emptyList())}
     var visAlert by remember {mutableStateOf(false)}
-
+    //variabel for å huske og hente hvilket språk sammenligningen skal være i
     val lang = stringResource(id = R.string.language_api)
 
-    // henter listen fra databasen
+    // henter profil listen fra databasen
     LaunchedEffect(Unit) {
         FirebaseService.hentPersoner(
             onSuccess = {fetchedePersoner -> personListe = fetchedePersoner },
@@ -67,13 +69,14 @@ fun Sammenlign(modifier: Modifier){
         )
     }
 
-    //
+    // Legger alle komponenter i en kolonne, slik at alt kommer pyntelig under hverandre
     Column(
        modifier = Modifier
            .fillMaxWidth()
            //.background(Color.White)
            .padding(16.dp)
     ) {
+        // toggel eller switch knapp som bytter mellom sammenligning av profiler og visning av profiler
         SingleChoiceSegmentedButtonRow(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -88,12 +91,15 @@ fun Sammenlign(modifier: Modifier){
                 }
             }
         }
+        // hvis bruker har valgt å velge profiler viser vi en liste ovar alle profiler
         if(valgIndex == 0){
+            // hvis bruker har valgt for mange profiler viser vi en "alert" som egentlig bare er en snackbar
             if(visAlert){
                 Snackbar() {
                     Text(stringResource(id = R.string.compare_limit))
                 }
             }
+            // legger alle profiler i en liste og viser dem
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -103,6 +109,7 @@ fun Sammenlign(modifier: Modifier){
                         )
                     )
             ){
+                //ett item per profil/person
                 items(personListe) { person ->
                     ProfilVelgeKort(
                         person = person,
@@ -127,9 +134,10 @@ fun Sammenlign(modifier: Modifier){
             }
 
         }else{
-            Log.d("Sammenligning", "Personer med i sammenligning: ${personTilSammenligning.map { person -> person.name } }")
-            // henter og sorterer data fra api
+            // hvis bruker ikke skal velge profiler til sammenligning viser vi frem
+            // sammenligningen veg hjelp av Charts komponenten
 
+            // henter først data om testen ved hjelp av testID lagret i hver profil
             LaunchedEffect(personTilSammenligning) {
                 // TODO: Legg til loading
                 personMedScore = personTilSammenligning.map { person ->
@@ -138,7 +146,6 @@ fun Sammenlign(modifier: Modifier){
                 }
                 Log.d("Sammenligning", "TEEEEEEST")
             }
-
 
             Log.d("Sammenligning", "Personer med score: ${personMedScore.map { person -> person.name } }")
             // Hvis det ikke er noen i lista, så viser vi frem en melding istedenfor diagrammet
@@ -149,6 +156,6 @@ fun Sammenlign(modifier: Modifier){
             }
 
         }
+        Spacer(modifier = Modifier.padding(bottom = 60.dp))
     }
-
 }

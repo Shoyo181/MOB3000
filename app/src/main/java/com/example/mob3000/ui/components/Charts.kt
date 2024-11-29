@@ -31,16 +31,7 @@ import com.example.mob3000.data.repository.ScoreUtils.barsBuilder
 
 @Composable
 fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: List<String>
-
-    val totalScoreLables = remember { listOf("Nevrotisisme", "Ekstroversjon", "Åpenhet for erfaringer", "Medmenneskelighet", "Planmessighet") }
-    val nevrotisismeLables = remember { listOf("Angst", "Sinne", "Depresjon", "Selvbevissthet", "Impulsivitet", "Sårbarhet") }
-    val EkstroversjonLables = remember { listOf("Vennlighet", "Sosiabilitet", "Selvmarkering", "Aktivitet", "Spenningssøking", "Positive følelser") }
-    val åpenhetForErgaringerLabels = remember { listOf("Fantasi", "Estetikk", "Følelser", "Eventyrlyst", "Intellekt", "Liberale verdier") }
-    val medmenneskelighetLabels = remember { listOf("Tillit", "Moral", "Altruisme", "Føyelighet", "Beskjedenhet", "Følsomhet") }
-    val planmessighetLabels = remember { listOf("Kompetanse", "Orden", "Pliktoppfyllenhet", "Prestasjonsstreben", "Selvdisiplin", "Betenksomhet") }
-
-    val tittel = remember { listOf(totalScoreLables, nevrotisismeLables, EkstroversjonLables, åpenhetForErgaringerLabels, medmenneskelighetLabels, planmessighetLabels) }
-
+    // hjelpe variabel for å fordele farger til de forkjellige profilene valgt
     val farger = listOf(
         SolidColor(colorResource(id = R.color.blue)),
         SolidColor(colorResource(id = R.color.orange)),
@@ -50,8 +41,10 @@ fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel:
         SolidColor(colorResource(id = R.color.yellow))
     )
 
+    // diagramIndex husker på hvilket diagram som er valgt
     var digramIndex by remember { mutableStateOf(0) }
-    val tempFarge = SolidColor(colorResource(id = R.color.dusk2))
+
+    // bruker Column for å organisere innhold
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,16 +52,17 @@ fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel:
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        // bruker Column for å organisere innhold
-
+        // Tittel for diagrammet
         Text(profilData[0].results[digramIndex].score.title)
+        // Knapper for å velge de forskjellige diagrammene
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 //.offset( y = (-16).dp)
                 .wrapContentWidth(Alignment.CenterHorizontally)
         ){
-            for ( i in tittel.indices){
+            // Lager knappene
+            for ( i in profilData[0].results.indices){
                 Button(
                     onClick = {digramIndex = i},
                     modifier = Modifier
@@ -84,7 +78,7 @@ fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel:
             }
 
         }
-
+        // lager og viser frem det valgte diagrammet
         when (digramIndex){
             0 -> OneChart(barsBuilder(profilData, 0, farger), profilData.size)
             1 -> OneChart(barsBuilder(profilData, 1, farger), profilData.size)
@@ -93,7 +87,5 @@ fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel:
             4 -> OneChart(barsBuilder(profilData, 4, farger), profilData.size)
             5 -> OneChart(barsBuilder(profilData, 5, farger), profilData.size)
         }
-        Spacer(modifier = Modifier.padding(50.dp))
-        Spacer(modifier = Modifier.padding(40.dp))
     }
 }
