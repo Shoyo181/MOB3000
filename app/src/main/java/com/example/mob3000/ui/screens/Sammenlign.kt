@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -33,6 +36,7 @@ import com.example.mob3000.data.models.ScoreList
 import com.example.mob3000.data.repository.PersonlighetstestRep
 import com.example.mob3000.data.repository.ScoreUtils
 import com.example.mob3000.ui.components.Charts
+import com.example.mob3000.ui.components.LoadingIndicator
 import com.example.mob3000.ui.components.ProfilVelgeKort
 
 
@@ -58,6 +62,7 @@ fun Sammenlign(modifier: Modifier){
     var personTilSammenligning by remember {mutableStateOf<List<Person>>(emptyList())}
     var personMedScore by remember {mutableStateOf<List<ScoreList>>(emptyList())}
     var visAlert by remember {mutableStateOf(false)}
+    var loading by remember {mutableStateOf(false)}
     //variabel for å huske og hente hvilket språk sammenligningen skal være i
     val lang = stringResource(id = R.string.language_api)
 
@@ -139,19 +144,22 @@ fun Sammenlign(modifier: Modifier){
 
             // henter først data om testen ved hjelp av testID lagret i hver profil
             LaunchedEffect(personTilSammenligning) {
-                // TODO: Legg til loading
+                loading = true
                 personMedScore = personTilSammenligning.map { person ->
                     val scores = PersonlighetstestRep(apiService).fetchScore(person.testid, lang)
                     ScoreUtils.lagChartsData(scores, person)
                 }
-                Log.d("Sammenligning", "TEEEEEEST")
+                loading = false
             }
 
             Log.d("Sammenligning", "Personer med score: ${personMedScore.map { person -> person.name } }")
             // Hvis det ikke er noen i lista, så viser vi frem en melding istedenfor diagrammet
-            if(personMedScore.isNotEmpty()){
+            if(loading){
+                LoadingIndicator()
+            }else if(personMedScore.isNotEmpty()){
                 Charts(profilData = personMedScore)
-            }else{ // legg til loading
+            }
+            else{ // legg til loading
                 Text(text = stringResource(id = R.string.no_data))
             }
 

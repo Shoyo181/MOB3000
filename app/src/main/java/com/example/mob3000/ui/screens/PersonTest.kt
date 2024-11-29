@@ -48,6 +48,7 @@ import com.example.mob3000.data.models.ApiData.Facet
 import com.example.mob3000.data.models.ApiData.Result
 import com.example.mob3000.data.repository.PersonlighetstestRep
 import com.example.mob3000.ui.components.AnimertPaiGraf
+import com.example.mob3000.ui.components.LoadingIndicator
 
 @Composable
 fun PersonTest(
@@ -75,18 +76,22 @@ fun TestResultatKort(
     testId: String,
     lang: String,
     backgroundColor: Color
-){
+) {
     var resultatListe by remember { mutableStateOf<List<Result>>(emptyList()) }
+    var loading by remember { mutableStateOf(false) }
     // henter info om en profil test
     LaunchedEffect(testId) {
+        loading = true
         // henter all data i "results" fra api -  det er denne informasjonen vi trenger
         val scores = PersonlighetstestRep(Nettverksmodul.apiService).fetchScore(testId, lang)
         resultatListe = scores
+        loading = false
     }
 
-
-    // lager kortene
-    if(resultatListe.isNotEmpty()){
+    if(loading){
+        LoadingIndicator()
+    }else if(resultatListe.isNotEmpty()){
+        // lager kortene
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -100,8 +105,8 @@ fun TestResultatKort(
                 Spacer(modifier = Modifier.padding(10.dp))
             }
         }
-    }else{ // legg til loading
-        Text(text = "Ingen data")
+    }else{
+        Text(text = stringResource(id = R.string.no_data))
     }
 }
 
