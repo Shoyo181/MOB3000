@@ -1,5 +1,6 @@
 package com.example.mob3000.ui.screens
 
+
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
@@ -20,11 +21,13 @@ import com.example.mob3000.data.firebase.AuthService
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.InfoKort
 
+
 /**
  * Komponenten er ment som et vindu hvor bruker kan endre på innstillinger om applikasjonen
  * Per nå er det en utlogging knapp som bruker AuthServices.kt for å logge ut
  * Det er også en InfoKort som linker til siden man kan ta Big5 testen
  */
+
 @Composable
 fun Settings (
     modifier: Modifier
