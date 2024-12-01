@@ -1,6 +1,7 @@
 package com.example.mob3000.ui.screens
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -25,6 +26,7 @@ import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.InfoKort
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun Settings (
     modifier: Modifier
