@@ -13,30 +13,42 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.mob3000.data.api.ApiService
-import com.example.mob3000.data.api.Nettverksmodul
-import com.example.mob3000.data.firebase.FirebaseService
+import com.example.mob3000.data.firebase.FirestoreService
 import com.google.firebase.auth.FirebaseAuth
 import com.example.mob3000.R
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
-import com.google.firebase.firestore.DocumentId
 import com.example.mob3000.data.models.Person
 
+/**
+ * Screen komponent som viser frem alle personer/profiler bruker har tilgang til. Bruker kan
+ * legge til profiler, redigere de og slette de. Kan også åpne ett nytt "vindu" med resultater
+ * Når bruker utvider kortet til en person/profil ved å trykke på det, vil eventuelt det kortet
+ * som var åpent lukke seg
+ * Bruker komponetene: PersonKort, LeggTilPerson, EndrePerson
+ * Bruker Scaffold, FloatingActionButton  fra Material3
+ *
+ * @param modifier Modifier for komponenten
+ * @param navController Navigeringskontroller for navigasjon mellom skjermer
+ *
+ * Funksjoner
+ * - Henter alle personer fra Firestore, ved hjelp av FirestoreService.hentPersoner i en korutine
+ * - Lager en kort for hver person
+ * - Lager en dialogvindu for å legge til en ny person
+ * - Hvert kort kan utvides ved å trykke på de
+ * - utvidet kort viser informasjon om personen og kan åpne rediger, slett og se resultater
+ * - rediger og slett åpner ny dialogvindu for å /redigering/bekrefting
+ * - resultater navigerer til ny skjerm/Screen med personens resultat, sender med testID og navn
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
@@ -44,6 +56,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
     var personListe by remember {mutableStateOf<List<Person>>(emptyList())}
     var utvidetPerson by remember { mutableStateOf<String?>(null) }
     var personEndre by remember { mutableStateOf<Person?> (null)}
+    var personDocRef by remember { mutableStateOf<String?> (null)}
 
     //var selectedResultID by remember {mutableStateOf<String?> (null)}
 
@@ -51,10 +64,21 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
     var visLeggTil by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        FirebaseService.hentPersoner(
+        FirestoreService.hentPersoner(
             onSuccess = {fetchedePersoner -> personListe = fetchedePersoner },
             onFailure = {exception -> Log.e("Firestore", "Feil: $exception") }
         )
+
+    }
+    LaunchedEffect(personDocRef){
+        Log.d("Firestore", "PersonRef: $personDocRef")
+        if(personDocRef != null) {
+            FirestoreService.leggTilDocRefPerson(
+                id = personDocRef!!,
+                onSuccess = {Log.d("Firestore", "PersonRef lagt til i DB")},
+                onFailure = {exception -> Log.e("Firestore", "Feil: $exception")}
+            )
+        }
     }
 
     Scaffold(
@@ -90,16 +114,16 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                 items(personListe) { person ->
                     PersonKort(
                         person = person,
-                        erUtvidet = utvidetPerson == person.testid,
+                        erUtvidet = utvidetPerson == person.documentId,
                         onKortKlikket = {
-                            utvidetPerson = if(utvidetPerson == person.testid) null else person.testid
+                            utvidetPerson = if(utvidetPerson == person.documentId) null else person.documentId
                         },
                         onRediger = {personEndre = person},
                         onSlett = {
-                            FirebaseService.slettPerson(
+                            FirestoreService.slettPerson(
                                 person = person,
                                 onSuccess = {
-                                    personListe = personListe.filter {it.testid != person.testid}
+                                    personListe = personListe.filter {it.documentId != person.documentId}
                                     utvidetPerson = null
                                 },
                                 onFailure = {exception ->
@@ -108,6 +132,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                             )
                         },
                         onSeResultat = {
+                            // tar bort spesialtegn og mellomrom i navnet for å bruke som URL
                             val encodedName = Uri.encode(person.name)
                             navController.navigate("PersonTest/${person.testid}/${encodedName}")
                         }
@@ -120,11 +145,11 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                     person = person,
                     onDismiss = {personEndre = null},
                     onLagre = {oppdatertPerson ->
-                        FirebaseService.oppdaterPerson(
+                        FirestoreService.oppdaterPerson(
                             oppdatertPerson,
                             onSuccess = {
                                 personListe = personListe.map {
-                                    if(it.testid == oppdatertPerson.testid) oppdatertPerson else it
+                                    if(it.documentId == oppdatertPerson.documentId) oppdatertPerson else it
                                 }
                                 personEndre = null
                             },
@@ -139,9 +164,12 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                     visLeggTil = visLeggTil,
                     onDismiss = {visLeggTil = false },
                     onLeggTilPerson = {newPerson ->
-                        FirebaseService.leggTilPerson(
+                        FirestoreService.leggTilPerson(
                             newPerson,
-                            onSuccess =  {Log.d("Firestore", "Person lagt til") },
+                            onSuccess =  {
+                                Log.d("Firestore", "Person lagt til med autoID: $it")
+                                personDocRef = it
+                                         },
                             onFailure = {exception -> Log.e("Firestore", "Feil: $exception")}
                         )
                     }
@@ -149,6 +177,18 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
         }
     )
 }
+
+/**
+ * Komponent for å vise frem ett personkort med informasjon om gitt person/profil
+ *
+ *
+ * @param person Person/profil som skal vises frem
+ * @param erUtvidet Boolean som sier om kortet er utvidet eller ikke
+ * @param onKortKlikket Lambda som kjøres når kortet trykkes
+ * @param onRediger Lambda som kjøres når rediger-knappen trykkes
+ * @param onSlett Lambda som kjøres når slett-knappen trykkes
+ * @param onSeResultat Lambda som kjøres når resultater-knappen trykkes
+ */
 @Composable
 fun PersonKort(
     person: Person,
@@ -312,7 +352,6 @@ fun LeggTilPerson(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EndrePerson (
     person: Person,

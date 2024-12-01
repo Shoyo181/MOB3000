@@ -1,5 +1,9 @@
 package com.example.mob3000.data.models.ApiData
 
+/**
+ * Data klasse som representerer API-respons.
+ * Resultat fra testen om ett Tema (eks. Nevrotisme)
+ */
 data class Result(
     val count: Int,
     val description: String,
