@@ -32,9 +32,9 @@ import com.example.mob3000.data.models.Person
 import com.example.mob3000.data.models.ScoreList
 import com.example.mob3000.data.repository.PersonlighetstestRep
 import com.example.mob3000.data.repository.ScoreUtils
-import com.example.mob3000.ui.components.Charts
+import com.example.mob3000.ui.components.sammenlign.Charts
 import com.example.mob3000.ui.components.LoadingIndicator
-import com.example.mob3000.ui.components.ProfilVelgeKort
+import com.example.mob3000.ui.components.PersonTest.ProfilVelgeKort
 
 
 /**

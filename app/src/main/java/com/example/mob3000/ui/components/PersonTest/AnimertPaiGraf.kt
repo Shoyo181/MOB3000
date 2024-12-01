@@ -1,6 +1,5 @@
-package com.example.mob3000.ui.components
+package com.example.mob3000.ui.components.PersonTest
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator

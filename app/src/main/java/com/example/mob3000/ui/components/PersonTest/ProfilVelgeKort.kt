@@ -1,4 +1,4 @@
-package com.example.mob3000.ui.components
+package com.example.mob3000.ui.components.PersonTest
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

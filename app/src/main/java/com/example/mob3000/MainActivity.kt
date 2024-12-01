@@ -2,7 +2,6 @@ package com.example.mob3000
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -17,9 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,7 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -53,6 +48,10 @@ import com.example.mob3000.ui.screens.Settings
 import com.example.mob3000.ui.theme.MOB3000Theme
 import com.google.firebase.auth.FirebaseAuth
 
+/**
+ * MainActivity er hovedaktiviteten i appen.
+ * Setter igang applikasjonen med valgt tema
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +70,23 @@ class MainActivity : ComponentActivity() {
 data class BottomNavigationItem(
     val title: String,
     val route: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector
+    val selectedIcon: ImageVector
 )
 
-
+/**
+ * Komponenten håndterer navigasjon for applikasjonen og viser frem de skjermene/Screens som
+ * bruker velger, ved hjelp av nav-bar. Sjekker først om bruker er innlogget, hvis ikke
+ * navigeres bruker til innloggingsside/SwipeLandingsside.kt
+ * Bruker NavHost og NavController fra Jetpack Compose for navigasjon.
+ * Bruker NavigationBar og NavigationBarItem fra Material Design for navigasjonsbaren.
+ *
+ * Funksjoner
+ * - Navigasjon
+ * - Prøver å håndtere navigasjonsstakken, til beste evne (er ikke optimalt)
+ * - Sjekker om bruker er innlogget
+ * - behandler logikk på tilbake knapp i launchedEffect
+ *
+ */
 @Composable
 fun MyApp() {
     val navItems = listOf(
@@ -83,25 +94,21 @@ fun MyApp() {
             title = stringResource(id = R.string.nav_home),
             route = "Hjem",
             selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.nav_profiles),
             route = "Profiler",
-            selectedIcon = Icons.Filled.Person,
-            unselectedIcon = Icons.Outlined.Person
+            selectedIcon = Icons.Filled.Person
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.nav_compare),
             route = "Sammenlign",
-            selectedIcon = Icons.Filled.Favorite,
-            unselectedIcon = Icons.Outlined.Favorite
+            selectedIcon = Icons.Filled.Favorite
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.nav_settings),
             route = "Settings",
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings
+            selectedIcon = Icons.Filled.Settings
         )
     )
 
@@ -114,13 +121,13 @@ fun MyApp() {
     LaunchedEffect(navController) {
         navController.currentBackStackEntryFlow.collect { backStackEntry ->
             val route = backStackEntry.destination.route
-            val navItemIndex = navItems.indexOfFirst { it.title == route }
+            val navItemIndex = navItems.indexOfFirst { it.route == route }
 
             // Oppdater bare indeksen hvis ruten er en del av navItems
             if (navItemIndex >= 0) {
                 selectedNavItemIndex = navItemIndex
             } else if (route == "Persontest/{testId}/{name}") {
-                // Oppdater indeksen manuelt for "Profiles" når brukeren er i en rute relatert til "Profiles"
+                // Oppdater indeksen manuelt for "Profiles" når brukeren er i en route relatert til "Profiles"
                 selectedNavItemIndex = navItems.indexOfFirst { it.route == "Profiler" }
             } else {
                 // Sett til en nøytral verdi for ruter utenfor NavigationBar
@@ -132,10 +139,9 @@ fun MyApp() {
     val auth = FirebaseAuth.getInstance()
     val erBrukerAuthenticata = remember {mutableStateOf(auth.currentUser != null)}
 
-    FirebaseAuth.getInstance().addAuthStateListener { auth ->
-        erBrukerAuthenticata.value = auth.currentUser != null
+    auth.addAuthStateListener { a ->
+        erBrukerAuthenticata.value = a.currentUser != null
     }
-    Log.d("Loggin-Status", "Er bruker autenticata?: " + erBrukerAuthenticata.toString())
 
     Scaffold (
         modifier = Modifier

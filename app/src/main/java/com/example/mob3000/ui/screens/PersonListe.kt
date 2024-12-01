@@ -27,9 +27,28 @@ import com.google.firebase.auth.FirebaseAuth
 import com.example.mob3000.R
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
-
 import com.example.mob3000.data.models.Person
 
+/**
+ * Screen komponent som viser frem alle personer/profiler bruker har tilgang til. Bruker kan
+ * legge til profiler, redigere de og slette de. Kan også åpne ett nytt "vindu" med resultater
+ * Når bruker utvider kortet til en person/profil ved å trykke på det, vil eventuelt det kortet
+ * som var åpent lukke seg
+ * Bruker komponetene: PersonKort, LeggTilPerson, EndrePerson
+ * Bruker Scaffold, FloatingActionButton  fra Material3
+ *
+ * @param modifier Modifier for komponenten
+ * @param navController Navigeringskontroller for navigasjon mellom skjermer
+ *
+ * Funksjoner
+ * - Henter alle personer fra Firestore, ved hjelp av FirestoreService.hentPersoner i en korutine
+ * - Lager en kort for hver person
+ * - Lager en dialogvindu for å legge til en ny person
+ * - Hvert kort kan utvides ved å trykke på de
+ * - utvidet kort viser informasjon om personen og kan åpne rediger, slett og se resultater
+ * - rediger og slett åpner ny dialogvindu for å /redigering/bekrefting
+ * - resultater navigerer til ny skjerm/Screen med personens resultat, sender med testID og navn
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
@@ -113,6 +132,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                             )
                         },
                         onSeResultat = {
+                            // tar bort spesialtegn og mellomrom i navnet for å bruke som URL
                             val encodedName = Uri.encode(person.name)
                             navController.navigate("PersonTest/${person.testid}/${encodedName}")
                         }
@@ -157,6 +177,18 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
         }
     )
 }
+
+/**
+ * Komponent for å vise frem ett personkort med informasjon om gitt person/profil
+ *
+ *
+ * @param person Person/profil som skal vises frem
+ * @param erUtvidet Boolean som sier om kortet er utvidet eller ikke
+ * @param onKortKlikket Lambda som kjøres når kortet trykkes
+ * @param onRediger Lambda som kjøres når rediger-knappen trykkes
+ * @param onSlett Lambda som kjøres når slett-knappen trykkes
+ * @param onSeResultat Lambda som kjøres når resultater-knappen trykkes
+ */
 @Composable
 fun PersonKort(
     person: Person,

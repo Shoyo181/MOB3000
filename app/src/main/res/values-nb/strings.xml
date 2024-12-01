@@ -45,4 +45,5 @@
     <string name="rubynor_info">Hvis du ønsker mer informasjon om hvordan personlighetstesten fungerer, så sjekk ut RubyNor sine nettsider i knappen i denne boksen.</string>
     <string name="compare_limit">Du kan bare sammenligne 6 profiler</string>
     <string name="no_data">Ingen data</string>
+    <string name="log_out">Logg ut</string>
 </resources>

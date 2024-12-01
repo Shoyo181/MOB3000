@@ -25,7 +25,9 @@ import com.example.mob3000.data.firebase.FirestoreService.hentAntallDokumenter
 import com.example.mob3000.ui.components.InfoKort
 import com.google.firebase.auth.FirebaseAuth
 
-
+/**
+ *
+ */
 @Composable
 fun Home(modifier: Modifier = Modifier) {
     var showLoginnVindu by remember { mutableStateOf(false) }

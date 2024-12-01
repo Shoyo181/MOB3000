@@ -1,18 +1,13 @@
 package com.example.mob3000.ui.screens
 
-
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +20,11 @@ import com.example.mob3000.data.firebase.AuthService
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.InfoKort
 
-
+/**
+ * Komponenten er ment som et vindu hvor bruker kan endre på innstillinger om applikasjonen
+ * Per nå er det en utlogging knapp som bruker AuthServices.kt for å logge ut
+ * Det er også en InfoKort som linker til siden man kan ta Big5 testen
+ */
 @Composable
 fun Settings (
     modifier: Modifier
@@ -47,7 +46,7 @@ fun Settings (
             )
             {
                 ButtonKomponent(
-                    text = "Logg ut",
+                    text = stringResource(id = R.string.log_out),
                     onClick = { AuthService.loggUt() },
                     modifier = Modifier
                 )

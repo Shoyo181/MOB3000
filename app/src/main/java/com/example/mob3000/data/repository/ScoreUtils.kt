@@ -84,4 +84,31 @@ object ScoreUtils{
         }
         return barsData
     }
+
+    /**
+     * Funksjonen endrer på formatet vi mottar fra API
+     * Api har html tagger for linje deling returnerer derfor en liste med linjer
+     *
+     * @param tekst Teksten som skal formateres
+     * @return Liste med formaterte linjer
+     */
+    fun apiTekstRydder(tekst: String): List<String>{
+        //viser seg at formatet fra Api kommer med litt forskjellige måter å dele opp tekst
+        // formaterer først bort break line tag, deler tekst opp i linjer
+        val nyTekst = tekst.replace("<br/>", "<br />")
+        val linjer = nyTekst.split("<br /><br />")
+
+        // tar hensyn til alle forskjellige måter /n blir skrevet men lager bare ett mellomrom
+        // siden /n ikke samsvarer med linjeskift i tekst, tar bor ekstra mellomrom
+        val nyeLinjer = linjer.map{ linje ->
+            linje
+                .replace("\n \n ", " ")
+                .replace("\n\n", " ")
+                .replace("\n", " ")
+                .trim()
+        }
+
+        // returnerer nye linjer
+        return nyeLinjer
+    }
 }

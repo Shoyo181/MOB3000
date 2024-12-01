@@ -1,4 +1,5 @@
 package com.example.mob3000
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +25,12 @@ import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
 import com.example.mob3000.ui.theme.Typography
 
 
-
+/**
+ * Denne komponenten vil bruke se hvis de ikke er innlogget
+ * Komponenten gir brukeren mulighet til å logge inn eller registrere seg
+ * Vil også vise frem litt informasjon om applikasjonen
+ * Bruker Dot og LoggInnDialog komponentene
+ */
 @Composable
 fun SwipeLandingsside(
     onLoginSuccess: () -> Unit
@@ -114,8 +120,11 @@ fun SwipeLandingsside(
             )
         }
     }
-    }
+}
 
+/**
+ * Hjelpe komponent for å lage en indikator for hver side i swipingen
+ */
 @Composable
 fun Dot(isSelected: Boolean) {
     Box(
@@ -127,7 +136,17 @@ fun Dot(isSelected: Boolean) {
             )
     )
 }
-//@OptIn(ExperimentalMaterial3Api::class)
+
+/**
+ * Komponenten er for innlogging eller registrering
+ * Valgte å ikke lage dette super komplisert og la disse funksjonene sammen
+ * Bruker AuthServices.kt for å logge inn og registrere bruker
+ * Bruker OutLinedTextFieldKomonent.kt (våres) for å lage tekstfelt
+ * Bruker AlertDialog og OutlinedTextField fra Material Design for å lage dialogvinduet
+ *
+ *  @param onDismiss Callback for når vinduet lukkes
+ *  @param onLoginSuccess Callback for når innlogging er vellykket
+ */
 @Composable
 fun LoggInnDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
     var email by remember { mutableStateOf("") }
