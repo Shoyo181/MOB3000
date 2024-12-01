@@ -15,18 +15,22 @@ import ir.ehsannarmani.compose_charts.models.BarProperties
 import ir.ehsannarmani.compose_charts.models.Bars
 
 /**
+ * OneChart er en komponent som tegner et flersøylediagram
+ * Bruker biblioteket ir.ehsannarmani.compose_charts for å tegne selve diagrammet
+ * I ColumnChart trenger man å oppgi følgende: tyggekse på søyle, avstand mellom de forskjellige temaene og data om søyler
+ * Data om søylene er innparameter for komponenten, som er en liste over Bars-objekter. (også fra bibioteket - compose_charts)
  *
+ * @param barsData En liste over Bars-objekter som inneholder informasjon om hver enkelt søyle
+ * @param ant Antall profiler som skal vises i diagrammet - brukes for å regne ut søyletykkelsen
  */
 @Composable
 fun OneChart(barsData: List<Bars>, ant: Int){
-    // bruker biblioteket for å lage diagrammet
+    // regner ut nyttig informasjon for diagrammet basert på skjerm størrelse
     val konfig = LocalConfiguration.current
     val skjermHøyde = konfig.screenHeightDp.dp
     val søyleTykkelse = 40/ant
-    Log.d("barsBuilder-info-space", "-----------------------------")
-    Log.d("barsBuilder-info", "søyleTykkelse: " + søyleTykkelse)
-    Log.d("barsBuilder-info", "barData.size: " + barsData.size)
 
+    // tenger selve diagrammet, med utregnet informasjon og innparametere
     ColumnChart(
         Modifier
             .fillMaxSize()

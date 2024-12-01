@@ -32,7 +32,9 @@ import com.example.mob3000.data.repository.ScoreUtils.barsBuilder
 /**
  * Komponent som viser frem de flersøyldede diagrammene for de valgte profilene
  * viser frem en om gangen slik at vi får animasjon hver gang vi går igjennom diagrammene
- * Bruker komponenten OneChart og funksjone barsBuilder
+ * Bruker komponenten OneChart og funksjonen barsBuilder
+ *
+ * @param profilData En liste over ScoreList-objekter, inneholder informasjon om hver enkelt profil
  */
 @Composable
 fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel: List<String>
@@ -75,7 +77,7 @@ fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel:
                         .size(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if(digramIndex == i)
-                            Color(0x86FFFFFF) else Color(0x7E000000)
+                            Color(0x86FFFFFF) else Color(0x7E000000) //om knapp er valgt eller ikke
                     )
                 ) {/*Trengs ingen kode her, men må ha krøllparantes*/ }
             }

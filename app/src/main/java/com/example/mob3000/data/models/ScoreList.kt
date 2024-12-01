@@ -1,8 +1,9 @@
 package com.example.mob3000.data.models
 
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.SolidColor
-
+/**
+ * Data klasse om score for en person/profil
+ * komprimert data klasse enn den vi får fra api
+ */
 data class ScoreList(
     val name: String,
     val results: List<ScoreData>

@@ -2,7 +2,6 @@ package com.example.mob3000.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,9 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -138,7 +135,12 @@ fun InfoBlokk(
                 ){
                     Text(text = info.title, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xff66433F))
                     Spacer(modifier = Modifier.padding(8.dp))
-                    Text(text = info.shortDescription, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colorResource(id = R.color.dusk))
+                    if(utvidt){
+                        TekstDeler(info.description)
+                    }else{
+                        Text(text = info.shortDescription, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colorResource(id = R.color.dusk))
+                    }
+
                 }
                 if(!utvidt) {
 

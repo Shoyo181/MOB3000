@@ -2,8 +2,6 @@ package com.example.mob3000.data.repository
 
 import android.util.Log
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.colorResource
-import com.example.mob3000.R
 import com.example.mob3000.data.models.ApiData.Result
 import com.example.mob3000.data.models.Person
 import com.example.mob3000.data.models.Score
@@ -11,10 +9,22 @@ import com.example.mob3000.data.models.ScoreData
 import com.example.mob3000.data.models.ScoreList
 import ir.ehsannarmani.compose_charts.models.Bars
 
+/**
+ *
+ * Inneholder hjelpefunksjoner for behandlige av score til sammenligning
+ */
 object ScoreUtils{
+    /**
+     * Limer sammen resultat fra en test med en person
+     * Legger også inn ett ekstra "Del-Tema" som egentlig er hovedkategoriene, slik at
+     * blir lettere å vise det frem i sammenligning
+     *
+     * @param scores Resultatene fra en test
+     * @param person Personen som resultatene gjelder
+     * @return ScoreList med sammenlignes data for en person/profil
+     */
     fun lagChartsData(scores: List<Result>, person: Person): ScoreList {
-        // innparameter er liste over test score for en profil/person
-        // det er også masse infromasjon i denne klassen som vi ikke tenger
+        // det er i klassen (Result) som vi ikke tenger, så tar det med ikke vidre
 
         val tempScoreData = mutableListOf<ScoreData>()
 
@@ -24,8 +34,10 @@ object ScoreUtils{
             totalScore.add(Score(s.score, s.title))
         }
 
+        // heldivis trenger vi ikke å oversette "Big 5"
         tempScoreData.add(ScoreData("T", Score(0, "Big 5"), totalScore))
 
+        // legger inn resternde facet inn som Scoredata listen
         for(i in scores.indices){
             val facet = mutableListOf<Score>()
             for(s in scores[i].facets){
@@ -34,27 +46,34 @@ object ScoreUtils{
             tempScoreData.add(ScoreData(scores[i].domain, Score(scores[i].score, scores[i].title), facet))
         }
 
-        Log.d("API-test", "Sortert liste: $tempScoreData")
-
+        // returnerer med navn og resultatene
         return ScoreList(person.name, tempScoreData)
     }
 
+    /**
+     * Beregner hvor søylene i diagrammet skal være samt andre verdier, farge, navn
+     * Bruker index for å vise til hvilket datasett (Big5, nevro.. osv) som skal brukes
+     *
+     * @param profilData Liste av ScoreList med data for alle personer/profiler som skal sammenlignes
+     * @param index Index for hvilket datasett som skal brukes
+     * @param color Liste med farger, en for hver profil
+     * @return Liste med Bars, data til flersøyle-diagrammet
+     *
+     * Vidre forklaring:
+     * - numBars er antall søyle-samling i diagrammet, altså hvor mange "del-temaer" det er
+     * - Bars sin label er navnet til "del-temaet"
+     * - Bars.data sin label er navnet til personen
+     * - Bars.data sin value er scoren til personen, høyden til søylen
+     */
     fun barsBuilder (profilData: List<ScoreList>, index: Int, color: List<SolidColor>): List<Bars> {
         // antall søyler for dette diagrammet
         val numBars = profilData[0].results[index].facets.size
 
-        //Log.d("barsBuilder-info-space", "-----------------------------")
-        //Log.d("barsBuilder-info", "tittel index: " + tittel[index].size)
-        //Log.d("barsBuilder-info", "numBars     : " + numBars)
-
         // lager ferdig data for hva som skal vises i diagrammet
         val barsData = (0 until numBars).map { barIndex ->
-            //Log.d("barsBuilder-info-space", "     ")
-            //Log.d("barsBuilder-info", "- Bar index: " + barIndex)
             Bars(
                 label = profilData[0].results[index].facets[barIndex].title,
                 values = profilData.mapIndexed { i, profil ->
-                    //Log.d("barsBuilder-info", "-- barInx: " + barIndex + ", index: " + index + ", profil: " + profil.score[index][barIndex])
                     Bars.Data(
                         label = profil.name,
                         value = profil.results[index].facets[barIndex].score.toDouble(),

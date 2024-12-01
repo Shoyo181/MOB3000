@@ -19,6 +19,11 @@ import com.example.mob3000.data.models.Person
 /**
  * Kort for å vise frem hver enkelt profil
  * Gjør den "clickable" slik at man kan trykke på kortet og dermed velge den
+ * Lagt inn logikk for at valgte kort har en annen farge, slik at det er representert til bruker
+ *
+ * @param person Profil som skal vises, inneholder navn
+ * @param valgtePersoner Liste over valgte profiler, for å se om profil er valgt
+ * @param onClick Funksjon som kjøres når kortet trykkes på - callback
  */
 @Composable
 fun ProfilVelgeKort(
@@ -34,10 +39,12 @@ fun ProfilVelgeKort(
         elevation = CardDefaults.cardElevation(4.dp),
         colors =
         if(valgtePersoner.contains(person)){
+            // hvis profil er valgt
             CardDefaults.cardColors(
                 containerColor = colorResource(id = R.color.dusk2)
             )
         }else{
+            // hvis profil ikke er valgt
             CardDefaults.cardColors(
                 containerColor = colorResource(id = R.color.ivory)
             )
@@ -46,6 +53,7 @@ fun ProfilVelgeKort(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+            // legger navn til profil inn i kortet
             Text(
                 text = person.name,
                 style = MaterialTheme.typography.titleLarge

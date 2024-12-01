@@ -1,6 +1,7 @@
 package com.example.mob3000.ui.screens
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background

@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
-import com.example.mob3000.data.firebase.FirebaseService
+import com.example.mob3000.data.firebase.FirestoreService
 import com.google.firebase.auth.FirebaseAuth
 import com.example.mob3000.R
 import com.example.mob3000.ui.components.ButtonKomponent
@@ -45,7 +45,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
     var visLeggTil by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        FirebaseService.hentPersoner(
+        FirestoreService.hentPersoner(
             onSuccess = {fetchedePersoner -> personListe = fetchedePersoner },
             onFailure = {exception -> Log.e("Firestore", "Feil: $exception") }
         )
@@ -54,14 +54,13 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
     LaunchedEffect(personDocRef){
         Log.d("Firestore", "PersonRef: $personDocRef")
         if(personDocRef != null) {
-            FirebaseService.leggTilDocRefPerson(
+            FirestoreService.leggTilDocRefPerson(
                 id = personDocRef!!,
                 onSuccess = {Log.d("Firestore", "PersonRef lagt til i DB")},
                 onFailure = {exception -> Log.e("Firestore", "Feil: $exception")}
             )
         }
     }
-
 
     Scaffold(
         modifier = Modifier.padding(16.dp),
@@ -102,7 +101,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                         },
                         onRediger = {personEndre = person},
                         onSlett = {
-                            FirebaseService.slettPerson(
+                            FirestoreService.slettPerson(
                                 person = person,
                                 onSuccess = {
                                     personListe = personListe.filter {it.documentId != person.documentId}
@@ -126,7 +125,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                     person = person,
                     onDismiss = {personEndre = null},
                     onLagre = {oppdatertPerson ->
-                        FirebaseService.oppdaterPerson(
+                        FirestoreService.oppdaterPerson(
                             oppdatertPerson,
                             onSuccess = {
                                 personListe = personListe.map {
@@ -145,7 +144,7 @@ fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostContr
                     visLeggTil = visLeggTil,
                     onDismiss = {visLeggTil = false },
                     onLeggTilPerson = {newPerson ->
-                        FirebaseService.leggTilPerson(
+                        FirestoreService.leggTilPerson(
                             newPerson,
                             onSuccess =  {
                                 Log.d("Firestore", "Person lagt til med autoID: $it")

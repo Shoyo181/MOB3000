@@ -64,9 +64,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
+/**
+ * Hjelpe data klasse for å holde styr på destinasjoner som er i nav-baren
+ * title er det som syntes i navbaren, men route er den faktiske destinasjonen
+ */
 data class BottomNavigationItem(
     val title: String,
+    val route: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector
 )
@@ -77,37 +81,35 @@ fun MyApp() {
     val navItems = listOf(
         BottomNavigationItem(
             title = stringResource(id = R.string.nav_home),
+            route = "Hjem",
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.nav_profiles),
+            route = "Profiler",
             selectedIcon = Icons.Filled.Person,
             unselectedIcon = Icons.Outlined.Person
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.nav_compare),
+            route = "Sammenlign",
             selectedIcon = Icons.Filled.Favorite,
             unselectedIcon = Icons.Outlined.Favorite
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.nav_settings),
+            route = "Settings",
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings
         )
     )
-
-    val route_home = stringResource(id = R.string.nav_home)
-    val route_profiles = stringResource(id = R.string.nav_profiles)
-    val route_compare = stringResource(id = R.string.nav_compare)
-    val route_settings = stringResource(id = R.string.nav_settings)
 
     var selectedNavItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
     val navController = rememberNavController()
 
-    val profilesRoute = stringResource(id = R.string.nav_profiles)
     // Observer ruten og oppdater indeksen
     LaunchedEffect(navController) {
         navController.currentBackStackEntryFlow.collect { backStackEntry ->
@@ -117,9 +119,9 @@ fun MyApp() {
             // Oppdater bare indeksen hvis ruten er en del av navItems
             if (navItemIndex >= 0) {
                 selectedNavItemIndex = navItemIndex
-            } else if (route == "persontest/{testId}/{name}") {
+            } else if (route == "Persontest/{testId}/{name}") {
                 // Oppdater indeksen manuelt for "Profiles" når brukeren er i en rute relatert til "Profiles"
-                selectedNavItemIndex = navItems.indexOfFirst { it.title == profilesRoute }
+                selectedNavItemIndex = navItems.indexOfFirst { it.route == "Profiler" }
             } else {
                 // Sett til en nøytral verdi for ruter utenfor NavigationBar
                 selectedNavItemIndex = -1
@@ -149,8 +151,8 @@ fun MyApp() {
                             onClick = {
                                 if (selectedNavItemIndex != index) {
                                     selectedNavItemIndex = index
-                                    navController.navigate(navItem.title){
-                                        if (navItem.title in navItems.map { it.title }) {
+                                    navController.navigate(navItem.route){
+                                        if (navItem.route in navItems.map { it.route }) {
                                             popUpTo(navController.graph.startDestinationId) {
                                                 saveState = true
                                                 inclusive = false // Ikke fjern startdestinasjonen
@@ -159,7 +161,7 @@ fun MyApp() {
                                         launchSingleTop = true
                                         restoreState = true
                                     }
-                                    println(navItem.title)
+                                    println(navItem.route)
                                 }
                             },
                             icon = {
@@ -215,34 +217,34 @@ fun MyApp() {
         )
         NavHost (
             navController = navController,
-            startDestination = if(erBrukerAuthenticata.value) route_home else "SwipeLanding"
+            startDestination = if(erBrukerAuthenticata.value) "Hjem" else "SwipeLanding"
 
         ) {
             composable("SwipeLanding") {
                 SwipeLandingsside(
                     onLoginSuccess = {
-                        navController.navigate(route_home) {
+                        navController.navigate("Hjem") {
                             popUpTo("SwipeLanding") { inclusive = true }
                         }
                     }
                 )
             }
-            composable(route_home) {
+            composable("Hjem") {
                 Home(Modifier.padding(innerPadding))
             }
-            composable(route_profiles) {
+            composable("Profiler") {
                 PersonListeScreen(Modifier.padding(innerPadding),
                     navController = navController
                 )
             }
-            composable(route_compare) {
+            composable("Sammenlign") {
                 Sammenlign(Modifier.padding(innerPadding))
             }
-            composable(route_settings) {
+            composable("Settings") {
                 Settings(Modifier.padding(innerPadding))
             }
             composable(
-                route = "persontest/{testId}/{name}",
+                route = "Persontest/{testId}/{name}",
                 arguments = listOf(
                     navArgument("testId") {type = NavType.StringType},
                     navArgument("name") {type = NavType.StringType}

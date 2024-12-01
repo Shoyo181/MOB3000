@@ -1,6 +1,5 @@
 package com.example.mob3000.ui.components
 
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,7 +14,8 @@ import com.example.mob3000.R
 
 /**
  * Komponent som viser frem en sirkel som spinner rundt, indikerer at noe er lastet inn
- * Laget en komponent slik at den er lik hvor enn den skulle ha blitt brukt
+ * Bruker CircularProgressIndicator fra Material Design
+ * Laget som en komponent slik at den er lik hvor enn den skulle ha blitt brukt
  * Brukes per nå, i Sammenlign og PersonTest
  */
 @Composable

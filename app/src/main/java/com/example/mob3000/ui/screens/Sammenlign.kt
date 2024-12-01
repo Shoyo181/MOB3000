@@ -7,11 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -30,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.R
 import com.example.mob3000.data.api.Nettverksmodul.apiService
-import com.example.mob3000.data.firebase.FirebaseService
+import com.example.mob3000.data.firebase.FirestoreService
 import com.example.mob3000.data.models.Person
 import com.example.mob3000.data.models.ScoreList
 import com.example.mob3000.data.repository.PersonlighetstestRep
@@ -68,7 +65,7 @@ fun Sammenlign(modifier: Modifier){
 
     // henter profil listen fra databasen
     LaunchedEffect(Unit) {
-        FirebaseService.hentPersoner(
+        FirestoreService.hentPersoner(
             onSuccess = {fetchedePersoner -> personListe = fetchedePersoner },
             onFailure = {exception -> Log.e("Firestore", "Feil: $exception") }
         )
