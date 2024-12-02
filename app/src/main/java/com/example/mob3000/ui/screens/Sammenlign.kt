@@ -61,6 +61,7 @@ fun Sammenlign(){
     var personMedScore by remember {mutableStateOf<List<ScoreList>>(emptyList())}
     var visAlert by remember {mutableStateOf(false)}
     var loading by remember {mutableStateOf(false)}
+    var testIdError by remember {mutableStateOf(false)}
     //variabel for å huske og hente hvilket språk sammenligningen skal være i
     val lang = stringResource(id = R.string.language_api)
 
@@ -147,7 +148,17 @@ fun Sammenlign(){
                 loading = true
                 personMedScore = personTilSammenligning.map { person ->
                     val scores = PersonlighetstestRep(apiService).fetchScore(person.testid, lang)
-                    ScoreUtils.lagChartsData(scores, person)
+                    if(scores.isEmpty()){
+                        testIdError = true
+                        ScoreList(name = "error", results = emptyList()) //dummydata
+                    }else{
+                        ScoreUtils.lagChartsData(scores, person)
+                    }
+                }
+                if(testIdError){
+                    // hvis en testID ikke finnes krasjer sammenligning, så vi stopper loading og viser feilmelding "ingen data"
+                    personMedScore = emptyList()
+                    testIdError = false
                 }
                 loading = false
             }
