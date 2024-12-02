@@ -84,7 +84,7 @@ fun Charts(profilData: List<ScoreList>){ // scoreData: List<ProfilData>, tittel:
         }
         // lager og viser frem det valgte diagrammet,
         // bruker key siden vi ikke vil at Android Studio skal gjenbruke komponenten
-        // våres, det vil medføre at det står feil info på siden av diagrammet
+        // våres, det vil medføre at det står feil info på siden av diagrammet (score)
         when (digramIndex){
             in 0..5 -> {
                 key(digramIndex){

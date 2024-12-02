@@ -1,4 +1,4 @@
-package com.example.mob3000.ui.components.PersonTest
+package com.example.mob3000.ui.components.sammenlign
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

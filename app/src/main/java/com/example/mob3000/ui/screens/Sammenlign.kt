@@ -34,7 +34,7 @@ import com.example.mob3000.data.repository.PersonlighetstestRep
 import com.example.mob3000.data.repository.ScoreUtils
 import com.example.mob3000.ui.components.sammenlign.Charts
 import com.example.mob3000.ui.components.LoadingIndicator
-import com.example.mob3000.ui.components.PersonTest.ProfilVelgeKort
+import com.example.mob3000.ui.components.sammenlign.ProfilVelgeKort
 
 
 /**
