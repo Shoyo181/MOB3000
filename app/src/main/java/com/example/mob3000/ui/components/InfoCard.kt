@@ -76,7 +76,7 @@ fun InfoKort(
                 }
                 Text(
                     text = title,
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.maghogny),
                     textAlign = TextAlign.Center
@@ -85,7 +85,7 @@ fun InfoKort(
                 Text(
                     text = description,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Medium,
                     color = colorResource(id = R.color.dusk3),
                     textAlign = TextAlign.Center
                 )

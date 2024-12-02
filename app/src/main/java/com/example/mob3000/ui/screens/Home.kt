@@ -66,7 +66,7 @@ fun Home(modifier: Modifier = Modifier) {
                 title = stringResource(id = R.string.info_card_title),
                 description = stringResource(id = R.string.info_card_desc),
                 backgroundColor = colorResource(id = R.color.ivory),
-                image = painterResource(id = R.drawable.chartt_transparent1)
+                image = painterResource(id = R.drawable.chartt_transparent2)
             )
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -88,7 +88,7 @@ fun InfoKortMedPersonerCount() {
         )
     }
     Box(
-        modifier = Modifier.padding(80.dp, 10.dp),
+        modifier = Modifier.padding(bottom = 20.dp, top = 20.dp),
         contentAlignment = Alignment.Center
     ) {
 
@@ -96,8 +96,8 @@ fun InfoKortMedPersonerCount() {
             title = stringResource(id = R.string.profiles_count),
             description = personerCount,
             backgroundColor = colorResource(id = R.color.ivory),
-            modifier = Modifier
-                .width(50.dp)
+            //modifier = Modifier
+              //  .width(80.dp)
         )
     }
 }

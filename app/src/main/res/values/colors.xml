@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="sand">#EAD1BA</color>
+    <color name="sand">#E9D9CB</color>
     <color name="dusk">#817A81</color>
     <color name="dusk3">#6B666B</color>
     <color name="dusk4">#545054</color>
@@ -11,11 +11,12 @@
     <color name="organsj">#D57B0E</color>
     <color name="krem">#F4E2D0</color>
     <color name="mosefarge">#3A5635</color>
-    <color name="beige">#EAE2CC</color>
+    <color name="beige">#E0D4D4</color>
     <color name="dust">#C7BEBE</color>
     <color name="pinkfluff">#A18073</color>
     <color name="ivory">#F5F5F2</color>
     <color name="ivory2">#FAFAF7</color>
+    <color name="red">#CC2F1D</color>
 
     /*-- Farger for chart, med hensyn til fargeblindhet --*/
     <color name="blue">#0072B2</color>

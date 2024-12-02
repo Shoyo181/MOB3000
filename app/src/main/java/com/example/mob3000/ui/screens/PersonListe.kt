@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -28,6 +29,7 @@ import com.example.mob3000.R
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
 import com.example.mob3000.data.models.Person
+import com.example.mob3000.ui.components.AlertDialogKomponent
 
 /**
  * Screen komponent som viser frem alle personer/profiler bruker har tilgang til. Bruker kan
@@ -224,6 +226,7 @@ fun PersonKort(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = stringResource(id = R.string.age) + " : ${person.age}")
                 Text(text = stringResource(id = R.string.email) + " : ${person.email}")
+                Text(text = stringResource(id = R.string.stilling) +" : ${person.stilling}")
                 Text(text = stringResource(id = R.string.testid) + " : ${person.testid}")
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -253,28 +256,14 @@ fun PersonKort(
         }
     }
     if (visSlettDialog) {
-        AlertDialog(
-            modifier = Modifier.fillMaxWidth(),
-            onDismissRequest = { visSlettDialog = false },
-            confirmButton = {
-                ButtonKomponent(
-                    text = stringResource(id = R.string.yes_delete),
-                    onClick = {
-                        onSlett()
-                        visSlettDialog = false
-                    },
-                    padding = PaddingValues(4.dp)
-                )
-            },
-            dismissButton = {
-                ButtonKomponent(
-                    text = stringResource(id = R.string.cancel),
-                    onClick = { visSlettDialog = false },
-                    padding = PaddingValues(4.dp)
-                )
-            },
-            title = { Text(stringResource(id = R.string.confirm_delete)) },
-            text = { Text(stringResource(id = R.string.question_delete)) }
+        AlertDialogKomponent(
+            visDialog = visSlettDialog,
+            tittel = stringResource(id = R.string.confirm_delete),
+            tekst = stringResource(id = R.string.question_delete),
+            bekreftTekst = stringResource(id = R.string.confirm),
+            avbrytTekst = stringResource(id = R.string.cancel),
+            onBekreft = { onSlett () },
+            onAvbryt = {visSlettDialog = false}
         )
     }
 }
@@ -291,6 +280,9 @@ fun LeggTilPerson(
         var newPersonAlder by remember { mutableStateOf("") }
         var newPersonEmail by remember { mutableStateOf("") }
         var newTestID by remember { mutableStateOf("") }
+        var newPersonStilling by remember { mutableStateOf("") }
+        val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+        var feilInput by remember { mutableStateOf(false) }
 
 
         AlertDialog(
@@ -299,8 +291,10 @@ fun LeggTilPerson(
                 ButtonKomponent(
                     text = stringResource(id = R.string.alert_createprofile_create),
                     onClick = {
+                        feilInput = false
                         if (newPersonNavn.isNotEmpty() && newPersonAlder.isNotEmpty() &&
-                            newPersonEmail.isNotEmpty() && newTestID.isNotEmpty()
+                            newPersonEmail.isNotEmpty() && newPersonEmail.matches(regex) &&
+                            newTestID.isNotEmpty()
                         ) {
                             val currentUser = FirebaseAuth.getInstance().currentUser
                             val nyPerson = Person(
@@ -308,10 +302,13 @@ fun LeggTilPerson(
                                 age = newPersonAlder,
                                 email = newPersonEmail,
                                 testid = newTestID,
+                                stilling = newPersonStilling,
                                 userId = currentUser?.uid ?: ""
                             )
                             onLeggTilPerson(nyPerson)
                             onDismiss()
+                        } else {
+                            feilInput = true
                         }
                     }
                 )
@@ -341,13 +338,26 @@ fun LeggTilPerson(
                         label = stringResource(id = R.string.email)
                     )
                     OutlinedTextFieldKomponent(
+                        value = newPersonStilling,
+                        onValueChange = { newPersonStilling = it },
+                        label = stringResource(id = R.string.stilling)
+                    )
+                    OutlinedTextFieldKomponent(
                         value = newTestID,
                         onValueChange = { newTestID = it },
                         label = stringResource(id = R.string.testid)
+                    )
 
+                    if (feilInput){
+                    Text(
+                        text = stringResource(R.string.wrong),
+                        color = colorResource(R.color.red),
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
-            }
+                }
+            },
+            containerColor = colorResource(id = R.color.ivory)
         )
     }
 }
@@ -358,10 +368,16 @@ fun EndrePerson (
     onDismiss: () -> Unit,
     onLagre: (Person) -> Unit
 ) {
-    var oppdatertNavn by remember {mutableStateOf(person.name)}
-    var oppdatertAlder by remember {mutableStateOf(person.age)}
-    var oppdatertEpost by remember {mutableStateOf(person.email)}
-    var oppdatertTestId by remember {mutableStateOf(person.testid)}
+    var oppdatertNavn by remember { mutableStateOf(person.name) }
+    var oppdatertAlder by remember { mutableStateOf(person.age) }
+    var oppdatertEpost by remember { mutableStateOf(person.email) }
+    var oppdatertTestId by remember { mutableStateOf(person.testid) }
+    var oppdatertStilling by remember {mutableStateOf(person.stilling)}
+    var regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+    var feilInputEpost by remember { mutableStateOf(false) }
+    var errorMeldingEpost by remember { mutableStateOf("") }
+
+    val ugyldigInputEpost = stringResource(id = R.string.wrong)
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -369,14 +385,22 @@ fun EndrePerson (
             ButtonKomponent(
                 text = stringResource(id = R.string.alert_edit_save),
                 onClick = {
-                    val oppdatertPerson = person.copy(
-                        name = oppdatertNavn,
-                        age = oppdatertAlder,
-                        email = oppdatertEpost,
-                        testid = oppdatertTestId
-                    )
-                    onLagre(oppdatertPerson)
-                    onDismiss()
+                    if (!oppdatertEpost.matches(regex)) {
+                        feilInputEpost = true
+                        errorMeldingEpost = ugyldigInputEpost
+                    } else {
+                        feilInputEpost = false
+                        errorMeldingEpost = ""
+                        val oppdatertPerson = person.copy(
+                            name = oppdatertNavn,
+                            age = oppdatertAlder,
+                            email = oppdatertEpost,
+                            stilling = oppdatertStilling,
+                            testid = oppdatertTestId
+                        )
+                        onLagre(oppdatertPerson)
+                        onDismiss()
+                    }
                 }
             )
         },
@@ -405,12 +429,24 @@ fun EndrePerson (
                     label = stringResource(id = R.string.email)
                 )
                 OutlinedTextFieldKomponent(
+                    value = oppdatertStilling,
+                    onValueChange = { oppdatertStilling = it },
+                    label = stringResource(id = R.string.stilling)
+                )
+                OutlinedTextFieldKomponent(
                     value = oppdatertTestId,
                     onValueChange = { oppdatertTestId = it },
                     label = stringResource(id = R.string.testid)
                 )
+                if(feilInputEpost){
+                    Text(
+                        text = errorMeldingEpost,
+                        color = colorResource(id = R.color.red)
+                    )
+                }
             }
-        }
+        },
+        containerColor = colorResource(id = R.color.ivory)
     )
 }
 

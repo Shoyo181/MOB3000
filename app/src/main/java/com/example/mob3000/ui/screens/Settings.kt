@@ -10,14 +10,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.R
 import com.example.mob3000.data.firebase.AuthService
+import com.example.mob3000.ui.components.AlertDialogKomponent
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.InfoKort
 
@@ -35,6 +41,7 @@ fun Settings (
     val kontekst = LocalContext.current
     val lang = stringResource(id = R.string.language_api)
     val url = "https://bigfive-test.com/${lang}"
+    var visLoggUtDialog by remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
@@ -50,7 +57,7 @@ fun Settings (
             {
                 ButtonKomponent(
                     text = stringResource(id = R.string.log_out),
-                    onClick = { AuthService.loggUt() },
+                    onClick = { visLoggUtDialog = true },
                     modifier = Modifier
                 )
             }
@@ -80,4 +87,20 @@ fun Settings (
                 }
             )
         }
+    if(visLoggUtDialog) {
+        AlertDialogKomponent(
+            visDialog = visLoggUtDialog,
+            tittel = "Logg ut",
+            tekst = "Trykk bekreft om du ønsker å logge ut.",
+            bekreftTekst = stringResource(id = R.string.confirm),
+            avbrytTekst = stringResource(id = R.string.cancel),
+            onBekreft = {
+                AuthService.loggUt()
+                visLoggUtDialog = false
+            },
+            onAvbryt = {visLoggUtDialog = false}
+
+
+        )
+    }
 }

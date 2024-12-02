@@ -217,7 +217,7 @@ fun MyApp() {
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(Color(0xFFEAD1BA), Color(0xFF817A81))
+                        colors = listOf(colorResource(id = R.color.sand), (colorResource(id = R.color.dusk)))
                     ))
                 .padding(innerPadding)
         )

@@ -10,8 +10,9 @@ data class Person(
     val email: String,
     val testid: String,
     val userId: String,
+    val stilling: String,
     val documentId: String = "",
 )
 {
-    constructor() : this ("", "", "", "", "", "")
+    constructor() : this ("", "", "", "", "", "", "")
 }

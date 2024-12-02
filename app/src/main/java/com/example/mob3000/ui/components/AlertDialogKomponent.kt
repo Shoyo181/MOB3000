@@ -5,6 +5,9 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
+import com.example.mob3000.R
+
 @Composable
 fun AlertDialogKomponent(
     visDialog: Boolean,
@@ -35,7 +38,8 @@ fun AlertDialogKomponent(
                 )
             },
             title =  { Text(tittel) },
-            text = { Text(tekst) }
+            text = { Text(tekst) },
+            containerColor = colorResource(id = R.color.ivory)
         )
     }
 }

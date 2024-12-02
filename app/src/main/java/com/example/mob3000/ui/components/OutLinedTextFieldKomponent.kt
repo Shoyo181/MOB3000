@@ -27,6 +27,7 @@ fun OutlinedTextFieldKomponent(
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = colorResource(id = R.color.ivory),
             unfocusedContainerColor = colorResource(id = R.color.ivory),
+            focusedBorderColor = colorResource(id = R.color.dusk)
         )
     )
     Spacer(modifier = Modifier.height(8.dp))

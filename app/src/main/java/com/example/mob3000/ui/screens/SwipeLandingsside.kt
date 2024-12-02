@@ -230,7 +230,8 @@ fun LoggInnDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
                     onClick = { onDismiss() }
                 )
             }
-        }
+        },
+        containerColor = colorResource(id = R.color.ivory)
     )
 }
 

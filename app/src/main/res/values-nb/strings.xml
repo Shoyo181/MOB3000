@@ -46,4 +46,7 @@
     <string name="compare_limit">Du kan bare sammenligne 6 profiler</string>
     <string name="no_data">Ingen data</string>
     <string name="log_out">Logg ut</string>
+    <string name="confirm">Bekreft</string>
+    <string name="wrong">Ugyldig inndata</string>
+    <string name="stilling">Stilling</string>
 </resources>
