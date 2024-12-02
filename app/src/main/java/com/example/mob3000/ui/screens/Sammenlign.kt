@@ -87,7 +87,10 @@ fun Sammenlign(){
             valgTilSammenligning.forEachIndexed { index, value ->
                 SegmentedButton(
                     shape = SegmentedButtonDefaults.itemShape(index = index, count = valgTilSammenligning.size),
-                    onClick = { valgIndex = index },
+                    onClick = {
+                        valgIndex = index
+                        testIdError = false
+                              },
                     selected = index == valgIndex,
                     colors = SegmentedButtonDefaults.colors(colorResource(R.color.dusk))
                 ){
@@ -154,21 +157,19 @@ fun Sammenlign(){
                         ScoreUtils.lagChartsData(scores, person)
                     }
                 }
-                if(testIdError){
-                    // hvis en testID ikke finnes krasjer sammenligning, så vi stopper loading og viser feilmelding "ingen data"
-                    personMedScore = emptyList()
-                    testIdError = false
-                }
                 loading = false
             }
 
             // Hvis det ikke er noen i lista, så viser vi frem en melding istedenfor diagrammet
             if(loading){
                 LoadingIndicator()
-            }else if(personMedScore.isNotEmpty()){
+            } else if (testIdError) { // første sjekk om det er noe feil med datasettet
+                Text(text = stringResource(id = R.string.no_data))
+            } else if(personMedScore.contains(ScoreList("error", emptyList()))){ // andre sjekk
+                Text(text = stringResource(id = R.string.no_data))
+            } else if(personMedScore.isNotEmpty()){
                 Charts(profilData = personMedScore)
-            }
-            else{ // legg til loading
+            } else{ // hvis det ikke er data det er det ikke data
                 Text(text = stringResource(id = R.string.no_data))
             }
 
