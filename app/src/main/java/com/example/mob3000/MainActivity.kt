@@ -236,18 +236,16 @@ fun MyApp() {
                 )
             }
             composable("Hjem") {
-                Home(Modifier.padding(innerPadding))
+                Home()
             }
             composable("Profiler") {
-                PersonListeScreen(Modifier.padding(innerPadding),
-                    navController = navController
-                )
+                PersonListeScreen(navController = navController)
             }
             composable("Sammenlign") {
-                Sammenlign(Modifier.padding(innerPadding))
+                Sammenlign()
             }
             composable("Settings") {
-                Settings(Modifier.padding(innerPadding))
+                Settings()
             }
             composable(
                 route = "Persontest/{testId}/{name}",

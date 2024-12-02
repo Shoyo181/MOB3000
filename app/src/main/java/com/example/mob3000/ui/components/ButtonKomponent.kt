@@ -11,7 +11,19 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.R
-
+/**
+ * Gjenbrukbar komponent for button.
+ * Denne blir brukt i de fleste buttons i applikasjonen.
+ *
+ *
+ * @param text Teksten som skal vises på knappen
+ * @param onClick Callback som blir kalt når knappen trykkes
+ * @param modifier Modifier for knappen
+ * @param containerColor Farge for knappen
+ * @param contentColor Farge for tekst
+ * @param shape Form for knappen
+ * @param padding Padding rundt knappen
+ */
 @Composable
 fun ButtonKomponent(
     text: String,

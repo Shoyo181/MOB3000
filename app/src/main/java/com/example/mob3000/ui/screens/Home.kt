@@ -26,10 +26,12 @@ import com.example.mob3000.ui.components.InfoKort
 import com.google.firebase.auth.FirebaseAuth
 
 /**
+ * Komponenten som er det første bruker ser. Her ligger det to kort med informasjon om applikasjonen.
+ * Det er brukt ulike komponenter fra Compose for å lage en enkel UI.
  *
  */
 @Composable
-fun Home(modifier: Modifier = Modifier) {
+fun Home() {
     var showLoginnVindu by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     val brukerInnlogget = FirebaseAuth.getInstance().currentUser
@@ -77,6 +79,10 @@ fun Home(modifier: Modifier = Modifier) {
     }
 }
 
+/**
+ * Funksjon for å vise frem antall personer/profiler som er lagret i Firestore.
+ *
+ */
 @Composable
 fun InfoKortMedPersonerCount() {
     var personerCount by remember { mutableStateOf("0") }

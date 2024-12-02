@@ -32,7 +32,9 @@ import com.example.mob3000.ui.components.ButtonKomponent
 
 /**
  * Komponent for å vise frem ett personkort med informasjon om gitt person/profil
- *
+ * Gjør kortet trykkbar for å se mer informasjon om personen
+ * Bruker Card fra Material Design
+ * Bruker AlertDialogKomponent og ButtonKomponent
  *
  * @param person Person/profil som skal vises frem
  * @param erUtvidet Boolean som sier om kortet er utvidet eller ikke
@@ -40,6 +42,10 @@ import com.example.mob3000.ui.components.ButtonKomponent
  * @param onRediger Lambda som kjøres når rediger-knappen trykkes
  * @param onSlett Lambda som kjøres når slett-knappen trykkes
  * @param onSeResultat Lambda som kjøres når resultater-knappen trykkes
+ *
+ * Funksjoner
+ * - Viser en dialog når slett-knappen trykkes
+ * - Håndterer om kortet er utvidet eller ikke, viser informasjon deretter
  */
 @Composable
 fun PersonKort(

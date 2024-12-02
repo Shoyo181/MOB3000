@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,6 +28,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mob3000.R
 
+/**
+ * Gjenbrukbar komponent som viser frem en kort med informasjon og som er i bruk flere steder i appen.
+ * Bruker Card fra Material Design for å lage en kort.
+ *
+ * @param title Kortets tittel
+ * @param description Kortets beskrivelse
+ * @param backgroundColor Farge for kortens bakgrunn
+ * @param image Kortets bilde, kan være null
+ * @param button En knapp som kan være null
+ * @param modifier Modifier for komponenten
+ */
 @Composable
 fun InfoKort(
     title: String,

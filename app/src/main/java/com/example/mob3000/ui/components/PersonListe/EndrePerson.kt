@@ -15,6 +15,19 @@ import com.example.mob3000.data.models.Person
 import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
 
+/**
+ * Komponent som viser en dialog for å endre informasjon om en person.
+ * Oppdatert person sendes tilbake
+ * Bruker AlertDialog fra Material Design
+ * Bruker ButtonKomponent og OutlinedTextFieldKomponent
+ *
+ * @param person Person-objektet som skal endres
+ * @param onDismiss Funksjon som blir kalt når dialogen blir lukket
+ * @param onLagre Funksjon som blir kalt når endringer skal lagres
+ *
+ * Funksjoner
+ * - Håndterer feil ved ugyldig epost
+ */
 @Composable
 fun EndrePerson (
     person: Person,
@@ -26,7 +39,7 @@ fun EndrePerson (
     var oppdatertEpost by remember { mutableStateOf(person.email) }
     var oppdatertTestId by remember { mutableStateOf(person.testid) }
     var oppdatertStilling by remember {mutableStateOf(person.stilling)}
-    var regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+    val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
     var feilInputEpost by remember { mutableStateOf(false) }
     var errorMeldingEpost by remember { mutableStateOf("") }
 

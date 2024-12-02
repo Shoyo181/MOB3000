@@ -46,7 +46,7 @@ import com.example.mob3000.ui.components.sammenlign.ProfilVelgeKort
  * Vi får hjelp av komponenten Charts.kt for å vise frem flersøylediagrammet med sammenligning
  */
 @Composable
-fun Sammenlign(modifier: Modifier){
+fun Sammenlign(){
     //variabler for segmentButton
     var valgIndex by remember { mutableStateOf(0) }
     val valgTilSammenligning = listOf(

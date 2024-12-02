@@ -26,7 +26,7 @@ import com.example.mob3000.ui.components.PersonListe.PersonKort
  * Screen komponent som viser frem alle personer/profiler bruker har tilgang til. Bruker kan
  * legge til profiler, redigere de og slette de. Kan også åpne ett nytt "vindu" med resultater
  * Når bruker utvider kortet til en person/profil ved å trykke på det, vil eventuelt det kortet
- * som var åpent lukke seg
+ * som var åpent lukke seg.
  * Bruker komponetene: PersonKort, LeggTilPerson, EndrePerson
  * Bruker Scaffold, FloatingActionButton  fra Material3
  *
@@ -35,16 +35,16 @@ import com.example.mob3000.ui.components.PersonListe.PersonKort
  *
  * Funksjoner
  * - Henter alle personer fra Firestore, ved hjelp av FirestoreService.hentPersoner i en korutine
- * - Lager en kort for hver person
- * - Lager en dialogvindu for å legge til en ny person
+ * - Lager et kort for hver person
+ * - Lager et dialogvindu for å legge til en ny person
  * - Hvert kort kan utvides ved å trykke på de
- * - utvidet kort viser informasjon om personen og kan åpne rediger, slett og se resultater
- * - rediger og slett åpner ny dialogvindu for å /redigering/bekrefting
- * - resultater navigerer til ny skjerm/Screen med personens resultat, sender med testID og navn
+ * - Utvidet kort viser informasjon om personen og kan åpne rediger, slett og se resultater
+ * - Rediger og slett åpner ny dialogvindu for redigering/bekrefting
+ * - Resultater navigerer til ny skjerm/Screen med personens resultat, sender med testID og navn
  */
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun PersonListeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+fun PersonListeScreen(navController: NavHostController) {
 
     var personListe by remember {mutableStateOf<List<Person>>(emptyList())}
     var utvidetPerson by remember { mutableStateOf<String?>(null) }

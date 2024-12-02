@@ -34,9 +34,7 @@ import com.example.mob3000.ui.components.InfoKort
  */
 
 @Composable
-fun Settings (
-    modifier: Modifier
-    ){
+fun Settings (){
     val kontekst = LocalContext.current
     val lang = stringResource(id = R.string.language_api)
     val url = "https://bigfive-test.com/${lang}"

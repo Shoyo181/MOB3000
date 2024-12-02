@@ -18,7 +18,18 @@ import com.example.mob3000.ui.components.ButtonKomponent
 import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
 import com.google.firebase.auth.FirebaseAuth
 
-
+/**
+ * Komponent som viser en dialog for å legge til en ny person/profil
+ * Bruker AlertDialog fra Material Design
+ * Bruker ButtonKomponent og OutlinedTextFieldKomponent
+ *
+ * @param visLeggTil Boolean verdi som viser om dialogen skal vises
+ * @param onDismiss Funksjon som blir kalt når dialogen blir lukket
+ * @param onLeggTilPerson Funksjon som blir kalt når en ny person/profil legges til
+ *
+ * Funksjoner
+ * - Håndterer feil ved ugyldig epost
+ */
 @Composable
 fun LeggTilPerson(
     visLeggTil: Boolean,
@@ -46,6 +57,7 @@ fun LeggTilPerson(
                             newPersonEmail.isNotEmpty() && newPersonEmail.matches(regex) &&
                             newTestID.isNotEmpty()
                         ) {
+                            // henter inn nåværende bruker, legger det til i dokumentet
                             val currentUser = FirebaseAuth.getInstance().currentUser
                             val nyPerson = Person(
                                 name = newPersonNavn,

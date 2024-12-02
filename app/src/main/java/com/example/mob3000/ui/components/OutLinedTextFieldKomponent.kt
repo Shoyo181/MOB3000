@@ -12,6 +12,15 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.R
 
+/**
+ * Gjenbrukbar komponent for OutlinedTextField som brukes i ulike komponenter i appen.
+ * Bruker OutlinedTextField fra Material Design for å lage en tekstfelt.
+ *
+ * @param value Verdien som vises i tekstfeltet
+ * @param onValueChange En funksjon som blir kalt når verdien i tekstfeltet endres
+ * @param label Teksten som vises som label for tekstfeltet
+ * @param modifier Modifier for tekstfeltet
+ */
 @Composable
 fun OutlinedTextFieldKomponent(
     value: String,
