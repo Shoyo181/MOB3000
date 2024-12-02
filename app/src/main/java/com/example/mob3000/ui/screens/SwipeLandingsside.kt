@@ -5,23 +5,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.mob3000.data.firebase.AuthService.logginnBruker
-import com.example.mob3000.data.firebase.AuthService.registrerBruker
-import com.example.mob3000.ui.components.ButtonKomponent
-import com.example.mob3000.ui.components.OutlinedTextFieldKomponent
+import com.example.mob3000.ui.components.SwipeLandingsside.Dot
+import com.example.mob3000.ui.components.SwipeLandingsside.LoggInnDialog
 import com.example.mob3000.ui.theme.Typography
 
 
@@ -122,116 +117,5 @@ fun SwipeLandingsside(
     }
 }
 
-/**
- * Hjelpe komponent for å lage en indikator for hver side i swipingen
- */
-@Composable
-fun Dot(isSelected: Boolean) {
-    Box(
-        modifier = Modifier
-            .size(8.dp)
-            .background(
-                color = if (isSelected) Color.White else Color.LightGray,
-                shape = CircleShape
-            )
-    )
-}
 
-/**
- * Komponenten er for innlogging eller registrering
- * Valgte å ikke lage dette super komplisert og la disse funksjonene sammen
- * Bruker AuthServices.kt for å logge inn og registrere bruker
- * Bruker OutLinedTextFieldKomonent.kt (våres) for å lage tekstfelt
- * Bruker AlertDialog og OutlinedTextField fra Material Design for å lage dialogvinduet
- *
- *  @param onDismiss Callback for når vinduet lukkes
- *  @param onLoginSuccess Callback for når innlogging er vellykket
- */
-@Composable
-fun LoggInnDialog(onDismiss: () -> Unit, onLoginSuccess: () -> Unit) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-
-    AlertDialog(
-        onDismissRequest = { onDismiss() },
-        title = {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(id = R.string.alert_login_title),
-                    style = MaterialTheme.typography.headlineSmall
-                )
-            }
-        },
-        text = {
-            Column {
-                OutlinedTextFieldKomponent(
-                    value = email,
-                    onValueChange = { email = it.trim() },
-                    label = stringResource(id = R.string.email),
-                )
-                // Passord, lagt til slik at passord ikke syntes, derfor brukes ikke gjenbrukbar komponent
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it.trim() },
-                    label = { Text(stringResource(id = R.string.alert_login_passord)) },
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = colorResource(id = R.color.ivory),
-                        unfocusedContainerColor = colorResource(id = R.color.ivory)),
-                    visualTransformation = PasswordVisualTransformation()
-                )
-                errorMessage?.let {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = it, color = Color.Red)
-                }
-            }
-        },
-        confirmButton = {
-            Column (
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row (
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                ButtonKomponent(
-                    text = stringResource(id = R.string.alert_login_register),
-                    onClick = {
-                        registrerBruker(email, password,
-                            onSuccess = {
-                                onLoginSuccess
-                            },
-                            onFailure = {errorMessage = it}
-                        )
-                    },
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                ButtonKomponent(
-                    text = stringResource(id = R.string.alert_login_login),
-                    onClick = {
-                        logginnBruker(email, password,
-                            onSuccess = {
-                                onLoginSuccess()
-                            },
-                            onFailure =  { errorMessage = it })
-                    },
-                )
-            }
-                Spacer(modifier = Modifier.height(5.dp))
-                ButtonKomponent(
-                    text = stringResource(id = R.string.cancel),
-                    onClick = { onDismiss() }
-                )
-            }
-        },
-        containerColor = colorResource(id = R.color.ivory)
-    )
-}
 
