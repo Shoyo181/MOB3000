@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.R
 
@@ -27,6 +28,8 @@ fun ButtonKomponent(
         shape = shape,
         modifier = modifier.padding(padding)
     ) {
-        Text(text)
+        Text(
+            text,
+            fontWeight = FontWeight.Medium,)
     }
 }

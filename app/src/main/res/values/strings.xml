@@ -46,4 +46,7 @@
     <string name="compare_limit">You can only compare 6 profiles</string>
     <string name="no_data">No data</string>
     <string name="log_out">Log out</string>
+    <string name="confirm">Confirm</string>
+    <string name="wrong">Incorrect input</string>
+    <string name="stilling">Position</string>
 </resources>

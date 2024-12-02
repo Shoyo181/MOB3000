@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.mob3000.R
 import com.example.mob3000.data.api.Nettverksmodul.apiService
@@ -89,7 +90,9 @@ fun Sammenlign(modifier: Modifier){
                     selected = index == valgIndex,
                     colors = SegmentedButtonDefaults.colors(colorResource(R.color.dusk))
                 ){
-                    Text(text = value)
+                    Text(
+                        text = value,
+                        fontWeight = FontWeight.Medium)
                 }
             }
         }
