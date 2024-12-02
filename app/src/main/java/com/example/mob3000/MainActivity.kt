@@ -174,7 +174,6 @@ fun MyApp() {
                                 Box(
                                     modifier = Modifier
                                         .size(if (index == selectedNavItemIndex) 80.dp else 60.dp)
-                                        //.offset(y = if(index == selectedNavItemIndex) (-10).dp else 0.dp)
                                         .background(
                                             if (index == selectedNavItemIndex) colorResource(id = R.color.dusk) else colorResource(
                                                 id = R.color.dust

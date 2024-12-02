@@ -64,7 +64,6 @@ fun PersonListeScreen(navController: NavHostController) {
 
     }
     LaunchedEffect(personDocRef){
-        Log.d("Firestore", "PersonRef: $personDocRef")
         if(personDocRef != null) {
             FirestoreService.leggTilDocRefPerson(
                 id = personDocRef!!,

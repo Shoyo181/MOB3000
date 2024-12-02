@@ -1,6 +1,5 @@
 package com.example.mob3000.ui.components.PersonTest
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,7 +65,6 @@ fun TestResultatSamling(
                     info = resultat,
                     backgroundColor = backgroundColor
                 )
-                Log.d("PersonTest", "Laget blokk - ${resultat.title}")
                 Spacer(modifier = Modifier.padding(10.dp))
             }
         }

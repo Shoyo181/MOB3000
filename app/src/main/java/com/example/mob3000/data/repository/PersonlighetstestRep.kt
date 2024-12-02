@@ -27,7 +27,6 @@ class PersonlighetstestRep (private val apiService: ApiService) {
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiService.getResults(resultID, language)
-                Log.d("API-test-repo", "Full respons hentet: $response")
                 response.results // returnerer results fra ApiData
             } catch (e: Exception) {
                 Log.e("API-test-repo", "Feil ved henting av data: ${e.message}", e)

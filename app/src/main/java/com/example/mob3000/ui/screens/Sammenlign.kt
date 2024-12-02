@@ -131,7 +131,6 @@ fun Sammenlign(){
                                     visAlert = true
                                 }else {
                                     personTilSammenligning = personTilSammenligning + person
-                                    Log.d("sjekk alert", "personer til sammenligning.size: ${personTilSammenligning.size}")
                                 }
                             }
                         }
@@ -163,7 +162,6 @@ fun Sammenlign(){
                 loading = false
             }
 
-            Log.d("Sammenligning", "Personer med score: ${personMedScore.map { person -> person.name } }")
             // Hvis det ikke er noen i lista, så viser vi frem en melding istedenfor diagrammet
             if(loading){
                 LoadingIndicator()
