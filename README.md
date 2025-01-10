@@ -1,5 +1,5 @@
 Assignment in subject Mobile applications 
-Made by Kjartan Øyen - Shoyo181 and Mie Rønningen - miemuz
+Made by Kjartan Øyen - Shoyo181 and Mie Rønningen - Miemuz
 
 ![Skjermbilde 2024-12-01 190813](https://github.com/user-attachments/assets/f311bb8a-0bfc-432d-ae8a-d140ad016175)
 ![Skjermbilde 2024-12-01 191254](https://github.com/user-attachments/assets/de56c642-05c7-40d6-b612-689f852c21de)
